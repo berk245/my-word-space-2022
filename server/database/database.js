@@ -18,6 +18,7 @@ database.connect((err) => {
 async function getUsers() {
   const [users] = await database.query("SELECT * FROM Users");
   return users;
+  return;
 }
 
-module.export = getUsers;
+module.exports = getUsers;
