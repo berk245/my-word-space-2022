@@ -2,12 +2,14 @@ const mysql = require("mysql2");
 const dotenv = require("dotenv");
 
 dotenv.config();
-const database = mysql.createConnection({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-});
+const database = mysql
+  .createConnection({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+  })
+  .promise();
 
 database.connect((err) => {
   if (err) {
@@ -18,7 +20,6 @@ database.connect((err) => {
 async function getUsers() {
   const [users] = await database.query("SELECT * FROM Users");
   return users;
-  return;
 }
 
 module.exports = getUsers;
