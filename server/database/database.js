@@ -18,7 +18,7 @@ database.connect((err) => {
   console.log("Connected to MySQL server");
 });
 async function getUsers() {
-  const [users] = await database.query("SELECT * FROM Users");
+  const [users] = await database.query("SELECT * FROM User");
   return users;
 }
 
