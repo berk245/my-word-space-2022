@@ -17,9 +17,5 @@ database.connect((err) => {
   }
   console.log("Connected to MySQL server");
 });
-async function getUsers() {
-  const [users] = await database.query("SELECT * FROM User");
-  return users;
-}
 
-module.exports = getUsers;
+module.exports = database;
