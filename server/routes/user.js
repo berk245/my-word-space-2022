@@ -1,10 +1,10 @@
-const express = require("express");
+import express from 'express';
+import database from '../config/database.js'
 const router = express.Router();
-const database = require("../config/database");
 
 router.get("/get-user", async (req, res) => {
   const [users] = await database.query("SELECT * FROM User");
-  res.status(200).send(users);
+  res.status(200).json(users);
 });
 
-module.exports = router;
+export default router;
