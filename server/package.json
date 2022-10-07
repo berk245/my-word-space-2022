@@ -3,9 +3,9 @@
   "type": "module",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "nodemon server/index.js",
+    "dev": "nodemon server.js",
     "test": "jest --coverage"
   },
   "author": "",
