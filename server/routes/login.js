@@ -1,19 +1,24 @@
 const express = require("express");
+const validateUserInfo = require("../helpers/validateUserInfo");
+const {
+  getUserByEmail,
+  getUserByUsername
+} = require("../config/database.js");
+module.exports = function (database) {
+  const router = express.Router();
 
-const database = require("../config/database.js");
-const router = express.Router();
+  const login = async (req, res) => {
+    const errors = await validateUserInfo(database, req.body);
+    console.log('Errors', errors)
+    if (errors) {
+      res.status(500).json(errors);
+      return;
+    }
+    res.status(200).json({ signupSuccess: true });
 
-const loginUser = async (req, res) => {
-  const { username, password } = req.body;
+  };
 
-  if (!username || !password) {
-    res.status(500).json({ error: "Missing required fields" });
-    return;
-  }
+  router.post("/", login);
 
-  res.status(200).json({ user_token: "TBD" });
+  return router;
 };
-
-router.post("/", loginUser);
-
-module.exports = router;

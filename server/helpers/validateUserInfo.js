@@ -15,7 +15,7 @@ const isUsernameTaken = async (database, username) => {
   return user || false;
 };
 
-module.exports = validateUseriInfo = async (
+module.exports = validateSignupData = async (
   database,
   { username, password, email }
 ) => {
