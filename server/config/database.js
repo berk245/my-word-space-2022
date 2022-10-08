@@ -19,7 +19,7 @@ database.connect((err) => {
   console.log("Connected to MySQL server");
 });
 
-const getUserByUsername = async (username) => {
+const getUserByUsername = async (database, username) => {
   const [results] = await database.query(
     `SELECT *
     FROM User
@@ -30,7 +30,7 @@ const getUserByUsername = async (username) => {
   return results[0];
 };
 
-const getUserByEmail = async (email) => {
+const getUserByEmail = async (database, email) => {
   const [results] = await database.query(
     `SELECT *
     FROM User
@@ -41,7 +41,7 @@ const getUserByEmail = async (email) => {
   return results[0];
 };
 
-const saveUserToDatabase = async ({ username, email, password }) => {
+const saveUserToDatabase = async (database, { username, email, password }) => {
   try{
     let hashedPassword = await bcrypt.hash(password, 13); //13 refers to the amount of times the password gets rehashed. The larger the number, more secure the hashed password is. But also the algorith takes more time!
 
@@ -57,6 +57,7 @@ const saveUserToDatabase = async ({ username, email, password }) => {
 };
 
 module.exports = {
+  database: database,
   getUserByEmail: getUserByEmail,
   getUserByUsername: getUserByUsername,
   saveUserToDatabase: saveUserToDatabase,
