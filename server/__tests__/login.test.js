@@ -9,7 +9,7 @@ const app = makeApp({
 
 describe("Login", () => {
   
-  test.only("should return an error when username or password is not in the request", async () => {
+  test("should return an error when username or password is not in the request", async () => {
     let bodyData = [
       {
         username: "test-username",
@@ -28,7 +28,33 @@ describe("Login", () => {
       expect(response.body).toEqual({ error: "Missing required fields" });
     }
   });
-  // test("should return an error if username cannot be found in database", async () => {});
+  test("should return an error if username cannot be found in database", async () => {
+    let bodyData = [
+      {
+        username: 'non-existent-user',
+        password: 'testPass'
+      },
+      {
+        username: 'test-user',
+        password: 'wrongPass'
+      }
+    ]
+
+    for(body of bodyData){
+      const response = await request(app).post("/login").send(body);
+      expect(response.statusCode).toBe(500);
+      expect(response.body).toEqual({ error: "Username password combination does not exist." });
+    }
+   
+  });
+  // test("should return an error if username cannot be found in database", async () => {
+  //   const response = await request(app).post("/login").send({
+  //     username: 'test-user',
+  //     password: 'testPass'
+  //   });
+  //   expect(response.statusCode).toBe(500);
+  //   expect(response.body).toEqual({ error: "Missing required fields" });
+  // });
   // test("should return an error if password does not match", async () => {});
   // test("should return token after a succesful login", async () => {});
 });
