@@ -1,5 +1,5 @@
-import mysql from "mysql2";
-import dotenv from "dotenv";
+const mysql = require("mysql2");
+const dotenv = require("dotenv");
 
 dotenv.config();
 const database = mysql
@@ -18,4 +18,4 @@ database.connect((err) => {
   console.log("Connected to MySQL server");
 });
 
-export default database;
+module.exports = database;

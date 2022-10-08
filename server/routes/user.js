@@ -1,5 +1,5 @@
-import express from 'express';
-import database from '../config/database.js'
+const express = require('express')
+const database = require('../config/database.js')
 const router = express.Router();
 
 router.get("/get-user", async (req, res) => {
@@ -7,4 +7,4 @@ router.get("/get-user", async (req, res) => {
   res.status(200).json(users);
 });
 
-export default router;
+module.exports = router;
