@@ -6,7 +6,6 @@ module.exports = function (database) {
 
   const signup = async (req, res) => {
     const errors = await validateSignupData(database, req.body);
-    console.log("Errors", errors);
     if (errors) {
       res.status(500).json(errors);
       return;

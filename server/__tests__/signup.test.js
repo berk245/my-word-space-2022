@@ -52,7 +52,6 @@ describe("Signup route", () => {
       password: "pass",
     });
     expect(response.statusCode).toBe(500);
-    console.log(response.body);
     expect(response.body.existingEmailError).toBeDefined();
   });
     test("should return a success message after a succesful signup", async () => {

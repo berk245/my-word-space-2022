@@ -27,7 +27,6 @@ const getUserByUsername = async (username) => {
     `,
     [username]
   );
-  console.log('Results', results)
   return results[0];
 };
 

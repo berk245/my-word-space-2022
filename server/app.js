@@ -10,7 +10,7 @@ module.exports = function (database) {
     res.status(200).send("This is home");
   });
 
-  app.use("/login", loginRoute);
+  app.use("/login", loginRoute(database));
 
   app.use("/signup", signupRoute(database));
 
