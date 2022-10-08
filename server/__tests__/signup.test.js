@@ -29,16 +29,28 @@ describe("Signup route", () => {
     }
     // expect(response.body).toEqual({ error: "Missing required fields" });
   });
-  test("should return an error if the username is already taken", async () => {});
-  
-  test("should return an error if the email address is already in use", async () => {});
-  test("should return the userToken a succesful login", async () => {
+  test("should return an error if the username is already taken", async () => {
     const response = await request(app).post("/signup").send({
-      username: "Successful test",
-      password: "testPass",
-      email: "email@mail.com",
+      username: "test-user",
     });
-    expect(response.statusCode).toBe(200)
-    expect(response.body.userToken).toBeDefined()
+    expect(response.statusCode).toBe(500);
+    expect(response.body.existingUsernameError).toBeDefined();
+  });
+
+  test("should return an error if the email address is already in use", async () => {
+    const response = await request(app).post("/signup").send({
+      email: "test@test.com",
+    });
+    expect(response.statusCode).toBe(500);
+    expect(response.body.existingEmailError).toBeDefined();
+  });
+  test("should return a success message after a succesful signup", async () => {
+    const response = await request(app).post("/signup").send({
+      username: "Successfultests",
+      password: "jestPass",
+      email: "jest@jest.com",
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.signupSuccess).toBeTruthy();
   });
 });
