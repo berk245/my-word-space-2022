@@ -1,5 +1,6 @@
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
+const bcrypt = require("bcrypt");
 
 dotenv.config();
 const database = mysql
@@ -18,28 +19,45 @@ database.connect((err) => {
   console.log("Connected to MySQL server");
 });
 
-const getUserByUsername = async(username) => {
+const getUserByUsername = async (username) => {
   const [results] = await database.query(
     `SELECT *
     FROM User
     WHERE Username = ?
-    `, [username]
-    )
-    return results[0]
-}
+    `,
+    [username]
+  );
+  return results[0];
+};
 
-const getUserByEmail = async(email) => {
+const getUserByEmail = async (email) => {
   const [results] = await database.query(
     `SELECT *
     FROM User
     WHERE email = ?
-    `, [email]
-    )
-    return results[0]
-}
+    `,
+    [email]
+  );
+  return results[0];
+};
+
+const saveUserToDatabase = async ({ username, email, password }) => {
+  try{
+    let hashedPassword = await bcrypt.hash(password, 13); //13 refers to the amount of times the password gets rehashed. The larger the number, more secure the hashed password is. But also the algorith takes more time!
+
+    await database.query(
+      "INSERT INTO `my-word-space`.`User` (`Username`, `Email`, `password`) VALUES (?, ?, ?)",[username, email, hashedPassword]
+    );
+    return true
+  }catch(err){
+    console.log(err)
+    return false
+  }
+
+};
 
 module.exports = {
-  database: database,
   getUserByEmail: getUserByEmail,
   getUserByUsername: getUserByUsername,
+  saveUserToDatabase: saveUserToDatabase,
 };
