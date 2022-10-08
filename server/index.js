@@ -1,5 +1,5 @@
 const createExpressApp = require('./app.js')
-const {database} = require('./config/database')
+const database = require('./config/database')
 
 const app = createExpressApp(database)
 //Handle Production

@@ -12,7 +12,7 @@ module.exports = function (database) {
       res.status(500).json(errors);
       return;
     }
-    const signupSuccess = await saveUserToDatabase(database, req.body);
+    const signupSuccess = await database.saveUserToDatabase(req.body);
     if (signupSuccess) res.status(200).json({ signupSuccess: true });
     else res.status(500).json({ error: "Could not save the user" });
 

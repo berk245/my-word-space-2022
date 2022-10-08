@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 
 dotenv.config();
-const database = mysql
+const db = mysql
   .createConnection({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
@@ -12,15 +12,15 @@ const database = mysql
   })
   .promise();
 
-database.connect((err) => {
+db.connect((err) => {
   if (err) {
     return console.error("Error:" + err.message);
   }
   console.log("Connected to MySQL server");
 });
 
-const getUserByUsername = async (database, username) => {
-  const [results] = await database.query(
+const getUserByUsername = async (username) => {
+  const [results] = await db.query(
     `SELECT *
     FROM User
     WHERE Username = ?
@@ -30,8 +30,8 @@ const getUserByUsername = async (database, username) => {
   return results[0];
 };
 
-const getUserByEmail = async (database, email) => {
-  const [results] = await database.query(
+const getUserByEmail = async (email) => {
+  const [results] = await db.query(
     `SELECT *
     FROM User
     WHERE email = ?
@@ -41,24 +41,23 @@ const getUserByEmail = async (database, email) => {
   return results[0];
 };
 
-const saveUserToDatabase = async (database, { username, email, password }) => {
-  try{
+const saveUserToDatabase = async ({ username, email, password }) => {
+  try {
     let hashedPassword = await bcrypt.hash(password, 13); //13 refers to the amount of times the password gets rehashed. The larger the number, more secure the hashed password is. But also the algorith takes more time!
 
-    await database.query(
-      "INSERT INTO `my-word-space`.`User` (`Username`, `Email`, `password`) VALUES (?, ?, ?)",[username, email, hashedPassword]
+    await db.query(
+      "INSERT INTO `my-word-space`.`User` (`Username`, `Email`, `password`) VALUES (?, ?, ?)",
+      [username, email, hashedPassword]
     );
-    return true
-  }catch(err){
-    console.log(err)
-    return false
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
   }
-
 };
 
 module.exports = {
-  database: database,
-  getUserByEmail: getUserByEmail,
-  getUserByUsername: getUserByUsername,
-  saveUserToDatabase: saveUserToDatabase,
+  getUserByEmail,
+  getUserByUsername,
+  saveUserToDatabase,
 };
