@@ -6,7 +6,6 @@ module.exports = function (database) {
 
   const login = async (req, res) => {
     const { username, password } = req.body;
-    console.log(req.body)
     if (!username || !password) {
       res.status(500).json({ error: "Missing required fields" });
       return;
@@ -18,7 +17,8 @@ module.exports = function (database) {
       res.status(500).json({ error: "Username password combination does not exist." });
       return;
     }
-    res.status(200).json({ login: true });
+    res.header("token", token)
+    res.status(200).json({ loginSuccess: true });
   };
 
   router.post("/", login);
