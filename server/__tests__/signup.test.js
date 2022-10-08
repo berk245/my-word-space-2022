@@ -22,7 +22,7 @@ let bodyData = [
 ];
 
 describe("Signup route", () => {
-  test("should return an error when username or password is not in the request", async () => {
+  test("should return an error when required fields are missing", async () => {
     for (const body of bodyData) {
       const response = await request(app).post("/signup").send(body);
       expect(response.statusCode).toBe(500);
@@ -38,7 +38,6 @@ describe("Signup route", () => {
       password: "testPass",
       email: "email@mail.com",
     });
-    console.log('Response: ', response)
     expect(response.statusCode).toBe(200)
     expect(response.body.userToken).toBeDefined()
   });
