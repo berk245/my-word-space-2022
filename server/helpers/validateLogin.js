@@ -1,11 +1,11 @@
 const bcrypt = require("bcrypt");
 
-module.exports = async function (database, username, password){
-    const user = await database.getUserByUsername(username);
-    if (!user) return false;
+module.exports = async function (database, username, passwordFromRequest){
+    const User = await database.getUserByUsername(username);
+    if (!User) return false;
     
-    let isPasswordMatching = await bcrypt.compare(password, user.password);
+    let isPasswordMatching = await bcrypt.compare(passwordFromRequest, User.Password);
     if(!isPasswordMatching) return false
 
-    return user
+    return User
 }

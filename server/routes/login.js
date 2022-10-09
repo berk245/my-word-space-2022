@@ -14,7 +14,6 @@ module.exports = function (database) {
       }
 
       let validatedUser = await validateLogin(database, username, password);
-      console.log(validatedUser)
       if (!validatedUser) {
         res
           .status(422)
@@ -31,7 +30,6 @@ module.exports = function (database) {
       });
       return;
     } catch (err) {
-      console.log(err.message);
       res
         .status(500)
         .send({error: err.message});
