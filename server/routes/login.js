@@ -14,6 +14,7 @@ module.exports = function (database) {
       }
 
       let validatedUser = await validateLogin(database, username, password);
+      console.log(validatedUser)
       if (!validatedUser) {
         res
           .status(422)
@@ -25,7 +26,7 @@ module.exports = function (database) {
       if(!accessToken || !refreshToken) throw new Error('Could not get tokens')
       res.status(200).json({
         loginSuccess: true,
-        accessToken: ter,
+        accessToken: accessToken,
         refreshToken: refreshToken,
       });
       return;
