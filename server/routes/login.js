@@ -1,24 +1,42 @@
 const express = require("express");
-const validateUserInfo = require("../helpers/validateUserInfo");
-const  getUserToken  = require("../helpers/getUserToken.js");
+const validateLogin = require("../helpers/validateLogin.js");
+const getUserTokens = require("../helpers/getUserToken.js");
 module.exports = function (database) {
   const router = express.Router();
 
   const login = async (req, res) => {
-    const { username, password } = req.body;
-    if (!username || !password) {
-      res.status(400).json({ error: "Missing required fields" });
+    try {
+      const { username, password } = req.body;
+
+      if (!username || !password) {
+        res.status(400).send({ error: "Missing required fields" });
+        return;
+      }
+
+      let validatedUser = await validateLogin(database, username, password);
+      if (!validatedUser) {
+        res
+          .status(422)
+          .send({ error: "Username password combination does not exist." });
+        return;
+      }
+
+      let { accessToken, refreshToken } = await getUserTokens(validatedUser);
+      console.log(accessToken, refreshToken);
+
+      res.status(200).json({
+        loginSuccess: true,
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      });
+      return;
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .send({ error: "Something went wrong. Please try again." });
       return;
     }
-
-    let token = await getUserToken(database, req.body)
-
-    if(!token) {
-      res.status(422).json({ error: "Username password combination does not exist." });
-      return;
-    }
-    res.header("token", token)
-    res.status(200).json({ loginSuccess: true });
   };
 
   router.post("/", login);
