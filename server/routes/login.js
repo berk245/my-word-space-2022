@@ -34,7 +34,7 @@ module.exports = function (database) {
       console.log(err);
       res
         .status(500)
-        .send({ error: err });
+        .json({ error: err });
       return;
     }
   };
