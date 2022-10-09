@@ -22,7 +22,7 @@ describe("Login", () => {
     ];
     for (const body of bodyData) {
       const response = await request(app).post("/login").send(body);
-      expect(response.statusCode).toBe(500);
+      expect(response.statusCode).toBe(400);
       expect(response.body).toEqual({ error: "Missing required fields" });
     }
   });
@@ -40,7 +40,7 @@ describe("Login", () => {
 
     for (body of bodyData) {
       const response = await request(app).post("/login").send(body);
-      expect(response.statusCode).toBe(500);
+      expect(response.statusCode).toBe(422);
       expect(response.body).toEqual({
         error: "Username password combination does not exist.",
       });

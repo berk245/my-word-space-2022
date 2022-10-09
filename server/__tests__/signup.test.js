@@ -32,7 +32,7 @@ describe("Signup route", () => {
   test("should return an error when required fields are missing", async () => {
     for (const body of bodyData) {
       const response = await request(app).post("/signup").send(body);
-      expect(response.statusCode).toBe(500);
+      expect(response.statusCode).toBe(400);
     }
   });
   test("should return an error if the username is already taken", async () => {
@@ -41,7 +41,7 @@ describe("Signup route", () => {
       password: "test- password",
       email: "asd",
     });
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toBe(400);
     expect(response.body.existingUsernameError).toBeDefined();
   });
 
@@ -51,7 +51,7 @@ describe("Signup route", () => {
       email: "test@test.com",
       password: "pass",
     });
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toBe(400);
     expect(response.body.existingEmailError).toBeDefined();
   });
     test("should return a success message after a succesful signup", async () => {

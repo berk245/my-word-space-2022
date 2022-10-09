@@ -7,14 +7,14 @@ module.exports = function (database) {
   const login = async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
-      res.status(500).json({ error: "Missing required fields" });
+      res.status(400).json({ error: "Missing required fields" });
       return;
     }
 
     let token = await getUserToken(database, req.body)
 
     if(!token) {
-      res.status(500).json({ error: "Username password combination does not exist." });
+      res.status(422).json({ error: "Username password combination does not exist." });
       return;
     }
     res.header("token", token)

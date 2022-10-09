@@ -7,7 +7,7 @@ module.exports = function (database) {
   const signup = async (req, res) => {
     const errors = await validateSignupData(database, req.body);
     if (errors) {
-      res.status(500).json(errors);
+      res.status(400).json(errors);
       return;
     }
     try {
