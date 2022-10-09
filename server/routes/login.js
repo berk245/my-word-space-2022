@@ -22,19 +22,18 @@ module.exports = function (database) {
       }
 
       let { accessToken, refreshToken } = await getUserTokens(validatedUser);
-      console.log(accessToken, refreshToken);
-
+      if(!accessToken || !refreshToken) throw new Error('Could not get tokens')
       res.status(200).json({
         loginSuccess: true,
-        accessToken: accessToken,
+        accessToken: ter,
         refreshToken: refreshToken,
       });
       return;
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
       res
         .status(500)
-        .json({ error: err });
+        .send({error: err.message});
       return;
     }
   };
