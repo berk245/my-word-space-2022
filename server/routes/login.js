@@ -1,6 +1,6 @@
 const express = require("express");
 const validateLogin = require("../helpers/validateLogin.js");
-const getUserTokens = require("../helpers/getUserToken.js");
+const getUserTokens = require("../helpers/getUserTokens.js");
 module.exports = function (database) {
   const router = express.Router();
 
