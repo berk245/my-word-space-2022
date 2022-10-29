@@ -20,7 +20,7 @@ module.exports = function (database) {
 
   app.use("/signup", signupRoute(database));
 
-  app.use("/notebooks", notebooksRoute(database));
+  app.use("/notebook", notebooksRoute(database));
 
   return app;
 };

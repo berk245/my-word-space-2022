@@ -15,22 +15,21 @@ module.exports = function (database) {
     res.status(200).json({ notebooks: notebooks });
   };
 
-
   const addNewNotebook = async (req, res) => {
     if (!req.body.userId || !req.body.notebookName) {
       res.status(400).json(missingFieldsError);
       return;
     }
-    let user = await database.getUserByUserId(req.body.userId)
-    if(!user) {
-      res.status(400).json({error: 'User cannot be found'});
+    let user = await database.getUserByUserId(req.body.userId);
+    if (!user) {
+      res.status(400).json({ error: "User cannot be found" });
       return;
     }
 
     const addNotebookToDb = await database.addNewNotebook(req.body);
 
     addNotebookToDb.succes
-      ? res.status(200).json({addNotebookSuccess: true })
+      ? res.status(200).json({ addNotebookSuccess: true })
       : res.status(500).json({ error: addNotebookToDb.error });
   };
 
@@ -39,9 +38,12 @@ module.exports = function (database) {
       res.status(400).json(missingFieldsError);
       return;
     }
-    //parse the request
-    // pass it to the db function
-    //return result
+
+    let updateNotebook = await database.updateNotebookName(req.body);
+
+    updateNotebook.success
+      ? res.status(200).json({ updateNotebookSuccess: true })
+      : res.status(400).json({ error: updateNotebook.error });
   };
 
   const deleteNotebook = async (req, res) => {
@@ -49,14 +51,17 @@ module.exports = function (database) {
       res.status(400).json(missingFieldsError);
       return;
     }
-    //parse the request
-    // pass it to the db function
-    //return result
+    
+    let deleteNotebook = await database.deleteNotebook(req.body);
+
+    deleteNotebook.success
+      ? res.status(200).json({ deleteNotebookSuccess: true })
+      : res.status(400).json({ error: deleteNotebook.error });
   };
 
   router.get("/get-all", getAllNotebooks);
   router.post("/add", addNewNotebook);
-  router.post("/edit", editNotebook);
+  router.post("/update", editNotebook);
   router.delete("/delete", deleteNotebook);
 
   return router;

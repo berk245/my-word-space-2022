@@ -67,27 +67,71 @@ const saveUserToDatabase = async ({ username, email, password }) => {
   }
 };
 
-const getUserNotebooks = async(userId) =>{
-  const [notebooks] = await db.query(`SELECT * FROM Notebook WHERE CreatorID = ?`, [userId]);
-  return notebooks
-}
+const getUserNotebooks = async (userId) => {
+  const [notebooks] = await db.query(
+    `SELECT * FROM Notebook WHERE CreatorID = ?`,
+    [userId]
+  );
+  return notebooks;
+};
 
-const addNewNotebook = async({userId, notebookName}) => {
-  try{
-    await db.query(`INSERT INTO notebook (NotebookName, CreatorID) VALUES (?, ?);`, [notebookName, userId])
-    return {success: true}
-  }catch(err){
-    console.log(err)
-    return {error: err}
+const addNewNotebook = async ({ userId, notebookName }) => {
+  try {
+    await db.query(
+      `INSERT INTO notebook (NotebookName, CreatorID) VALUES (?, ?);`,
+      [notebookName, userId]
+    );
+    return { success: true };
+  } catch (err) {
+    console.log(err);
+    return { error: err };
   }
-  
+};
 
-}
+const findNotebook = async (userId, notebookId) => {
+  const result = await db.query(
+    `SELECT * FROM Notebook WHERE CreatorID = ? AND NotebookID = ? `,
+    [userId, notebookId]
+  );
+  return result[0][0] || false;
+};
+
+const updateNotebookName = async ({ userId, notebookId, newNotebookName }) => {
+  try {
+    let notebook = await findNotebook(userId, notebookId);
+    if (!notebook) return { error: "Could not find the notebook" };
+
+    await db.query(
+      `UPDATE notebook SET NotebookName = ? WHERE (NotebookID = ?)`,
+      [newNotebookName, notebookId]
+    );
+    return { success: true };
+  } catch (err) {
+    return { error: err };
+  }
+};
+
+const deleteNotebook = async ({ userId, notebookId }) => {
+  try {
+    let notebook = await findNotebook(userId, notebookId);
+    if (!notebook) return { error: "Could not find the notebook" };
+
+    await db.query(`DELETE FROM notebook  WHERE (NotebookID = ?)`, [
+      notebookId,
+    ]);
+    return { success: true };
+  } catch (err) {
+    return { error: err };
+  }
+};
 
 module.exports = {
   getUserByEmail,
   getUserByUsername,
   getUserByUserId,
   saveUserToDatabase,
-  getUserNotebooks, addNewNotebook
+  getUserNotebooks,
+  addNewNotebook,
+  updateNotebookName,
+  deleteNotebook
 };
