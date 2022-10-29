@@ -35,7 +35,10 @@ module.exports = function (database) {
   };
 
   const deleteDeck = async (req, res) => {
-    
+    if (!req.body.userId || !req.body.deckId) {
+        res.status(400).json(missingFieldsError);
+        return;
+      }
     //parse the request
     // pass it to the db function
     //return result
@@ -44,7 +47,7 @@ module.exports = function (database) {
   router.get("/get-all", getAllDecks);
   router.post("/add", addNewDeck);
   router.post("/edit", editDeck);
-//   router.delete("/delete", deleteDeck);
+  router.delete("/delete", deleteDeck);
 
   return router;
 };

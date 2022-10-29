@@ -29,7 +29,7 @@ describe("Decks route", () => {
         {},
       ];
       for (const body in bodyData) {
-        const response = await request(app).get("/decks/add").send(body);
+        const response = await request(app).post("/decks/add").send(body);
         expect(response.statusCode).toBe(400);
         expect(response.body).toEqual({ error: "Missing required fields" });
       }
