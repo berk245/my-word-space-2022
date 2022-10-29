@@ -1,24 +1,44 @@
-const express = require('express')
+const express = require("express");
 const router = express.Router();
 
-module.exports = function(database){
-  const getAllDecks = async(req, res) => {
-    const decks = await database.getUserDecks();
-    res.status(200).json(decks);
-  }
+const missingFieldsError = {
+  error: "Missing required fields",
+};
 
-  const getDeck = async(req, res) => {
-    const deck = await database.getDeck();
-    res.status(200).json(deck);
-  }
+module.exports = function (database) {
+  const getAllDecks = async (req, res) => {
+    if (!req.body.userId) {
+      res.status(400).json(missingFieldsError);
+      return;
+    }
+    res.status(500).json("test");
+
+    // const decks = await database.getUserDecks();
+    // res.status(200).json(decks);
+  };
+
+//   const addNewDeck = async (req, res) => {
+//     //parse the request
+//     // pass it to the db function
+//     //return result
+//   };
+
+//   const editDeck = async (req, res) => {
+//     //parse the request
+//     // pass it to the db function
+//     //return result
+//   };
+
+//   const deleteDeck = async (req, res) => {
+//     //parse the request
+//     // pass it to the db function
+//     //return result
+//   };
 
   router.get("/get-all", getAllDecks);
-  router.get("/get", getAllDecks);
+//   router.post("/add", addNewDeck);
+//   router.post("/edit", editDeck);
+//   router.delete("/delete", deleteDeck);
 
-
-  return router
-}
-
-
-
-
+  return router;
+};

@@ -2,7 +2,9 @@ const express = require("express");
 const loginRoute = require("./routes/login.js");
 const signupRoute = require("./routes/signup.js");
 const userRoute = require('./routes/user')
+const decksRoute = require('./routes/decks')
 const bodyParser = require("body-parser");
+
 const cors = require('cors')
 const app = express();
 module.exports = function (database) {
@@ -18,7 +20,7 @@ module.exports = function (database) {
 
   app.use("/signup", signupRoute(database));
 
-  app.use("/user", userRoute(database));
+  app.use("/decks", decksRoute(database));
 
   return app;
 };
