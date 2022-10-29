@@ -6,36 +6,24 @@ const missingFieldsError = {
 };
 
 module.exports = function (database) {
-  const getAllDecks = async (req, res) => {
+  const getAllnotebooks = async (req, res) => {
     if (!req.body.userId) {
       res.status(400).json(missingFieldsError);
       return;
     }
-    res.status(500).json("test");
-
-    // const decks = await database.getUserDecks();
-    // res.status(200).json(decks);
+    const notebooks = await database.getUsernNotebooks(req.body.userId);
+    res.status(200).json(notebooks);
   };
 
-  const addNewDeck = async (req, res) => {
-    if (!req.body.userId || !req.body.deckName) {
+  const addNewNotebook = async (req, res) => {
+    if (!req.body.userId || !req.body.notebookName) {
         res.status(400).json(missingFieldsError);
         return;
       }
   };
 
-  const editDeck = async (req, res) => {
-    if (!req.body.userId || !req.body.deckId || !req.body.newDeckName) {
-        res.status(400).json(missingFieldsError);
-        return;
-      }
-    //parse the request
-    // pass it to the db function
-    //return result
-  };
-
-  const deleteDeck = async (req, res) => {
-    if (!req.body.userId || !req.body.deckId) {
+  const editNotebook = async (req, res) => {
+    if (!req.body.userId || !req.body.notebookId || !req.body.newNotebookName) {
         res.status(400).json(missingFieldsError);
         return;
       }
@@ -44,10 +32,20 @@ module.exports = function (database) {
     //return result
   };
 
-  router.get("/get-all", getAllDecks);
-  router.post("/add", addNewDeck);
-  router.post("/edit", editDeck);
-  router.delete("/delete", deleteDeck);
+  const deleteNotebook = async (req, res) => {
+    if (!req.body.userId || !req.body.notebookId) {
+        res.status(400).json(missingFieldsError);
+        return;
+      }
+    //parse the request
+    // pass it to the db function
+    //return result
+  };
+
+  router.get("/get-all", getAllnotebooks);
+  router.post("/add", addNewNotebook);
+  router.post("/edit", editNotebook);
+  router.delete("/delete", deleteNotebook);
 
   return router;
 };

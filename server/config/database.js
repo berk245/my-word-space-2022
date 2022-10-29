@@ -56,8 +56,8 @@ const saveUserToDatabase = async ({ username, email, password }) => {
   }
 };
 
-const getAllUsers = async() =>{
-  const [users] = await db.query("SELECT * FROM User");
+const getUserNotebooks = async() =>{
+  const [users] = await db.query("SELECT * FROM n");
   return users
 }
 
@@ -65,5 +65,5 @@ module.exports = {
   getUserByEmail,
   getUserByUsername,
   saveUserToDatabase,
-  getAllUsers
+  getUserNotebooks
 };

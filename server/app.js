@@ -2,7 +2,7 @@ const express = require("express");
 const loginRoute = require("./routes/login.js");
 const signupRoute = require("./routes/signup.js");
 const userRoute = require('./routes/user')
-const decksRoute = require('./routes/decks')
+const notebooksRoute = require('./routes/notebooks')
 const bodyParser = require("body-parser");
 
 const cors = require('cors')
@@ -20,7 +20,7 @@ module.exports = function (database) {
 
   app.use("/signup", signupRoute(database));
 
-  app.use("/decks", decksRoute(database));
+  app.use("/notebooks", notebooksRoute(database));
 
   return app;
 };
