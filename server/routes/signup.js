@@ -1,6 +1,6 @@
 const express = require("express");
-const validateUserInfo = require("../helpers/validateUserInfo");
-const { saveUserToDatabase } = require("../config/database.js");
+const validateSignupData = require("../helpers/validateSignupData");
+
 module.exports = function (database) {
   const router = express.Router();
 

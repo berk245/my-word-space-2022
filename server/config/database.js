@@ -56,8 +56,14 @@ const saveUserToDatabase = async ({ username, email, password }) => {
   }
 };
 
+const getAllUsers = async() =>{
+  const [users] = await db.query("SELECT * FROM User");
+  return users
+}
+
 module.exports = {
   getUserByEmail,
   getUserByUsername,
   saveUserToDatabase,
+  getAllUsers
 };

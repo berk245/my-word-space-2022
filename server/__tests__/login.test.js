@@ -53,6 +53,6 @@ describe("Login", () => {
       password: '1234'
     });
     expect(response.statusCode).toBe(200);
-    expect(response.header.token).toBeDefined()
+    expect(response.body.accessToken).toBeDefined()
   });
 });

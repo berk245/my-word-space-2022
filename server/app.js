@@ -1,6 +1,7 @@
 const express = require("express");
 const loginRoute = require("./routes/login.js");
 const signupRoute = require("./routes/signup.js");
+const userRoute = require('./routes/user')
 const bodyParser = require("body-parser");
 const cors = require('cors')
 const app = express();
@@ -16,6 +17,8 @@ module.exports = function (database) {
   app.use("/login", loginRoute(database));
 
   app.use("/signup", signupRoute(database));
+
+  app.use("/user", userRoute(database));
 
   return app;
 };
