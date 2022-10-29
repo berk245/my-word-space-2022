@@ -2,12 +2,12 @@ const express = require('express')
 const router = express.Router();
 
 module.exports = function(database){
-  const getUser = async(req, res) => {
-    const users = await database.getAllUsers();
-    res.status(200).json(users);
+  const findUser = async(req, res) => {
+    const user = await database.getUserById(req.body.userId);
+    res.status(200).json(user);
   }
 
-  router.get("/get-user", getUser);
+  router.get("/get-user", findUser);
 
   return router
 }

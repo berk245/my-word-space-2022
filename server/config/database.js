@@ -30,6 +30,17 @@ const getUserByUsername = async (username) => {
   return results[0];
 };
 
+const getUserByUserId = async (userId) => {
+  const [results] = await db.query(
+    `SELECT *
+    FROM User
+    WHERE UserID = ?
+    `,
+    [userId]
+  );
+  return results[0];
+};
+
 const getUserByEmail = async (email) => {
   const [results] = await db.query(
     `SELECT *
@@ -56,14 +67,27 @@ const saveUserToDatabase = async ({ username, email, password }) => {
   }
 };
 
-const getUserNotebooks = async() =>{
-  const [users] = await db.query("SELECT * FROM n");
-  return users
+const getUserNotebooks = async(userId) =>{
+  const [notebooks] = await db.query(`SELECT * FROM Notebook WHERE CreatorID = ?`, [userId]);
+  return notebooks
+}
+
+const addNewNotebook = async({userId, notebookName}) => {
+  try{
+    await db.query(`INSERT INTO notebook (NotebookName, CreatorID) VALUES (?, ?);`, [notebookName, userId])
+    return {success: true}
+  }catch(err){
+    console.log(err)
+    return {error: err}
+  }
+  
+
 }
 
 module.exports = {
   getUserByEmail,
   getUserByUsername,
+  getUserByUserId,
   saveUserToDatabase,
-  getUserNotebooks
+  getUserNotebooks, addNewNotebook
 };
