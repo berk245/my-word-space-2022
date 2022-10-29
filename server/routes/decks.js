@@ -22,26 +22,28 @@ module.exports = function (database) {
         res.status(400).json(missingFieldsError);
         return;
       }
+  };
+
+  const editDeck = async (req, res) => {
+    if (!req.body.userId || !req.body.deckId || !req.body.newDeckName) {
+        res.status(400).json(missingFieldsError);
+        return;
+      }
     //parse the request
     // pass it to the db function
     //return result
   };
 
-//   const editDeck = async (req, res) => {
-//     //parse the request
-//     // pass it to the db function
-//     //return result
-//   };
-
-//   const deleteDeck = async (req, res) => {
-//     //parse the request
-//     // pass it to the db function
-//     //return result
-//   };
+  const deleteDeck = async (req, res) => {
+    
+    //parse the request
+    // pass it to the db function
+    //return result
+  };
 
   router.get("/get-all", getAllDecks);
   router.post("/add", addNewDeck);
-//   router.post("/edit", editDeck);
+  router.post("/edit", editDeck);
 //   router.delete("/delete", deleteDeck);
 
   return router;
