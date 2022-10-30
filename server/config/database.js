@@ -134,9 +134,10 @@ const deleteNotebook = async ({ userId, notebookId }) => {
 
 const getUserWords = async ({ userId }) => {
   try {
-    let [words] = await db.query(`SELECT * FROM Word WHERE CreatorID = ?`, [
-      userId,
-    ]);
+    let [words] = await db.query(
+      `SELECT * FROM Word WHERE CreatorID = ? AND Status = 'active'`,
+      [userId]
+    );
     return { success: true, result: words };
   } catch (err) {
     return { error: err };
@@ -173,7 +174,7 @@ const updateWord = async ({
   wordType,
 }) => {
   try {
-    let word = await findNotebook(wordId, notebookId, userId);
+    let word = await findWord(wordId, notebookId, userId);
     if (!word) return { error: "Could not find the word" };
 
     await db.query(
@@ -183,6 +184,30 @@ const updateWord = async ({
     return { success: true };
   } catch (err) {
     return { error: err };
+  }
+};
+
+const deleteWord = async ({ userId, wordId, notebookId }) => {
+  try {
+    let word = await findWord(wordId, notebookId, userId);
+    if (!word) return { error: "Could not find the word" };
+
+    await db.query(
+      `DELETE FROM Word WHERE WordID = ? AND CreatorID = ? AND NotebookID = ?`,
+      [wordId, userId, notebookId]
+    );
+    return { success: true };
+  } catch (err) {
+    if (err.errno == 1451) {
+      //Foreign Key constraint error
+      await db.query(
+        `UPDATE Word SET Status = 'deleted' WHERE (WordID = ? AND CreatorID = ? AND NotebookID = ? )`,
+        [wordId, userId, notebookId]
+      );
+      return { success: true };
+    } else {
+      return { error: err };
+    }
   }
 };
 
@@ -198,4 +223,5 @@ module.exports = {
   getUserWords,
   addNewWord,
   updateWord,
+  deleteWord,
 };

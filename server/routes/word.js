@@ -1,4 +1,5 @@
 const express = require("express");
+const { deleteWord } = require("../config/database");
 const router = express.Router();
 
 const hasMissingFields = (obj) => {
@@ -54,30 +55,28 @@ module.exports = function (database) {
       return;
     }
 
-    let query = await database.updateWord(req.body);
+    let query = await database.deleteWord(req.body);
 
     query.success
-      ? res.status(200).json({ updateWordSuccess: true })
+      ? res.status(200).json({ deleteWordSuccess: true })
       : res.status(400).json({ error: query.error });
   };
 
-  //   const deleteNotebook = async (req, res) => {
-  //     if (!req.body.userId || !req.body.notebookId) {
-  //       res.status(400).json(missingFieldsError);
-  //       return;
-  //     }
-
-  //     let deleteNotebook = await database.deleteNotebook(req.body);
-
-  //     deleteNotebook.success
-  //       ? res.status(200).json({ deleteNotebookSuccess: true })
-  //       : res.status(400).json({ error: deleteNotebook.error });
-  //   };
+  const deleteWord = async (req, res) => {
+    if (!req.body.userId || !req.body.notebookId || !req.body.wordId) {
+      res.status(400).json(missingFieldsError);
+      return;
+    }
+    let query = await database.deleteWord(req.body);
+    query.success
+      ? res.status(200).json({ deleteWordSuccess: true })
+      : res.status(400).json({ error: query.error });
+  };
 
   router.get("/get-all", getUserWords);
   router.post("/add", addNewWord);
   router.post("/update", updateWord);
-  //   router.delete("/delete", deleteNotebook);
+  router.delete("/delete", deleteWord);
 
   return router;
 };

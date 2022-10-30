@@ -89,34 +89,47 @@ describe("Words route", () => {
       expect(response.statusCode).toBe(400);
       expect(response.body).toEqual({ error: "Could not find the word" });
     });
-    // test("delete-word request is missing a word or user identifier", async () => {
-    //   let bodyData = [
-    //     {
-    //       userId: 1,
-    //       wordId: "",
-    //     },
-    //     {
-    //       userId: "",
-    //       wordId: 3,
-    //     },
-    //     {},
-    //   ];
-    //   for (const body of bodyData) {
-    //     const response = await request(app)
-    //       .delete("/word/delete")
-    //       .send(body);
-    //     expect(response.statusCode).toBe(400);
-    //     expect(response.body).toEqual({ error: "Missing required fields" });
-    //   }
-    // });
-    // test("delete-word request is made with a word id that does not exist", async () => {
-    //   const response = await request(app).delete("/word/delete").send({
-    //     userId: 1,
-    //     wordId: "n/a",
-    //   });
-    //   expect(response.statusCode).toBe(400);
-    //   expect(response.body).toEqual({ error: "Could not find the word" });
-    // });
+    test("delete-word request is missing fields or user identifier", async () => {
+      let bodyData = [
+        {
+          userId: 1,
+          wordId: "",
+          notebookId: ''
+        },
+        {
+          userId: 1,
+          wordId: "1",
+          notebookId: ''
+        },
+        {
+          userId: '',
+          wordId: 1,
+          notebookId: ''
+        },
+        {
+          userId: 1,
+          wordId: 2,
+          notebookId: ''
+        },
+        {},
+      ];
+      for (const body of bodyData) {
+        const response = await request(app)
+          .delete("/word/delete")
+          .send(body);
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toEqual({ error: "Missing required fields" });
+      }
+    });
+    test("delete-word request is made with a word id that does not exist", async () => {
+      const response = await request(app).delete("/word/delete").send({
+        userId: 1,
+          wordId: 309,
+          notebookId: 1555
+      });
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toEqual({ error: "Could not find the word" });
+    });
   });
   test("should return all words of a specific user", async () => {
     const response = await request(app)
