@@ -146,6 +146,10 @@ const addNewWord = async({userId, notebookId,  wordOriginal, wordTranslation, wo
   }
 }
 
+const updateWord = async({userId, notebookId,  wordOriginal, wordTranslation, wordType}) => {
+
+}
+
 module.exports = {
   getUserByEmail,
   getUserByUsername,

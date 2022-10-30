@@ -1,15 +1,22 @@
 const express = require("express");
 const router = express.Router();
 
+const hasMissingFields = (obj) => {
+  const requiredKeys = [
+    "userId",
+    "notebookId",
+    "wordType",
+    "wordOriginal",
+    "wordTranslation",
+  ];
 
-const hasMissingFields = (obj)=>{
-    for(const [key, value] of Object.entries(obj)){
-        if(!value){
-            return true;
-        }
+  for (const key of requiredKeys) {
+    if (!obj[key]) {
+      return true;
     }
-    return false
-}
+  }
+  return false;
+};
 
 const missingFieldsError = {
   error: "Missing required fields",
@@ -30,9 +37,9 @@ module.exports = function (database) {
   };
 
   const addNewWord = async (req, res) => {
-    if(hasMissingFields(req.body)){
-        res.status(400).json(missingFieldsError);
-        return
+    if (hasMissingFields(req.body)) {
+      res.status(400).json(missingFieldsError);
+      return;
     }
     const query = await database.addNewWord(req.body);
 
@@ -41,35 +48,35 @@ module.exports = function (database) {
       : res.status(400).json({ error: query.error });
   };
 
-  //   const editNotebook = async (req, res) => {
-  //     if (!req.body.userId || !req.body.notebookId || !req.body.newNotebookName) {
-  //       res.status(400).json(missingFieldsError);
-  //       return;
-  //     }
+  const updateWord = async (req, res) => {
+    if (hasMissingFields(req.body) || !req.body.wordId) {
+        res.status(400).json(missingFieldsError);
+        return;
+      }
 
-  //     let updateNotebook = await database.updateNotebookName(req.body);
+    let query = await database.updateWordName(req.body);
 
-  //     updateNotebook.success
-  //       ? res.status(200).json({ updateNotebookSuccess: true })
-  //       : res.status(400).json({ error: updateNotebook.error });
-  //   };
+    query.success
+      ? res.status(200).json({ updateWordSuccess: true })
+      : res.status(400).json({ error: query.error });
+  };
 
-  //   const deleteNotebook = async (req, res) => {
-  //     if (!req.body.userId || !req.body.notebookId) {
-  //       res.status(400).json(missingFieldsError);
-  //       return;
-  //     }
+  const deleteNotebook = async (req, res) => {
+    if (!req.body.userId || !req.body.notebookId) {
+      res.status(400).json(missingFieldsError);
+      return;
+    }
 
-  //     let deleteNotebook = await database.deleteNotebook(req.body);
+    let deleteNotebook = await database.deleteNotebook(req.body);
 
-  //     deleteNotebook.success
-  //       ? res.status(200).json({ deleteNotebookSuccess: true })
-  //       : res.status(400).json({ error: deleteNotebook.error });
-  //   };
+    deleteNotebook.success
+      ? res.status(200).json({ deleteNotebookSuccess: true })
+      : res.status(400).json({ error: deleteNotebook.error });
+  };
 
   router.get("/get-all", getUserWords);
   router.post("/add", addNewWord);
-  //   router.post("/update", editNotebook);
+    router.post("/update", updateWord);
   //   router.delete("/delete", deleteNotebook);
 
   return router;

@@ -53,25 +53,32 @@ describe("Words route", () => {
       expect(response.statusCode).toBe(400);
       expect(response.body).toEqual({ error: "Could not find the notebook" });
     });
-    // test("update-word request is missing a word id or update fields for words", async () => {
-    //   let bodyData = [
-    //     {
-    //       userId: "test-username",
-    //       wordType: "",
-    //       wordOriginal: "",
-    //       wordTranslation: "",
-    //       userId: "",
-    //     },
-    //     {},
-    //   ];
-    //   for (const body of bodyData) {
-    //     const response = await request(app).post("/notebook/update").send(body);
-    //     expect(response.statusCode).toBe(400);
-    //     expect(response.body).toEqual({ error: "Missing required fields" });
-    //   }
-    // });
+    test("update-word request is missing a word id or update fields for words", async () => {
+      let bodyData = [
+        {
+          userId: "1",  
+          notebookId: '99991',
+          wordType: "1",
+          wordOriginal: "original",
+          wordTranslation: "translation",
+        },
+        {
+          userId: "1",  
+          notebookId: '99991',
+          wordType: "1",
+          wordOriginal: "",
+          wordTranslation: "translation",
+        },
+        {},
+      ];
+      for (const body of bodyData) {
+        const response = await request(app).post("/word/update").send(body);
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toEqual({ error: "Missing required fields" });
+      }
+    });
     // test("update-word request is made with a word id that does not exist", async () => {
-    //   const response = await request(app).post("/notebook/update").send({
+    //   const response = await request(app).post("/word/update").send({
     //     userId: 1,
     //     newNotebookName: "update-name",
     //     notebookId: "n/a",
