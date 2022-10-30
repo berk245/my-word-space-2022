@@ -29,7 +29,7 @@ describe("Notebooks route", () => {
         },
         {},
       ];
-      for (const body in bodyData) {
+      for (const body of bodyData) {
         const response = await request(app).post("/notebook/add").send(body);
         expect(response.statusCode).toBe(400);
         expect(response.body).toEqual({ error: "Missing required fields" });
@@ -61,7 +61,7 @@ describe("Notebooks route", () => {
         },
         {},
       ];
-      for (const body in bodyData) {
+      for (const body of bodyData) {
         const response = await request(app).post("/notebook/update").send(body);
         expect(response.statusCode).toBe(400);
         expect(response.body).toEqual({ error: "Missing required fields" });
@@ -88,7 +88,7 @@ describe("Notebooks route", () => {
         },
         {},
       ];
-      for (const body in bodyData) {
+      for (const body of bodyData) {
         const response = await request(app)
           .delete("/notebook/delete")
           .send(body);

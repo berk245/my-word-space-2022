@@ -1,6 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
+
+const hasMissingFields = (obj)=>{
+    for(const [key, value] of Object.entries(obj)){
+        if(!value){
+            return true;
+        }
+    }
+    return false
+}
+
 const missingFieldsError = {
   error: "Missing required fields",
 };
@@ -19,23 +29,17 @@ module.exports = function (database) {
       : res.status(400).json({ error: query.error });
   };
 
-  //   const addNewNotebook = async (req, res) => {
-  //     if (!req.body.userId || !req.body.notebookName) {
-  //       res.status(400).json(missingFieldsError);
-  //       return;
-  //     }
-  //     let user = await database.getUserByUserId(req.body.userId);
-  //     if (!user) {
-  //       res.status(400).json({ error: "User cannot be found" });
-  //       return;
-  //     }
+  const addNewWord = async (req, res) => {
+    if(hasMissingFields(req.body)){
+        res.status(400).json(missingFieldsError);
+        return
+    }
+    const query = await database.addNewWord(req.body);
 
-  //     const addNotebookToDb = await database.addNewNotebook(req.body);
-
-  //     addNotebookToDb.succes
-  //       ? res.status(200).json({ addNotebookSuccess: true })
-  //       : res.status(500).json({ error: addNotebookToDb.error });
-  //   };
+    query.success
+      ? res.status(200).json({ addNotebookSuccess: true })
+      : res.status(400).json({ error: query.error });
+  };
 
   //   const editNotebook = async (req, res) => {
   //     if (!req.body.userId || !req.body.notebookId || !req.body.newNotebookName) {
@@ -64,7 +68,7 @@ module.exports = function (database) {
   //   };
 
   router.get("/get-all", getUserWords);
-  //   router.post("/add", addNewNotebook);
+  router.post("/add", addNewWord);
   //   router.post("/update", editNotebook);
   //   router.delete("/delete", deleteNotebook);
 

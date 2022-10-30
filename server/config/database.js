@@ -134,6 +134,18 @@ const getUserWords = async({userId}) => {
   }
 }
 
+const addNewWord = async({userId, notebookId,  wordOriginal, wordTranslation, wordType}) => {
+  try{
+    let notebook = await findNotebook(userId, notebookId)
+    if(!notebook) return { error: "Could not find the notebook" }
+
+    await db.query(`INSERT INTO word (NotebookID, WordOriginal, WordTranslation, WordType, CreatorID) VALUES (?, ?, ?, ?, ?);`, [notebookId, wordOriginal, wordTranslation, wordType, userId])
+    return ({success: true})
+  }catch(err){
+    return ({error:err})
+  }
+}
+
 module.exports = {
   getUserByEmail,
   getUserByUsername,
@@ -143,5 +155,6 @@ module.exports = {
   addNewNotebook,
   updateNotebookName,
   deleteNotebook,
-  getUserWords
+  getUserWords,
+  addNewWord
 };
