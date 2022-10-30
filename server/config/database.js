@@ -125,6 +125,15 @@ const deleteNotebook = async ({ userId, notebookId }) => {
   }
 };
 
+const getUserWords = async({userId}) => {
+  try{
+    let [words] = await db.query(`SELECT * FROM Word WHERE CreatorID = ?`, [userId])
+    return ({success: true, result: words})
+  }catch(err){
+    return({error: err})
+  }
+}
+
 module.exports = {
   getUserByEmail,
   getUserByUsername,
@@ -133,5 +142,6 @@ module.exports = {
   getUserNotebooks,
   addNewNotebook,
   updateNotebookName,
-  deleteNotebook
+  deleteNotebook,
+  getUserWords
 };
