@@ -77,15 +77,18 @@ describe("Words route", () => {
         expect(response.body).toEqual({ error: "Missing required fields" });
       }
     });
-    // test("update-word request is made with a word id that does not exist", async () => {
-    //   const response = await request(app).post("/word/update").send({
-    //     userId: 1,
-    //     newNotebookName: "update-name",
-    //     notebookId: "n/a",
-    //   });
-    //   expect(response.statusCode).toBe(400);
-    //   expect(response.body).toEqual({ error: "Could not find the notebook" });
-    // });
+    test("update-word request is made with a word id that does not exist", async () => {
+      const response = await request(app).post("/word/update").send({
+        userId: 1, 
+        wordId: 1,
+        notebookId: 151,
+        wordOriginal: 'test',
+        wordTranslation: 'test',
+        wordType: 'noun'
+      });
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toEqual({ error: "Could not find the word" });
+    });
     // test("delete-word request is missing a word or user identifier", async () => {
     //   let bodyData = [
     //     {
