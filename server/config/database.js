@@ -251,9 +251,16 @@ const createQuestionPool = async ({ userId, exerciseParameters }) => {
   let [pool] = await db.query(
     createQuestionPoolQuery(userId, exerciseParameters)
   );
-
   return pool || [];
 };
+
+const updateWordStats = async(exerciseWordData) => {
+  console.log(exerciseWordData.CorrectAnswers, exerciseWordData.correct)
+  let now = new Date()
+  let correctCount = exerciseWordData.CorrectAnswers + exerciseWordData.correct
+
+  await db.query(`UPDATE Word SET LastSeenAt = ?, TimesSeen = ?, CorrectAnswers = ? WHERE (WordID = ?)`,[now, exerciseWordData.TimesSeen + 1, correctCount, exerciseWordData.WordID])
+}
 module.exports = {
   getUserByEmail,
   getUserByUsername,
@@ -271,4 +278,5 @@ module.exports = {
   getSingleExercise,
   createNewExercise,
   createQuestionPool,
+  updateWordStats
 };

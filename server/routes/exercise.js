@@ -1,4 +1,5 @@
 const express = require("express");
+const checkUserAnswers = require("../helpers/checkUserAnswers");
 const router = express.Router();
 const getExerciseQuestions = require("../helpers/getExerciseQuestions");
 
@@ -66,6 +67,10 @@ module.exports = function (database) {
       res.status(400).json(missingFieldsError);
       return;
     }
+
+    let exerciseResults = checkUserAnswers(database, req.body)
+
+    res.status(200).send(true)
   };
 
   router.get("/get-all", getUserExercises);
