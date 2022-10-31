@@ -42,7 +42,6 @@ describe("Exercise route", () => {
     });
 
     test("begin-exercise request is missing a user id or word amount", async () => {
-      // /rest of the parameters have defaultvalues
       let bodyData = [
         {
           userId: "",
@@ -53,7 +52,7 @@ describe("Exercise route", () => {
           },
         },
         {
-          userId: "",
+          userId: 1,
           exerciseParameters: {
             wordTypes: [1, 2, 3],
             notebooks: [1, 2, 3],

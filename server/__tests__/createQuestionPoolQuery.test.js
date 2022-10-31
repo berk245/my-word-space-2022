@@ -27,6 +27,7 @@ describe('Question pool query should be formed correctly when', ()=>{
 
         expect(query).toBe('SELECT * FROM Word WHERE CreatorID = 1 AND NotebookID IN (1,2) AND WordType IN (3,4)')
     })
+    
 
     
 

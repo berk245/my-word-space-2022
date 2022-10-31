@@ -199,53 +199,46 @@ const deleteWord = async ({ userId, wordId, notebookId }) => {
     );
     return { success: true };
   } catch (err) {
-    if (err.errno == 1451) {
-      //Foreign Key constraint error
-      await db.query(
-        `UPDATE Word SET Status = 'deleted' WHERE (WordID = ? AND CreatorID = ? AND NotebookID = ? )`,
-        [wordId, userId, notebookId]
-      );
-      return { success: true };
-    } else {
-      return { error: err };
-    }
+    return { error: err };
   }
 };
 
-
 const getUserExercises = async (userId) => {
-  try{
-    let user = await getUserByUserId(userId)
-    if(!user) return { error: "Could not find the user" };
-  
-    let [exercises] = await db.query( `SELECT * FROM Exercise WHERE UserID = ?  `,
-    [userId])
-    return {success: true, result:exercises}
-  }catch(err){
-    return {error: err}
+  try {
+    let user = await getUserByUserId(userId);
+    if (!user) return { error: "Could not find the user" };
+
+    let [exercises] = await db.query(
+      `SELECT * FROM Exercise WHERE UserID = ?  `,
+      [userId]
+    );
+    return { success: true, result: exercises };
+  } catch (err) {
+    return { error: err };
   }
-  
- 
-}
+};
 
-const createNewExercise = async({userId}) => {
-  try{
-    let user = await getUserByUserId(userId)
-    if(!user) return { error: "Could not find the user" };
+const createNewExercise = async ({ userId, amount }) => {
+  try {
+    let user = await getUserByUserId(userId);
+    if (!user) return { error: "Could not find the user" };
 
-    let exercise = await db.query("INSERT INTO `my-word-space`.`Exercise` (`UserID`) VALUES (?)",[userId])
-    return exercise[0].insertId
-  }catch(err){
-    return false
+    let exercise = await db.query(
+      "INSERT INTO `my-word-space`.`Exercise` (`UserID` , `QuestionCount`) VALUES (?, ?)",
+      [userId, amount]
+    );
+    return exercise[0].insertId;
+  } catch (err) {
+    return false;
   }
+};
+const createQuestionPool = async ({ userId, exerciseParameters }) => {
+  let [pool] = await db.query(
+    createQuestionPoolQuery(userId, exerciseParameters)
+  );
 
-}
-const createQuestionPool = async({userId, exerciseParameters}) => {
-  let [pool] = await db.query(createQuestionPoolQuery(userId, exerciseParameters))
-
-  return pool || []
-
-}
+  return pool || [];
+};
 module.exports = {
   getUserByEmail,
   getUserByUsername,
@@ -260,6 +253,6 @@ module.exports = {
   updateWord,
   deleteWord,
   getUserExercises,
-  createNewExercise, 
-  createQuestionPool
+  createNewExercise,
+  createQuestionPool,
 };

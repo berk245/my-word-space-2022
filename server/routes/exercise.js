@@ -27,13 +27,19 @@ module.exports = function (database) {
   };
 
   const beginExercise = async (req, res) => {
-    if (!req.body.userId || !req.body.exerciseParameters.amount) {
+    if (
+      !req.body.userId ||
+      !req.body.exerciseParameters?.amount ||
+      !req.body.exerciseParameters?.wordTypes ||
+      !req.body.exerciseParameters?.notebooks
+    ) {
       res.status(400).json(missingFieldsError);
       return;
     }
 
     const exerciseId = await database.createNewExercise({
       userId: req.body.userId,
+      amount: req.body.exerciseParameters.amount,
     });
 
     if (!exerciseId) {
