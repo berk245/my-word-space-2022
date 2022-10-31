@@ -211,6 +211,22 @@ const deleteWord = async ({ userId, wordId, notebookId }) => {
   }
 };
 
+
+const getUserExercises = async ({userId}) => {
+  try{
+    let user = await getUserByUserId(userId)
+    if(!user) return { error: "Could not find the user" };
+  
+    let [exercises] = await db.query( `SELECT * FROM Exercise WHERE UserID = ?  `,
+    [userId])
+    return {success: true, result:exercises}
+  }catch(err){
+    return {error: err}
+  }
+  
+ 
+}
+
 module.exports = {
   getUserByEmail,
   getUserByUsername,
@@ -224,4 +240,5 @@ module.exports = {
   addNewWord,
   updateWord,
   deleteWord,
+  getUserExercises
 };
