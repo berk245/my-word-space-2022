@@ -243,7 +243,7 @@ const createNewExercise = async({userId}) => {
 const createQuestionPool = async({userId, exerciseParameters}) => {
   let [pool] = await db.query(createQuestionPoolQuery(userId, exerciseParameters))
 
-  return pool
+  return pool || []
 
 }
 module.exports = {
