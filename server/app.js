@@ -3,6 +3,7 @@ const loginRoute = require("./routes/login.js");
 const signupRoute = require("./routes/signup.js");
 const wordRoute = require('./routes/word')
 const notebookRoute = require('./routes/notebook')
+const exerciseRoute = require('./routes/exercise')
 const bodyParser = require("body-parser");
 
 const cors = require('cors')
@@ -23,6 +24,9 @@ module.exports = function (database) {
   app.use("/notebook", notebookRoute(database));
 
   app.use("/word", wordRoute(database));
+
+  app.use("/exercise", exerciseRoute(database));
+
 
   return app;
 };

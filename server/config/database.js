@@ -212,7 +212,7 @@ const deleteWord = async ({ userId, wordId, notebookId }) => {
 };
 
 
-const getUserExercises = async ({userId}) => {
+const getUserExercises = async (userId) => {
   try{
     let user = await getUserByUserId(userId)
     if(!user) return { error: "Could not find the user" };
