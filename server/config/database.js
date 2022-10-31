@@ -1,6 +1,7 @@
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
+const createQuestionPoolQuery = require("../helpers/createQuestionPoolQuery");
 
 dotenv.config();
 const db = mysql
@@ -227,6 +228,24 @@ const getUserExercises = async (userId) => {
  
 }
 
+const createNewExercise = async({userId}) => {
+  try{
+    let user = await getUserByUserId(userId)
+    if(!user) return { error: "Could not find the user" };
+
+    let exercise = await db.query("INSERT INTO `my-word-space`.`Exercise` (`UserID`) VALUES (?)",[userId])
+    return exercise[0].insertId
+  }catch(err){
+    return false
+  }
+
+}
+const createQuestionPool = async({userId, exerciseParameters}) => {
+  let [pool] = await db.query(createQuestionPoolQuery(userId, exerciseParameters))
+
+  return pool
+
+}
 module.exports = {
   getUserByEmail,
   getUserByUsername,
@@ -240,5 +259,7 @@ module.exports = {
   addNewWord,
   updateWord,
   deleteWord,
-  getUserExercises
+  getUserExercises,
+  createNewExercise, 
+  createQuestionPool
 };

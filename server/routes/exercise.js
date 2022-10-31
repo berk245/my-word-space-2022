@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const getRandomQuestions = require('../helpers/getRandomQuestions')
 
 const missingFieldsError = {
   error: "Missing required fields",
@@ -30,6 +31,23 @@ module.exports = function (database) {
         res.status(400).json(missingFieldsError);
         return;
       }
+    
+      const exerciseId = await database.createNewExercise({userId: req.body.userId})
+      
+      if(!exerciseId){
+        res.status(500).json({error: 'Could not create exercise. Please try again later'});
+        return;
+      }
+
+    //Create word pool
+    let questionPool = await database.createQuestionPool(req.body)
+    let exerciseQuestions = getRandomQuestions(questionPool, req.body.exerciseParameters.amount)
+    //Create a random question list for the exercise
+    //Return the question list 
+
+    console.log(exerciseQuestions)
+
+    res.status(200).json(exerciseQuestions)
   }
 
   const completeExercise = async(req,res) => {
