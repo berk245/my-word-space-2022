@@ -24,6 +24,11 @@ module.exports = function (database) {
       res.status(400).json(missingFieldsError);
       return;
     }
+    const query = await database.getSingleExercise(req.body);
+
+    query.success
+      ? res.status(200).json({ exercise: query.result })
+      : res.status(400).json({ error: query.error });
   };
 
   const beginExercise = async (req, res) => {

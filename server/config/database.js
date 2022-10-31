@@ -218,6 +218,21 @@ const getUserExercises = async (userId) => {
   }
 };
 
+const getSingleExercise = async ({userId, exerciseId}) => {
+  try {
+    let user = await getUserByUserId(userId);
+    if (!user) return { error: "Could not find the user" };
+
+    let [exercise] = await db.query(
+      `SELECT * FROM Exercise WHERE UserID = ? AND ExerciseID = ? `,
+      [userId, exerciseId]
+    );
+
+    return { success: true, result: exercise[0] };
+  } catch (err) {
+    return { error: err };
+  }
+}
 const createNewExercise = async ({ userId, amount }) => {
   try {
     let user = await getUserByUserId(userId);
@@ -253,6 +268,7 @@ module.exports = {
   updateWord,
   deleteWord,
   getUserExercises,
+  getSingleExercise,
   createNewExercise,
   createQuestionPool,
 };
