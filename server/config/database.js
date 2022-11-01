@@ -218,7 +218,7 @@ const getUserExercises = async (userId) => {
   }
 };
 
-const getSingleExercise = async ({userId, exerciseId}) => {
+const getSingleExercise = async ({ userId, exerciseId }) => {
   try {
     let user = await getUserByUserId(userId);
     if (!user) return { error: "Could not find the user" };
@@ -232,7 +232,7 @@ const getSingleExercise = async ({userId, exerciseId}) => {
   } catch (err) {
     return { error: err };
   }
-}
+};
 const createNewExercise = async ({ userId, amount }) => {
   try {
     let user = await getUserByUserId(userId);
@@ -253,14 +253,45 @@ const createQuestionPool = async ({ userId, exerciseParameters }) => {
   );
   return pool || [];
 };
+const updateWordStats = async (exerciseWordData) => {
+  let now = new Date();
+  let isUserAnswerCorrect =
+    exerciseWordData.userAnswer === exerciseWordData.WordTranslation;
 
-const updateWordStats = async(exerciseWordData) => {
-  console.log(exerciseWordData.CorrectAnswers, exerciseWordData.correct)
-  let now = new Date()
-  let correctCount = exerciseWordData.CorrectAnswers + exerciseWordData.correct
+  if (isUserAnswerCorrect) exerciseWordData.CorrectAnswers+= 1;
 
-  await db.query(`UPDATE Word SET LastSeenAt = ?, TimesSeen = ?, CorrectAnswers = ? WHERE (WordID = ?)`,[now, exerciseWordData.TimesSeen + 1, correctCount, exerciseWordData.WordID])
+  await db.query(
+    `UPDATE Word SET LastSeenAt = ?, TimesSeen = ?, CorrectAnswers = ? WHERE (WordID = ?)`,
+    [
+      now,
+      exerciseWordData.TimesSeen+1,
+      exerciseWordData.CorrectAnswers,
+      exerciseWordData.WordID,
+    ]
+  );
+};
+
+const findExercise = async(exerciseId) => {
+
+  let [exercise] = await db.query("SELECT * FROM Exercise WHERE ExerciseID = ?", [exerciseId]);
+   return exercise.length
 }
+
+const isExerciseComplete = async(exerciseId) => {
+
+  let [query] = await db.query("SELECT ExerciseCompleted FROM Exercise WHERE ExerciseID = ?", [exerciseId]);
+  return 'true' === query[0]['ExerciseCompleted']
+}
+
+const updateExerciseStatsAfterCompletion = async ({exerciseId: exerciseId, correctCount: correctCount}) => {
+    await db.query(
+      `UPDATE Exercise SET ExerciseCompleted = true, CorrectAnswers = ? WHERE (ExerciseID = ?)`,
+      [correctCount, exerciseId]
+    );
+    return true;
+};
+
+
 module.exports = {
   getUserByEmail,
   getUserByUsername,
@@ -278,5 +309,8 @@ module.exports = {
   getSingleExercise,
   createNewExercise,
   createQuestionPool,
-  updateWordStats
+  updateWordStats,
+  updateExerciseStatsAfterCompletion,
+  findExercise,
+  isExerciseComplete
 };
