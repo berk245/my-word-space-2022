@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
 
     try {
       if (!req.body.userId || !req.body.notebookName) {
-        res.status(400).json(missingFieldsError);
+        res.status(400).json({error: 'Missing required fields'});
         return;
       }
   
