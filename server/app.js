@@ -5,13 +5,16 @@ const wordRoute = require('./routes/word')
 const notebookRoute = require('./routes/notebook')
 const exerciseRoute = require('./routes/exercise')
 const bodyParser = require("body-parser");
+const verifyToken = require('./helpers/verifyToken')
 
 const cors = require('cors')
 const app = express();
+
 module.exports = function (database) {
   app.use(express.json());
   app.use(cors())
   app.use(bodyParser.json());
+  app.use(verifyToken)
   app.get("/", async (req, res) => {
     res.status(200).send("This is home");
   });
@@ -30,3 +33,4 @@ module.exports = function (database) {
 
   return app;
 };
+
