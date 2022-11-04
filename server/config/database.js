@@ -21,7 +21,7 @@ db.connect((err) => {
 });
 
 const getUserByUsername = async (username) => {
-  const [results] = await db.query(
+  const [results] = await db.execute(
     `SELECT *
     FROM User
     WHERE Username = ?
@@ -32,7 +32,7 @@ const getUserByUsername = async (username) => {
 };
 
 const getUserByUserId = async (userId) => {
-  const [results] = await db.query(
+  const [results] = await db.execute(
     `SELECT *
     FROM User
     WHERE UserID = ?
@@ -43,7 +43,7 @@ const getUserByUserId = async (userId) => {
 };
 
 const getUserByEmail = async (email) => {
-  const [results] = await db.query(
+  const [results] = await db.execute(
     `SELECT *
     FROM User
     WHERE email = ?
@@ -57,7 +57,7 @@ const saveUserToDatabase = async ({ username, email, password }) => {
   try {
     let hashedPassword = await bcrypt.hash(password, 13); //13 refers to the amount of times the password gets rehashed. The larger the number, more secure the hashed password is. But also the algorith takes more time!
 
-    await db.query(
+    await db.execute(
       "INSERT INTO `my-word-space`.`User` (`Username`, `Email`, `Password`) VALUES (?, ?, ?)",
       [username, email, hashedPassword]
     );
@@ -69,7 +69,7 @@ const saveUserToDatabase = async ({ username, email, password }) => {
 };
 
 const getUserNotebooks = async (userId) => {
-  const [notebooks] = await db.query(
+  const [notebooks] = await db.execute(
     `SELECT * FROM Notebook WHERE CreatorID = ?`,
     [userId]
   );
@@ -78,7 +78,7 @@ const getUserNotebooks = async (userId) => {
 
 const addNewNotebook = async ({ userId, notebookName }) => {
   try {
-    await db.query(
+    await db.execute(
       `INSERT INTO notebook (NotebookName, CreatorID) VALUES (?, ?);`,
       [notebookName, userId]
     );
@@ -90,14 +90,14 @@ const addNewNotebook = async ({ userId, notebookName }) => {
 };
 
 const findNotebook = async (userId, notebookId) => {
-  const result = await db.query(
+  const result = await db.execute(
     `SELECT * FROM Notebook WHERE CreatorID = ? AND NotebookID = ? `,
     [userId, notebookId]
   );
   return result[0][0] || false;
 };
 const findWord = async (wordId, notebookId, userId) => {
-  const result = await db.query(
+  const result = await db.execute(
     `SELECT * FROM Word WHERE  WordID = ? AND NotebookID = ? AND CreatorID = ?  `,
     [wordId, notebookId, userId]
   );
@@ -109,7 +109,7 @@ const updateNotebookName = async ({ userId, notebookId, newNotebookName }) => {
     let notebook = await findNotebook(userId, notebookId);
     if (!notebook) return { error: "Could not find the notebook" };
 
-    await db.query(
+    await db.execute(
       `UPDATE notebook SET NotebookName = ? WHERE (NotebookID = ?)`,
       [newNotebookName, notebookId]
     );
@@ -124,7 +124,7 @@ const deleteNotebook = async ({ userId, notebookId }) => {
     let notebook = await findNotebook(userId, notebookId);
     if (!notebook) return { error: "Could not find the notebook" };
 
-    await db.query(`DELETE FROM notebook  WHERE (NotebookID = ?)`, [
+    await db.execute(`DELETE FROM notebook  WHERE (NotebookID = ?)`, [
       notebookId,
     ]);
     return { success: true };
@@ -135,7 +135,7 @@ const deleteNotebook = async ({ userId, notebookId }) => {
 
 const getUserWords = async ({ userId }) => {
   try {
-    let [words] = await db.query(
+    let [words] = await db.execute(
       `SELECT * FROM Word WHERE CreatorID = ? AND Status = 'active'`,
       [userId]
     );
@@ -156,7 +156,7 @@ const addNewWord = async ({
     let notebook = await findNotebook(userId, notebookId);
     if (!notebook) return { error: "Could not find the notebook" };
 
-    await db.query(
+    await db.execute(
       `INSERT INTO word (NotebookID, WordOriginal, WordTranslation, WordType, CreatorID) VALUES (?, ?, ?, ?, ?);`,
       [notebookId, wordOriginal, wordTranslation, wordType, userId]
     );
@@ -178,7 +178,7 @@ const updateWord = async ({
     let word = await findWord(wordId, notebookId, userId);
     if (!word) return { error: "Could not find the word" };
 
-    await db.query(
+    await db.execute(
       `UPDATE Word SET NotebookID = ?, WordOriginal = ?,  WordTranslation = ?, WordType = ? WHERE (WordID = ?)`,
       [notebookId, wordOriginal, wordTranslation, wordType, wordId]
     );
@@ -193,7 +193,7 @@ const deleteWord = async ({ userId, wordId, notebookId }) => {
     let word = await findWord(wordId, notebookId, userId);
     if (!word) return { error: "Could not find the word" };
 
-    await db.query(
+    await db.execute(
       `DELETE FROM Word WHERE WordID = ? AND CreatorID = ? AND NotebookID = ?`,
       [wordId, userId, notebookId]
     );
@@ -208,7 +208,7 @@ const getUserExercises = async (userId) => {
     let user = await getUserByUserId(userId);
     if (!user) return { error: "Could not find the user" };
 
-    let [exercises] = await db.query(
+    let [exercises] = await db.execute(
       `SELECT * FROM Exercise WHERE UserID = ?  `,
       [userId]
     );
@@ -223,7 +223,7 @@ const getSingleExercise = async ({ userId, exerciseId }) => {
     let user = await getUserByUserId(userId);
     if (!user) return { error: "Could not find the user" };
 
-    let [exercise] = await db.query(
+    let [exercise] = await db.execute(
       `SELECT * FROM Exercise WHERE UserID = ? AND ExerciseID = ? `,
       [userId, exerciseId]
     );
@@ -238,7 +238,7 @@ const createNewExercise = async ({ userId, amount }) => {
     let user = await getUserByUserId(userId);
     if (!user) return { error: "Could not find the user" };
 
-    let exercise = await db.query(
+    let exercise = await db.execute(
       "INSERT INTO `my-word-space`.`Exercise` (`UserID` , `QuestionCount`) VALUES (?, ?)",
       [userId, amount]
     );
@@ -248,7 +248,7 @@ const createNewExercise = async ({ userId, amount }) => {
   }
 };
 const createQuestionPool = async ({ userId, exerciseParameters }) => {
-  let [pool] = await db.query(
+  let [pool] = await db.execute(
     createQuestionPoolQuery(userId, exerciseParameters)
   );
   return pool || [];
@@ -260,7 +260,7 @@ const updateWordStats = async (exerciseWordData) => {
 
   if (isUserAnswerCorrect) exerciseWordData.CorrectAnswers+= 1;
 
-  await db.query(
+  await db.execute(
     `UPDATE Word SET LastSeenAt = ?, TimesSeen = ?, CorrectAnswers = ? WHERE (WordID = ?)`,
     [
       now,
@@ -273,18 +273,18 @@ const updateWordStats = async (exerciseWordData) => {
 
 const findExercise = async(exerciseId) => {
 
-  let [exercise] = await db.query("SELECT * FROM Exercise WHERE ExerciseID = ?", [exerciseId]);
+  let [exercise] = await db.execute("SELECT * FROM Exercise WHERE ExerciseID = ?", [exerciseId]);
    return exercise.length
 }
 
 const isExerciseComplete = async(exerciseId) => {
 
-  let [query] = await db.query("SELECT ExerciseCompleted FROM Exercise WHERE ExerciseID = ?", [exerciseId]);
+  let [query] = await db.execute("SELECT ExerciseCompleted FROM Exercise WHERE ExerciseID = ?", [exerciseId]);
   return 'true' === query[0]['ExerciseCompleted']
 }
 
 const updateExerciseStatsAfterCompletion = async ({exerciseId: exerciseId, correctCount: correctCount}) => {
-    await db.query(
+    await db.execute(
       `UPDATE Exercise SET ExerciseCompleted = true, CorrectAnswers = ? WHERE (ExerciseID = ?)`,
       [correctCount, exerciseId]
     );
