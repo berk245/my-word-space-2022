@@ -1,5 +1,4 @@
 const db = require("../../config/database");
-const GetExerciseById = require('./GetExerciseById')
 
 module.exports = async (req, res) => {
     try {

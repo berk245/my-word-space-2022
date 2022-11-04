@@ -2,9 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "./config/index.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon ./config/index.js",
+    "dev": "nodemon app.js",
     "test": "jest"
   },
   "author": "",
