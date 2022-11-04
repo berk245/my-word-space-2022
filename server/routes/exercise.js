@@ -6,6 +6,7 @@ const validateExercise = require("../helpers/isExerciseValid");
 const isExerciseValid = require("../helpers/isExerciseValid");
 
 const GetUserExercises = require('../services/Exercises/GetUserExercises')
+const GetExerciseById = require('../services/Exercises/GetExerciseById')
 
 
 const missingFieldsError = {
@@ -15,17 +16,7 @@ const missingFieldsError = {
 module.exports = function (database) {
  
 
-  const getSingleExercise = async (req, res) => {
-    if (!req.body.userId || !req.body.exerciseId) {
-      res.status(400).json(missingFieldsError);
-      return;
-    }
-    const query = await database.getSingleExercise(req.body);
 
-    query.success
-      ? res.status(200).json({ exercise: query.result })
-      : res.status(400).json({ error: query.error });
-  };
 
   const beginExercise = async (req, res) => {
     if (
@@ -82,7 +73,7 @@ module.exports = function (database) {
   };
 
   router.get("/get-all", GetUserExercises);
-  router.get("/get", getSingleExercise);
+  router.get("/get", GetExerciseById);
   router.post("/begin", beginExercise);
   router.post("/complete", completeExercise);
 
