@@ -1,19 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const AddNotebook = require('../services/AddNotebook')
+const AddNotebook = require('../services/Notebooks/AddNotebook')
+const GetAllNotebooks = require('../services/Notebooks/GetNotebooks')
 const missingFieldsError = {
   error: "Missing required fields",
 };
 
 module.exports = function (database) {
-  const getAllNotebooks = async (req, res) => {
-    if (!req.body.userId) {
-      res.status(400).json(missingFieldsError);
-      return;
-    }
-    const notebooks = await database.getUserNotebooks(req.body.userId);
-    res.status(200).json({ notebooks: notebooks });
-  };
+
 
   const editNotebook = async (req, res) => {
     if (!req.body.userId || !req.body.notebookId || !req.body.newNotebookName) {
@@ -41,7 +35,7 @@ module.exports = function (database) {
       : res.status(400).json({ error: deleteNotebook.error });
   };
 
-  router.get("/get-all", getAllNotebooks);
+  router.get("/get-all", GetAllNotebooks);
   router.post("/add", AddNotebook);
   router.post("/update", editNotebook);
   router.delete("/delete", deleteNotebook);

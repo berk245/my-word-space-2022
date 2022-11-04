@@ -1,5 +1,5 @@
-const db = require("../config/database");
-const GetUser = require('../services/GetUser')
+const db = require("../../config/database");
+
 
 const getUserNotebooks = async (userId) => {
   const [notebooks] = await db.execute(
@@ -9,32 +9,7 @@ const getUserNotebooks = async (userId) => {
   return notebooks;
 };
 
-const AddNew = async (req, res) => {
-  try {
-    if (!req.body.userId || !req.body.notebookName) {
-      res.status(400).json(missingFieldsError);
-      return;
-    }
 
-    let {userId, notebookName} = req.body
-
-
-    let user = await GetUser.byUserId(userId);
-    if (!user) {
-      res.status(400).json({ error: "User cannot be found" });
-      return;
-    }
-
-    await db.execute(
-      `INSERT INTO notebook (NotebookName, CreatorID) VALUES (?, ?);`,
-      [notebookName, userId]
-    );
-    res.status(200).json({ addNotebookSuccess: true });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: err });
-  }
-};
 
 const findNotebook = async (userId, notebookId) => {
   const result = await db.execute(

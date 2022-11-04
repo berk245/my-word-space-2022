@@ -1,5 +1,5 @@
-const GetUser = require('../services/GetUser')
-const db = require("../config/database");
+const GetUser = require('../GetUser')
+const db = require("../../config/database");
 module.exports = async (req, res) => {
 
     try {
