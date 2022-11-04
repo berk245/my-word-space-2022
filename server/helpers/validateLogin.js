@@ -1,7 +1,8 @@
 const bcrypt = require("bcrypt");
+const GetUser = require('../services/GetUser')
 
-module.exports = async function (database, username, passwordFromRequest){
-    const User = await database.getUserByUsername(username);
+module.exports = async function (username, passwordFromRequest){
+    const User = await GetUser.byUsername(username);
     if (!User) return false;
     
     let isPasswordMatching = await bcrypt.compare(passwordFromRequest, User.Password);

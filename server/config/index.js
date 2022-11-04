@@ -1,7 +1,7 @@
-const createExpressApp = require('./app.js')
-const database = require('./config/database')
+const createExpressApp = require('../app.js')
+const services = require('../services/services')
 
-const app = createExpressApp(database)
+const app = createExpressApp(services)
 //Handle Production
 // if (process.env.NODE_ENV === "production") {
 //     //Static Folder

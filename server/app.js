@@ -10,7 +10,7 @@ const verifyToken = require('./helpers/verifyToken')
 const cors = require('cors')
 const app = express();
 
-module.exports = function (database) {
+module.exports = function (services) {
   app.use(express.json());
   app.use(cors())
   app.use(bodyParser.json());
@@ -20,15 +20,15 @@ module.exports = function (database) {
   });
 
 
-  app.use("/login", loginRoute(database));
+  app.use("/login", loginRoute(services));
 
-  app.use("/signup", signupRoute(database));
+  app.use("/signup", signupRoute(services));
 
-  app.use("/notebook", notebookRoute(database));
+  app.use("/notebook", notebookRoute(services));
 
-  app.use("/word", wordRoute(database));
+  app.use("/word", wordRoute(services));
 
-  app.use("/exercise", exerciseRoute(database));
+  app.use("/exercise", exerciseRoute(services));
 
 
   return app;
