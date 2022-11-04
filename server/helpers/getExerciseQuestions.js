@@ -1,5 +1,7 @@
-module.exports = async function (database, { userId, exerciseParameters }) {
-  let wordPool = await database.createQuestionPool({
+const createQuestionPool = require('../services/Exercises/CreateQuestionPool')
+
+module.exports = async function ({ userId, exerciseParameters }) {
+  let wordPool = await createQuestionPool({
     userId,
     exerciseParameters,
   });

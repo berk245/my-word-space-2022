@@ -1,12 +1,12 @@
 const express = require("express");
 const updateExerciseAndWordStats = require("../helpers/updateExerciseAndWordStats");
 const router = express.Router();
-const getExerciseQuestions = require("../helpers/getExerciseQuestions");
 const validateExercise = require("../helpers/isExerciseValid");
 const isExerciseValid = require("../helpers/isExerciseValid");
 
 const GetUserExercises = require('../services/Exercises/GetUserExercises')
 const GetExerciseById = require('../services/Exercises/GetExerciseById')
+const BeginExercise = require('../services/Exercises/BeginExercise')
 
 
 const missingFieldsError = {
@@ -18,35 +18,7 @@ module.exports = function (database) {
 
 
 
-  const beginExercise = async (req, res) => {
-    if (
-      !req.body.userId ||
-      !req.body.exerciseParameters?.amount ||
-      !req.body.exerciseParameters?.wordTypes ||
-      !req.body.exerciseParameters?.notebooks
-    ) {
-      res.status(400).json(missingFieldsError);
-      return;
-    }
 
-    const exerciseId = await database.createNewExercise({
-      userId: req.body.userId,
-      amount: req.body.exerciseParameters.amount,
-    });
-
-    if (!exerciseId) {
-      res
-        .status(500)
-        .json({ error: "Could not create exercise. Please try again later" });
-      return;
-    }
-
-    let exerciseQuestions = await getExerciseQuestions(database, req.body);
-
-    res
-      .status(200)
-      .json({ exerciseId: exerciseId, exerciseQuestions: exerciseQuestions });
-  };
 
   const completeExercise = async (req, res) => {
     try {
@@ -74,7 +46,7 @@ module.exports = function (database) {
 
   router.get("/get-all", GetUserExercises);
   router.get("/get", GetExerciseById);
-  router.post("/begin", beginExercise);
+  router.post("/begin", BeginExercise);
   router.post("/complete", completeExercise);
 
   return router;
