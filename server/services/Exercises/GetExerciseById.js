@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     }
     let { userId, exerciseId } = req.body;
     let user = await GetUser.byUserId(userId);
-    if (!user) return { error: "Could not find the user" };
+    if (!user) res.status(400).json({ error: "Could not find the user" });
 
     let [exercise] = await db.execute(
       `SELECT * FROM Exercise WHERE UserID = ? AND ExerciseID = ? `,
