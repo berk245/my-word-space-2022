@@ -5,87 +5,16 @@ const db = require('../config/database')
 
   
   
-  const findWord = async (wordId, notebookId, userId) => {
-    const result = await db.execute(
-      `SELECT * FROM Word WHERE  WordID = ? AND NotebookID = ? AND CreatorID = ?  `,
-      [wordId, notebookId, userId]
-    );
-    return result[0][0] || false;
-  };
+ 
   
 
   
 
+
   
-  const getUserWords = async ({ userId }) => {
-    try {
-      let [words] = await db.execute(
-        `SELECT * FROM Word WHERE CreatorID = ? AND Status = 'active'`,
-        [userId]
-      );
-      return { success: true, result: words };
-    } catch (err) {
-      return { error: err };
-    }
-  };
   
-  const addNewWord = async ({
-    userId,
-    notebookId,
-    wordOriginal,
-    wordTranslation,
-    wordType,
-  }) => {
-    try {
-      let notebook = await findNotebook(userId, notebookId);
-      if (!notebook) return { error: "Could not find the notebook" };
   
-      await db.execute(
-        `INSERT INTO word (NotebookID, WordOriginal, WordTranslation, WordType, CreatorID) VALUES (?, ?, ?, ?, ?);`,
-        [notebookId, wordOriginal, wordTranslation, wordType, userId]
-      );
-      return { success: true };
-    } catch (err) {
-      return { error: err };
-    }
-  };
   
-  const updateWord = async ({
-    userId,
-    wordId,
-    notebookId,
-    wordOriginal,
-    wordTranslation,
-    wordType,
-  }) => {
-    try {
-      let word = await findWord(wordId, notebookId, userId);
-      if (!word) return { error: "Could not find the word" };
-  
-      await db.execute(
-        `UPDATE Word SET NotebookID = ?, WordOriginal = ?,  WordTranslation = ?, WordType = ? WHERE (WordID = ?)`,
-        [notebookId, wordOriginal, wordTranslation, wordType, wordId]
-      );
-      return { success: true };
-    } catch (err) {
-      return { error: err };
-    }
-  };
-  
-  const deleteWord = async ({ userId, wordId, notebookId }) => {
-    try {
-      let word = await findWord(wordId, notebookId, userId);
-      if (!word) return { error: "Could not find the word" };
-  
-      await db.execute(
-        `DELETE FROM Word WHERE WordID = ? AND CreatorID = ? AND NotebookID = ?`,
-        [wordId, userId, notebookId]
-      );
-      return { success: true };
-    } catch (err) {
-      return { error: err };
-    }
-  };
   
   const getUserExercises = async (userId) => {
     try {
@@ -174,10 +103,6 @@ const db = require('../config/database')
   
   
   module.exports = {
-    getUserWords,
-    addNewWord,
-    updateWord,
-    deleteWord,
     getUserExercises,
     getSingleExercise,
     createNewExercise,
