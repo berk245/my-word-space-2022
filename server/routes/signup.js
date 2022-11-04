@@ -1,24 +1,11 @@
 const express = require("express");
-const validateSignupData = require("../helpers/validateSignupData");
-
-module.exports = function (database) {
+const SignupUser= require('../services/SignupUser')
+module.exports = function () {
   const router = express.Router();
 
-  const signup = async (req, res) => {
-    const errors = await validateSignupData(database, req.body);
-    if (errors) {
-      res.status(400).json(errors);
-      return;
-    }
-    try {
-      await database.saveUserToDatabase(req.body);
-      res.status(200).json({ signupSuccess: true });
-    } catch (err) {
-      res.status(500).json({ error: "Could not save the user." + err });
-    }
-  };
 
-  router.post("/", signup);
+
+  router.post("/", SignupUser);
 
   return router;
 };

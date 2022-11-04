@@ -1,61 +1,8 @@
-const bcrypt = require("bcrypt");
+
 const createQuestionPoolQuery = require("../helpers/createQuestionPoolQuery");
 const db = require('../config/database') 
 
-db.connect((err) => {
-    if (err) {
-      return console.error("Error:" + err.message);
-    }
-    console.log("Connected to MySQL server");
-  });
 
-const getUserByUsername = async (username) => {
-    const [results] = await db.execute(
-      `SELECT *
-      FROM User
-      WHERE Username = ?
-      `,
-      [username]
-    );
-    return results[0];
-  };
-  
-  const getUserByUserId = async (userId) => {
-    const [results] = await db.execute(
-      `SELECT *
-      FROM User
-      WHERE UserID = ?
-      `,
-      [userId]
-    );
-    return results[0];
-  };
-  
-  const getUserByEmail = async (email) => {
-    const [results] = await db.execute(
-      `SELECT *
-      FROM User
-      WHERE email = ?
-      `,
-      [email]
-    );
-    return results[0];
-  };
-  
-  const saveUserToDatabase = async ({ username, email, password }) => {
-    try {
-      let hashedPassword = await bcrypt.hash(password, 13); //13 refers to the amount of times the password gets rehashed. The larger the number, more secure the hashed password is. But also the algorith takes more time!
-  
-      await db.execute(
-        "INSERT INTO `my-word-space`.`User` (`Username`, `Email`, `Password`) VALUES (?, ?, ?)",
-        [username, email, hashedPassword]
-      );
-      return true;
-    } catch (err) {
-      console.log(err);
-      return false;
-    }
-  };
   
   const getUserNotebooks = async (userId) => {
     const [notebooks] = await db.execute(
@@ -279,10 +226,6 @@ const getUserByUsername = async (username) => {
   
   
   module.exports = {
-    getUserByEmail,
-    getUserByUsername,
-    getUserByUserId,
-    saveUserToDatabase,
     getUserNotebooks,
     addNewNotebook,
     updateNotebookName,
