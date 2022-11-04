@@ -1,6 +1,7 @@
 const express = require("express");
 const { deleteWord } = require("../config/database");
 const router = express.Router();
+const GetAllWords = require('../services/Words/GetAllWords')
 
 const hasMissingFields = (obj) => {
   const requiredKeys = [
@@ -24,18 +25,7 @@ const missingFieldsError = {
 };
 
 module.exports = function (database) {
-  const getUserWords = async (req, res) => {
-    if (!req.body.userId) {
-      res.status(400).json(missingFieldsError);
-      return;
-    }
-
-    let query = await database.getUserWords(req.body);
-
-    query.success
-      ? res.status(200).json({ words: query.result })
-      : res.status(400).json({ error: query.error });
-  };
+  
 
   const addNewWord = async (req, res) => {
     if (hasMissingFields(req.body)) {
@@ -73,7 +63,7 @@ module.exports = function (database) {
       : res.status(400).json({ error: query.error });
   };
 
-  router.get("/get-all", getUserWords);
+  router.get("/get-all", GetAllWords);
   router.post("/add", addNewWord);
   router.post("/update", updateWord);
   router.delete("/delete", deleteWord);
