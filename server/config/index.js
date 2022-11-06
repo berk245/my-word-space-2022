@@ -1,9 +1,6 @@
 const makeApp = require('../app')
-const LoginUser = require('../services/LoginUser')
 
-const services = {
-    LoginUser: LoginUser,
-}
+const services = require('./services')
 const app = makeApp(services)
 
 const port = process.env.PORT || 5000;

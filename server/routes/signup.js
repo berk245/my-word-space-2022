@@ -1,6 +1,6 @@
 const express = require("express");
-const SignupUser= require('../services/SignupUser')
-module.exports = function () {
+
+module.exports = function (SignupUser) {
   const router = express.Router();
 
   router.post("/", SignupUser);
