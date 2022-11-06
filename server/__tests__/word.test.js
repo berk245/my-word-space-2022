@@ -1,11 +1,5 @@
 const request = require("supertest");
-const makeApp = require("../app.js");
-const database = require("../config/database");
-// const addNewWord = jest.fn();
-const app = makeApp({
-  ...database,
-  // addNewWord: addNewWord
-});
+const app = require("../app.js");
 
 describe("Words route", () => {
   describe("Should return errors if", () => {
@@ -53,7 +47,7 @@ describe("Words route", () => {
       expect(response.statusCode).toBe(400);
       expect(response.body).toEqual({ error: "Could not find the notebook" });
     });
-    test("update-word request is missing a word id or update fields for words", async () => {
+    test("edit-word request is missing a word id or update fields for words", async () => {
       let bodyData = [
         {
           userId: "1",  
@@ -72,13 +66,13 @@ describe("Words route", () => {
         {},
       ];
       for (const body of bodyData) {
-        const response = await request(app).post("/word/update").send(body);
+        const response = await request(app).post("/word/edit").send(body);
         expect(response.statusCode).toBe(400);
         expect(response.body).toEqual({ error: "Missing required fields" });
       }
     });
-    test("update-word request is made with a word id that does not exist", async () => {
-      const response = await request(app).post("/word/update").send({
+    test("edit-word request is made with a word id that does not exist", async () => {
+      const response = await request(app).post("/word/edit").send({
         userId: 1, 
         wordId: 1,
         notebookId: 151,

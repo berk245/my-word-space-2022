@@ -1,5 +1,6 @@
-module.exports = async function (database, { userId, exerciseParameters }) {
-  let wordPool = await database.createQuestionPool({
+
+module.exports = async function ({ userId, exerciseParameters }, createQuestionPool) {
+  let wordPool = await createQuestionPool({
     userId,
     exerciseParameters,
   });

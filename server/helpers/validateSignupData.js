@@ -1,20 +1,8 @@
 const _ = require("lodash/core");
-
-const isEmailInUse = async (database, email) => {
-  if (!email) return false;
-  const user = await database.getUserByEmail(email);
-  return user || false;
-};
-
-const isUsernameTaken = async (database, username) => {
-  if (!username) return false;
-  const user = await database.getUserByUsername(username);
-
-  return user || false;
-};
+const GetUser = require('../services/GetUser')
 
 module.exports = validateSignupData = async (
-  database,
+ 
   { username, password, email }
 ) => {
   const errors = {};
@@ -23,9 +11,22 @@ module.exports = validateSignupData = async (
     errors.missingFieldsError = true;
     return errors;
   }
-  if (await isUsernameTaken(database, username))
+  if (await isUsernameTaken(username))
     errors.existingUsernameError = true;
-  if (await isEmailInUse(database, email)) errors.existingEmailError = true;
+  if (await isEmailInUse(email)) errors.existingEmailError = true;
 
   return _.isEmpty(errors) ? false : errors;
+};
+
+const isEmailInUse = async (email) => {
+  if (!email) return false;
+  const user = await GetUser.byEmail(email);
+  return user || false;
+};
+
+const isUsernameTaken = async (username) => {
+  if (!username) return false;
+  const user = await GetUser.byUsername(username);
+
+  return user || false;
 };

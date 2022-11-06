@@ -1,11 +1,6 @@
 const request = require("supertest");
-const makeApp = require("../app.js");
-const database = require("../config/database");
+const app = require("../app.js");
 
-const app = makeApp({
-  ...database,
-  //Some Mocks Here
-});
 
 describe("Login", () => {
   test("should return an error when username or password is not in the request", async () => {

@@ -1,12 +1,7 @@
 const request = require("supertest");
-const createApp = require("../app.js");
-const database = require("../config/database");
-// const getUserByUsername = database.getUserByEmail;
-// const getUserByEmail = jest.fn();
-const saveUserToDatabase = jest.fn();
-const app = createApp(
-  { ...database, saveUserToDatabase: saveUserToDatabase }
-);
+const app = require("../app.js");
+const SaveUserToDatabase = require('../services/SaveUserToDatabase')
+jest.mock('../services/SaveUserToDatabase')
 
 let bodyData = [
   {
@@ -55,17 +50,32 @@ describe("Signup route", () => {
     expect(response.body.existingEmailError).toBeDefined();
   });
     test("should return a success message after a succesful signup", async () => {
-        saveUserToDatabase.mockReturnValueOnce({statusCode: 200, body:{ signupSuccess: true}})
-        const response = await request(app).post("/signup").send({
+      jest.resetAllMocks()  
+      SaveUserToDatabase.mockResolvedValueOnce({statusCode: 200, body:{ signupSuccess: true}})
+        
+      const response = await request(app).post("/signup").send({
         username: "UniqueLongNameForTheTest",
         password: "password",
         email: "anotheruniquevalueonthewall",
       });
-      expect(saveUserToDatabase.mock.calls.length).toBe(1)
-      expect(saveUserToDatabase.mock.calls[0][0]['email']).toBeDefined()
-      expect(saveUserToDatabase.mock.calls[0][0]['password']).toBeDefined()
-      expect(saveUserToDatabase.mock.calls[0][0]['username']).toBeDefined()
-    
+
+      expect(SaveUserToDatabase.mock.calls.length).toBe(1)
+      expect(SaveUserToDatabase.mock.calls[0][0]['email']).toBeDefined()
+      expect(response.statusCode).toBe(200)
+
+    });
+    test("should return an error message if signup fails", async () => {
+      jest.resetAllMocks()  
+      SaveUserToDatabase.mockImplementation( ()=> {throw new Error()});
+      
+      const response = await request(app).post("/signup").send({
+        username: "UniqueLongNameForTheTest",
+        password: "password",
+        email: "anotheruniquevalueonthewall",
+      });
+      expect(SaveUserToDatabase.mock.calls.length).toBe(1)
+      expect(response.status).toBe(500)
+      expect(response.body.error).toBe('Could not save the user.')
     });
 
 });
