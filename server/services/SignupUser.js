@@ -17,16 +17,11 @@ module.exports = async (req, res) => {
 };
 
 const saveUserToDatabase = async ({username, email, password}) => {
-  try {
     let hashedPassword = await bcrypt.hash(password, 13); //13 refers to the amount of times the password gets rehashed. The larger the number, more secure the hashed password is. But also the algorith takes more time!
 
     await db.execute(
       "INSERT INTO `my-word-space`.`User` (`Username`, `Email`, `Password`) VALUES (?, ?, ?)",
       [username, email, hashedPassword]
     );
-    return true;
-  } catch (err) {
-    console.log(err);
-    return false;
-  }
+
 };

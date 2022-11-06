@@ -23,9 +23,9 @@ module.exports = function (services) {
 
   app.use("/signup", signupRoute(services.SignupUser));
 
-  app.use("/notebook", notebookRoute());
+  app.use("/notebook", notebookRoute(services.Notebooks));
 
-  app.use("/word", wordRoute());
+  app.use("/word", wordRoute(services.Words));
 
   app.use("/exercise", exerciseRoute());
 

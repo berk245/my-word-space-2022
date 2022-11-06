@@ -13,12 +13,14 @@ module.exports = async (req, res) => {
 
     let word = await GetWord(wordId, notebookId, userId);
     if (!word) {
-      res.status(400).json({ error: "Could not find word" });
+      res.status(400).json({ error: "Could not find the word" });
+      return
     }
 
     let notebook = await GetNotebook(userId, notebookId);
     if (!notebook)  { 
-        res.status(400).json({ error: 'Could not find notebook' });
+        res.status(400).json({ error: 'Could not find the notebook' });
+        return
      };
 
     await db.execute(

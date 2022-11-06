@@ -8,7 +8,10 @@ module.exports = async (req, res) => {
     }
 
     let notebook = await GetNotebook(req.body.userId, req.body.notebookId);
-    if (!notebook) return { error: "Could not find the notebook" };
+    if (!notebook){
+      res.status(400).json({ error: "Could not find the notebook" });
+      return;
+    }
 
     await db.execute(`DELETE FROM notebook  WHERE (NotebookID = ?)`, [
       req.body.notebookId,
