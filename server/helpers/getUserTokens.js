@@ -9,7 +9,6 @@ module.exports = async function getUserTokens(user) {
 
     return { accessToken: accessToken, refreshToken: refreshToken };
   } catch (err) {
-    console.log(err);
     return false;
   }
 };

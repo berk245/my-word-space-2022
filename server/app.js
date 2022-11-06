@@ -13,9 +13,6 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(verifyToken);
-app.get("/", async (req, res) => {
-  res.status(200).send("This is home");
-});
 
 app.use("/login", loginRoute());
 

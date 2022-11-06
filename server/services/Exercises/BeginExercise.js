@@ -1,5 +1,6 @@
 const getExerciseQuestions = require('../../helpers/getExerciseQuestions')
 const createQuestionPool = require('./CreateQuestionPool')
+const CreateNewExercise = require('./CreateNewExercise')
 const GetUser = require("../GetUser");
 module.exports = async (req, res) => {
   if (
@@ -14,7 +15,10 @@ module.exports = async (req, res) => {
 
 
     let user = await GetUser.byUserId(req.body.userId);
-    if (!user) res.status(400).json({ error: "Could not find the user" });
+    if (!user){
+      res.status(400).json({ error: "Could not find the user" })
+      return
+    }
 
     let exerciseQuestions = await getExerciseQuestions(req.body, createQuestionPool);
     if(exerciseQuestions.error){
