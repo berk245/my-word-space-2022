@@ -6,28 +6,28 @@ const notebookRoute = require("./routes/notebook");
 const exerciseRoute = require("./routes/exercise");
 const bodyParser = require("body-parser");
 const verifyToken = require("./helpers/verifyToken");
-
 const cors = require("cors");
+
 const app = express();
 
-app.use(express.json());
-app.use(cors());
-app.use(bodyParser.json());
-app.use(verifyToken);
-app.get("/", async (req, res) => {
-  res.status(200).send("This is home");
-});
+module.exports = function (services) {
+  app.use(express.json());
+  app.use(cors());
+  app.use(bodyParser.json());
+  app.use(verifyToken);
+  app.get("/", async (req, res) => {
+    res.status(200).send("This is home");
+  });
 
-app.use("/login", loginRoute());
+  app.use("/login", loginRoute(services.LoginUser));
 
-app.use("/signup", signupRoute());
+  app.use("/signup", signupRoute());
 
-app.use("/notebook", notebookRoute());
+  app.use("/notebook", notebookRoute());
 
-app.use("/word", wordRoute());
+  app.use("/word", wordRoute());
 
-app.use("/exercise", exerciseRoute());
+  app.use("/exercise", exerciseRoute());
 
-const port = process.env.PORT || 5000;
-
-app.listen(port, () => console.log(`Server started on port: ${port}`));
+  return app;
+};

@@ -1,10 +1,9 @@
 const request = require("supertest");
 const makeApp = require("../app.js");
-const database = require("../config/database");
+const LoginUser = require("../services/LoginUser");
 
 const app = makeApp({
-  ...database,
-  //Some Mocks Here
+  LoginUser: LoginUser
 });
 
 describe("Login", () => {
