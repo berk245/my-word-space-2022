@@ -1,11 +1,22 @@
 const request = require("supertest");
 const app = require("../app.js");
+
+
 const getExerciseQuestions = require('../helpers/getExerciseQuestions')
 const IsExerciseComplete = require('../services/Exercises/IsExerciseComplete')
-const updateExerciseAndWordStats = require('../services/Exercises/updateExerciseAndWordStats')
+const UpdateExerciseAndWordStats = require('../services/Exercises/UpdateExerciseAndWordStats')
+const CreateNewExercise = require('../services/Exercises/CreateNewExercise')
+
+
+
 jest.mock('../helpers/getExerciseQuestions')
 jest.mock('../services/Exercises/IsExerciseComplete')
-jest.mock('../services/Exercises/updateExerciseAndWordStats')
+jest.mock('../services/Exercises/CreateNewExercise')
+jest.mock('../services/Exercises/UpdateExerciseAndWordStats')
+
+
+
+
 describe("Exercise route", () => {
   describe("should return errors when", () => {
     test("get exercise request is missing a user or exercise id", async () => {
@@ -88,6 +99,23 @@ describe("Exercise route", () => {
       expect(response.statusCode).toBe(400);
       expect(response.body.error).toEqual("Not enough words");
     });
+    test("begin exercise request fails to create a new exercise in the db", async () => {
+      jest.resetAllMocks()
+      getExerciseQuestions.mockResolvedValueOnce([1,2,3]);
+      CreateNewExercise.mockResolvedValueOnce(false);
+      const response = await request(app)
+        .post("/exercise/begin")
+        .send({
+          userId: "3",
+          exerciseParameters: {
+            wordTypes: [],
+            notebooks: [],
+            amount: 10,
+          },
+        });
+      expect(response.statusCode).toBe(500);
+      expect(response.body.error).toEqual("Could not create exercise. Please try again later");
+    });
     test("complete-exercise request is missing a user id, exercise id, or exerciseData", async () => {
       let bodyData = [
         {
@@ -125,7 +153,7 @@ describe("Exercise route", () => {
     });
     test("complete-exercise cannot update exercise and word stats", async () => {
       jest.resetAllMocks()  
-      updateExerciseAndWordStats.mockImplementationOnce(()=> {throw new Error})
+      UpdateExerciseAndWordStats.mockImplementationOnce(()=> {throw new Error})
         const response = await request(app)
           .post("/exercise/complete")
           .send( {

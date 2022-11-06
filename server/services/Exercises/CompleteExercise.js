@@ -8,7 +8,6 @@ module.exports = async (req, res) => {
       return;
     }
     if (await isExerciseComplete(req.body.exerciseId)) {
-      console.log('Here!')
       res
         .status(400)
         .json({ error: "Exercise cannot be found or is already completed" });
