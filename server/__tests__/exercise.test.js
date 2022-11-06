@@ -1,8 +1,11 @@
 const request = require("supertest");
 const app = require("../app.js");
 const getExerciseQuestions = require('../helpers/getExerciseQuestions')
-
+const IsExerciseComplete = require('../services/Exercises/IsExerciseComplete')
+const updateExerciseAndWordStats = require('../services/Exercises/updateExerciseAndWordStats')
 jest.mock('../helpers/getExerciseQuestions')
+jest.mock('../services/Exercises/IsExerciseComplete')
+jest.mock('../services/Exercises/updateExerciseAndWordStats')
 describe("Exercise route", () => {
   describe("should return errors when", () => {
     test("get exercise request is missing a user or exercise id", async () => {
@@ -107,6 +110,31 @@ describe("Exercise route", () => {
         expect(response.body).toEqual({ error: "Missing required fields" });
       }
     });
+    test("complete-exercise request is made with a non-existent or already completed exercise", async () => {
+      jest.resetAllMocks()  
+      IsExerciseComplete.mockResolvedValueOnce(true)
+        const response = await request(app)
+          .post("/exercise/complete")
+          .send( {
+            userId: 1,
+            exerciseId: 1,
+            exerciseData: { 1: 2 },
+          },);
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toEqual({ error: "Exercise cannot be found or is already completed" });
+    });
+    test("complete-exercise cannot update exercise and word stats", async () => {
+      jest.resetAllMocks()  
+      updateExerciseAndWordStats.mockImplementationOnce(()=> {throw new Error})
+        const response = await request(app)
+          .post("/exercise/complete")
+          .send( {
+            userId: 1,
+            exerciseId: 1,
+            exerciseData: { 1: 2 },
+          },);
+        expect(response.statusCode).toBe(500);
+    });
   });
 
   describe("Begin exercise route", () => {
@@ -131,8 +159,8 @@ describe("Exercise route", () => {
     //
   });
 
-  //   describe("Complete exercise route", () => {
-  //     test("Should call the evaluateExercise function with the right parameters", async () => {});
+    // describe("Complete exercise route", () => {
+    //   test("Should call the evaluateExercise function with the right parameters", async () => {});
   //     //
   //     //
   //     test("Should call the updateExerciseStats function in db", async () => {
@@ -188,5 +216,5 @@ describe("Exercise route", () => {
   //       10
   //     );
   //   });
-  //   });
+    // });
 });
