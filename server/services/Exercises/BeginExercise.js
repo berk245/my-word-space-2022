@@ -1,8 +1,8 @@
-const db = require("../../config/database");
 const getExerciseQuestions = require('../../helpers/getExerciseQuestions')
+const createQuestionPool = require('./CreateQuestionPool')
 const GetUser = require("../GetUser");
 module.exports = async (req, res) => {
-    if (
+  if (
       !req.body.userId ||
       !req.body.exerciseParameters?.amount ||
       !req.body.exerciseParameters?.wordTypes ||
@@ -16,13 +16,14 @@ module.exports = async (req, res) => {
     let user = await GetUser.byUserId(req.body.userId);
     if (!user) res.status(400).json({ error: "Could not find the user" });
 
-    let exerciseQuestions = await getExerciseQuestions(req.body);
+    let exerciseQuestions = await getExerciseQuestions(req.body, createQuestionPool);
     if(exerciseQuestions.error){
         res.status(400)
         .json({ error: exerciseQuestions.error });
+        return;
     }
 
-    const exerciseId = await createNewExercise({
+    const exerciseId = await CreateNewExercise({
       userId: req.body.userId,
       amount: req.body.exerciseParameters.amount,
     });
@@ -31,26 +32,13 @@ module.exports = async (req, res) => {
       res
         .status(500)
         .json({ error: "Could not create exercise. Please try again later" });
+        return
     }
 
     res
       .status(200)
       .json({ exerciseId: exerciseId, exerciseQuestions: exerciseQuestions });
+      return
   };
 
 
-  const createNewExercise = async ({ userId, amount }) => {
-    try {
-      let user = await GetUser.byUserId(userId);
-      if (!user) return { error: "Could not find the user" };
-  
-      let exercise = await db.execute(
-        "INSERT INTO `my-word-space`.`Exercise` (`UserID` , `QuestionCount`) VALUES (?, ?)",
-        [userId, amount]
-      );
-      return exercise[0].insertId;
-    } catch (err) {
-        console.log(err)
-      return false;
-    }
-  };

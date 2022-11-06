@@ -59,13 +59,13 @@ describe("Notebooks route", () => {
         {},
       ];
       for (const body of bodyData) {
-        const response = await request(app).post("/notebook/update").send(body);
+        const response = await request(app).post("/notebook/edit").send(body);
         expect(response.statusCode).toBe(400);
         expect(response.body).toEqual({ error: "Missing required fields" });
       }
     });
     test("update-notebook request is made with a notebook id that does not exist", async () => {
-      const response = await request(app).post("/notebook/update").send({
+      const response = await request(app).post("/notebook/edit").send({
         userId: 1,
         newNotebookName: "update-name",
         notebookId: "n/a",

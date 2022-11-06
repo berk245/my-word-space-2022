@@ -1,17 +1,7 @@
 const request = require("supertest");
 const createApp = require("../app.js");
-const database = require("../config/database");
-const completeExercise = jest.fn();
-const createExerciseWords = jest.fn();
-const createNewExercise = jest.fn();
-const updateExerciseWordsAfterExerciseIsCompleted = jest.fn();
-const app = createApp({
-  ...database,
-    createNewExercise: createNewExercise,
-  //   createExerciseWords: createExerciseWords,
-  //   completeExercise: completeExercise,
-  //   updateExerciseWordsAfterExerciseIsCompleted: updateExerciseWordsAfterExerciseIsCompleted
-});
+const services = require("../config/services");
+const app = createApp(services);
 
 describe("Exercise route", () => {
   describe("should return errors when", () => {
@@ -32,7 +22,6 @@ describe("Exercise route", () => {
         expect(response.body).toEqual({ error: "Missing required fields" });
       }
     });
-
     test("get all exercises is missing user id", async () => {
       const response = await request(app)
         .get("/exercise/get-all")
@@ -40,7 +29,6 @@ describe("Exercise route", () => {
       expect(response.statusCode).toBe(400);
       expect(response.body).toEqual({ error: "Missing required fields" });
     });
-
     test("begin-exercise request is missing a user id or word amount", async () => {
       let bodyData = [
         {
@@ -67,7 +55,6 @@ describe("Exercise route", () => {
         expect(response.body).toEqual({ error: "Missing required fields" });
       }
     });
-
     test("complete-exercise request is missing a user id, exercise id, or exerciseData", async () => {
       let bodyData = [
         {
@@ -93,24 +80,24 @@ describe("Exercise route", () => {
   });
 
   describe("Begin exercise route", () => {
-    test("Should call the createNewExercise function with the correct exercise and userId", async () => {
-      createNewExercise.mockReturnValueOnce({
-        statusCode: 200,
-      });
-      await request(app)
-        .post("/exercise/begin")
-        .send({
-          userId: 1,
-          exerciseParameters: {
-            wordTypes: [1, 2, 3],
-            notebooks: [1, 2, 3],
-            amount: 1,
-          },
-        });
+    // test("Should call the createNewExercise function with the correct exercise and userId", async () => {
+    //   createNewExercise.mockReturnValueOnce({
+    //     statusCode: 200,
+    //   });
+    //   await request(app)
+    //     .post("/exercise/begin")
+    //     .send({
+    //       userId: 1,
+    //       exerciseParameters: {
+    //         wordTypes: [1, 2, 3],
+    //         notebooks: [1, 2, 3],
+    //         amount: 1,
+    //       },
+    //     });
 
-      expect(createNewExercise.mock.calls.length).toBe(1);
-      expect(createNewExercise.mock.calls[0][0]["userId"]).toBe(1);
-    });
+    //   expect(createNewExercise.mock.calls.length).toBe(1);
+    //   expect(createNewExercise.mock.calls[0][0]["userId"]).toBe(1);
+    // });
 
     //Should call the getExerciseQuestions function with the right parameters
     //

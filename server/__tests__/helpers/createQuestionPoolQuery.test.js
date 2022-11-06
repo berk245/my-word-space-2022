@@ -1,4 +1,4 @@
-const createQuestionPoolQuery = require('../helpers/createQuestionPoolQuery')
+const createQuestionPoolQuery = require('../../helpers/createQuestionPoolQuery')
 
 describe('Question pool query should be formed correctly when', ()=>{
 

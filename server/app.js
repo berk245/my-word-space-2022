@@ -27,7 +27,7 @@ module.exports = function (services) {
 
   app.use("/word", wordRoute(services.Words));
 
-  app.use("/exercise", exerciseRoute());
+  app.use("/exercise", exerciseRoute(services.Exercises));
 
   return app;
 };

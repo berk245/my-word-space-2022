@@ -8,6 +8,10 @@ const GetAllWords = require("../services/Words/GetAllWords");
 const AddWord = require("../services/Words/AddWord");
 const EditWord = require("../services/Words/EditWord");
 const DeleteWord = require("../services/Words/DeleteWord");
+const GetUserExercises = require("../services/Exercises/GetUserExercises");
+const GetExerciseById = require("../services/Exercises/GetExerciseById");
+const BeginExercise = require("../services/Exercises/BeginExercise");
+const CompleteExercise = require("../services/Exercises/CompleteExercise");
 
 module.exports = {
   LoginUser: LoginUser,
@@ -24,4 +28,10 @@ module.exports = {
     EditWord: EditWord,
     DeleteWord: DeleteWord,
   },
+  Exercises:{
+    GetUserExercises:GetUserExercises,
+    GetExerciseById: GetExerciseById,
+    BeginExercise: BeginExercise,
+    CompleteExercise: CompleteExercise
+  }
 };

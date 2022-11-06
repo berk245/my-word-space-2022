@@ -1,16 +1,18 @@
-const db = require('../../config/database')
-const GetUser = require('../GetUser')
+const db = require("../../config/database");
+const GetUser = require("../GetUser");
 
 module.exports = async (req, res) => {
   try {
     if (!req.body.userId) {
       res.status(400).json({ error: "Missing required fields" });
+      return;
     }
 
-
-
     let user = await GetUser.byUserId(req.body.userId);
-    if (!user) return { error: "Could not find the user" };
+    if (!user) {
+      res.status(400).json({ error: "Could not find the user" });
+      return;
+    }
 
     let [exercises] = await db.execute(
       `SELECT * FROM Exercise WHERE UserID = ?  `,
