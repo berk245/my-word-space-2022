@@ -1,9 +1,5 @@
 const request = require("supertest");
-const createApp = require("../app.js");
-const services = require('../config/services')
-
-// const SignupUser = jest.fn();
-const app = createApp(services);
+const app = require("../app.js");
 
 let bodyData = [
   {

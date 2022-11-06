@@ -1,7 +1,6 @@
 const request = require("supertest");
-const createApp = require("../app.js");
-const services = require("../config/services");
-const app = createApp(services);
+const app = require("../app.js");
+
 
 describe("Exercise route", () => {
   describe("should return errors when", () => {

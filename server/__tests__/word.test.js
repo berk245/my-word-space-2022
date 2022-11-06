@@ -1,8 +1,5 @@
 const request = require("supertest");
-const makeApp = require("../app.js");
-const services = require("../config/services");
-const app = makeApp(services);
-
+const app = require("../app.js");
 describe("Words route", () => {
   describe("Should return errors if", () => {
     test("get-all words request is missing a user identifier", async () => {

@@ -1,8 +1,6 @@
 const request = require("supertest");
-const makeApp = require("../app.js");
-const services = require("../config/services.js");
+const app = require("../app.js");
 
-const app = makeApp(services);
 
 describe("Login", () => {
   test("should return an error when username or password is not in the request", async () => {

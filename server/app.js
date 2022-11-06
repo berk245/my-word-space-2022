@@ -7,27 +7,24 @@ const exerciseRoute = require("./routes/exercise");
 const bodyParser = require("body-parser");
 const verifyToken = require("./helpers/verifyToken");
 const cors = require("cors");
-
 const app = express();
 
-module.exports = function (services) {
-  app.use(express.json());
-  app.use(cors());
-  app.use(bodyParser.json());
-  app.use(verifyToken);
-  app.get("/", async (req, res) => {
-    res.status(200).send("This is home");
-  });
+app.use(express.json());
+app.use(cors());
+app.use(bodyParser.json());
+app.use(verifyToken);
+app.get("/", async (req, res) => {
+  res.status(200).send("This is home");
+});
 
-  app.use("/login", loginRoute(services.LoginUser));
+app.use("/login", loginRoute());
 
-  app.use("/signup", signupRoute(services.SignupUser));
+app.use("/signup", signupRoute());
 
-  app.use("/notebook", notebookRoute(services.Notebooks));
+app.use("/notebook", notebookRoute());
 
-  app.use("/word", wordRoute(services.Words));
+app.use("/word", wordRoute());
 
-  app.use("/exercise", exerciseRoute(services.Exercises));
+app.use("/exercise", exerciseRoute());
 
-  return app;
-};
+module.exports = app;

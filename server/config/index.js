@@ -1,7 +1,5 @@
-const makeApp = require('../app')
-
-const services = require('./services')
-const app = makeApp(services)
+const app = require('../app')
+require('dotenv').config();
 
 const port = process.env.PORT || 5000;
 
