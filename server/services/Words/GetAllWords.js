@@ -1,4 +1,3 @@
-const db = require("../../config/database");
 const Word = require("../../models/Word.model");
 
 module.exports = async (req, res) => {
