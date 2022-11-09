@@ -8,7 +8,6 @@ module.exports = async (req, res) => {
         Status: "active",
       },
     });
-    console.log(words);
     res.status(200).json({ words: words });
   } catch (err) {
     res.status(400).json({ error: err });
