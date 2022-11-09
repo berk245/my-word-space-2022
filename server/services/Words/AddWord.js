@@ -1,5 +1,5 @@
-const db = require("../../config/database");
 const GetNotebook = require("../Notebooks/GetNotebook");
+const Word = require('../../models/Word.model')
 module.exports = async (req, res) => {
   try {
     if (hasMissingFields(req.body)) {
@@ -9,16 +9,20 @@ module.exports = async (req, res) => {
     let { notebookId, wordOriginal, wordTranslation, wordType, userId } =
       req.body;
 
-    let notebook = await GetNotebook(userId, notebookId);
-    if (!notebook)  { 
-        res.status(400).json({ error: 'Could not find the notebook' });
-        return
-     };
+    // let notebook = await GetNotebook(userId, notebookId);
+    // if (!notebook)  { 
+    //     res.status(400).json({ error: 'Could not find the notebook' });
+    //     return
+    //  };
 
-    await db.execute(
-      `INSERT INTO word (NotebookID, WordOriginal, WordTranslation, WordType, CreatorID) VALUES (?, ?, ?, ?, ?);`,
-      [notebookId, wordOriginal, wordTranslation, wordType, userId]
-    );
+    await Word.create(
+      {     
+        NotebookID: notebookId ,
+        WordOriginal: wordOriginal,
+        WordTranslation: wordTranslation,
+        WordType: wordType,
+        CreatorID: userId
+      })
     res.status(200).json({ addWordSuccess: true });
   } catch (err) {
     res.status(400).json({ error: err });
