@@ -1,16 +1,25 @@
 const mysql = require("mysql2");
-const path = require('path')
+const path = require("path");
 
-require("dotenv").config({path: path.join(__dirname, '..', '.env')})
+require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
-module.exports = mysql
-  .createConnection({
+const Sequelize = require("sequelize");
+
+const db = new Sequelize(
+  process.env.MYSQL_DATABASE,
+  process.env.MYSQL_USER,
+  process.env.MYSQL_PASSWORD,
+  {
     host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
+    dialect: "mysql",
+  }
+);
+
+db
+  .authenticate()
+  .then(() => {
+    console.log("Connected to db successfuly");
   })
-  .promise();
+  .catch((err) => console.log(err));
 
-
-
+module.exports = db;
