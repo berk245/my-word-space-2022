@@ -41,12 +41,7 @@ const Word = db.define(
     CreatorID: {
       type: DataTypes.INTEGER,
       allowNull: false,
-    },
-    Status: {
-      type: DataTypes.ENUM("active", "deleted"),
-      allowNull: false,
-      defaultValue: "active",
-    },
+    }
   },
   {
     freezeTableName: true,

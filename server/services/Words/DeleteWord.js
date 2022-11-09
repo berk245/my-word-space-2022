@@ -2,7 +2,6 @@ const GetWord = require("./GetWord");
 const db = require("../../config/database");
 
 module.exports = async (req, res) => {
-  try {
     if (!req.body.userId || !req.body.notebookId || !req.body.wordId) {
       res.status(400).json({ error: "Missing required fields" });
       return
@@ -14,12 +13,20 @@ module.exports = async (req, res) => {
       return
     }
 
-    await db.execute(
-      `DELETE FROM Word WHERE WordID = ? AND CreatorID = ? AND NotebookID = ?`,
-      [wordId, userId, notebookId]
-    );
-    res.status(200).json({ deleteWordSuccess: true });
-  } catch (err) {
-    res.status(400).json({ error: err });
-  }
+    word.destroy(
+      {
+        where: {
+          WordID: wordId,
+          NotebookID: notebookId,
+          CreatorID: userId,
+        }
+      }
+    ).then(() => {
+      res.status(200).json({ deleteWordSuccess: true });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ error: err });
+    });
+   
 };

@@ -8,8 +8,6 @@ module.exports = async (wordId, notebookId, userId) => {
         WordID: wordId,
         CreatorID: userId,
         NotebookID: notebookId,
-        Status: "active",
-
       },
     });
     return word
