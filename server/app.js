@@ -1,6 +1,7 @@
 const express = require("express");
 const loginRoute = require("./routes/login.js");
 const signupRoute = require("./routes/signup.js");
+const userRoute = require("./routes/user");
 const wordRoute = require("./routes/word");
 const notebookRoute = require("./routes/notebook");
 const exerciseRoute = require("./routes/exercise");
@@ -23,6 +24,8 @@ app.use("/signup", signupRoute());
 app.use("/notebook", notebookRoute());
 
 app.use("/word", wordRoute());
+
+app.use("/user", userRoute());
 
 app.use("/exercise", exerciseRoute());
 

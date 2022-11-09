@@ -1,36 +1,32 @@
 const db = require("../config/database");
+const User = require('../models/User.model')
+
 
 const byUsername = async (username) => {
-  const [results] = await db.execute(
-    `SELECT *
-      FROM User
-      WHERE Username = ?
-      `,
-    [username]
-  );
-  return results[0];
+  const result = await User.findOne({
+    where: {
+      Username: username
+    }
+  })
+  return result
 };
 
 const byUserId = async (userId) => {
-  const [results] = await db.execute(
-    `SELECT *
-      FROM User
-      WHERE UserID = ?
-      `,
-    [userId]
-  );
-  return results[0];
+  const result = await User.findOne({
+    where: {
+      UserID: userId
+    }
+  })
+  return result
 };
 
 const byEmail = async (email) => {
-  const [results] = await db.execute(
-    `SELECT *
-      FROM User
-      WHERE email = ?
-      `,
-    [email]
-  );
-  return results[0];
+  const result = await User.findOne({
+    where: {
+      Email: email
+    }
+  })
+  return result
 };
 
 module.exports = {

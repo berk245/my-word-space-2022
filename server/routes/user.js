@@ -1,13 +1,21 @@
 const express = require('express')
 const router = express.Router();
+const findUsers = require('../services/GetUser')
 
-module.exports = function(database){
+
+module.exports = function(){
   const findUser = async(req, res) => {
-    const user = await database.getUserById(req.body.userId);
-    res.status(200).json(user);
+    
+    try{
+      let user = await findUsers.byUsername('tezst-user')
+      res.status(200).json(user)
+    }catch(err){
+      res.status(500).send('Non')
+    }
+   
   }
 
-  router.get("/get-user", findUser);
+  router.get("/", findUser);
 
   return router
 }
