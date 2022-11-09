@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "config/index.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon config/index.js",
-    "test": "jest --coverage"
+    "dev": "nodemon app.js",
+    "test": "jest --coverage "
   },
   "author": "",
   "license": "ISC",
