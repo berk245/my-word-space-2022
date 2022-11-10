@@ -1,5 +1,3 @@
-const db = require("../../config/database");
-
 const Notebook = require("../../models/Notebook.model");
 
 module.exports = async (userId, notebookId) => {

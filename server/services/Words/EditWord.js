@@ -1,6 +1,4 @@
 const GetWord = require("./GetWord");
-const GetNotebook = require("../Notebooks/GetNotebook");
-const db = require("../../config/database");
 
 module.exports = async (req, res) => {
   if (hasMissingFields(req.body)) {
