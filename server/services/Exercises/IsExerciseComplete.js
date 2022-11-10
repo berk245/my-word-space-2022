@@ -1,13 +1,14 @@
 
-const db = require("../../config/database");
+const Exercise = require("../../models/Exercise.model")
 module.exports = async function(exerciseId){
     try {
-      let [query] = await db.execute(
-        "SELECT ExerciseCompleted FROM Exercise WHERE ExerciseID = ?",
-        [exerciseId]
-      );
-  
-      return "true" === query[0]["ExerciseCompleted"];
+      let exerciseCompleted = await Exercise.findOne({
+        attributes: ['ExerciseCompleted'],
+        where:{
+          ExerciseID: exerciseId
+        }
+      })
+      return exerciseCompleted || true;
     } catch {
         //Return true to stop the process
       return true;

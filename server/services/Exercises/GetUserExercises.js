@@ -1,7 +1,7 @@
 const db = require("../../config/database");
 const GetUser = require("../GetUser");
 
-const Exercise = require('../../models/Exercise.model')
+const Exercise = require("../../models/Exercise.model");
 
 module.exports = async (req, res) => {
   try {
@@ -15,10 +15,10 @@ module.exports = async (req, res) => {
       return;
     }
     const exercises = await Exercise.findAll({
-      where:{
-        UserID: req.body.userId
-      }
-    })
+      where: {
+        UserID: req.body.userId,
+      },
+    });
     res.status(200).json({ exercises: exercises });
   } catch (err) {
     res.status(400).json({ error: err });
