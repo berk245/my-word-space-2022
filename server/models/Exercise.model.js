@@ -16,11 +16,9 @@ const Exercise = db.define(
       ExerciseDate: {
         type: DataTypes.DATE,
         defaultValue: new Date(),
-        allowNull: false
       },
       ExerciseCompleted:{
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
+        type: DataTypes.TINYINT,
         defaultValue: 0
       },
       QuestionCount: {
@@ -29,7 +27,6 @@ const Exercise = db.define(
       },
       CorrectAnswers: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         defaultValue: 0
       }   
   },

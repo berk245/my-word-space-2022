@@ -4,8 +4,6 @@ const getUserTokens = require("../helpers/getUserTokens.js");
 
 module.exports = async(req,res) => {
     try {
-
-        console.log(req.body)
         const { username, password } = req.body;
   
         if (!username || !password) {
