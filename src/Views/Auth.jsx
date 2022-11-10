@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {loginUser} from '../utils'
 function Auth() {
   const [activeForm, setActiveForm] = useState("login");
   const [userData, setUserData] = useState();
-
+    const navigate = useNavigate()
   const onChange = (e) => {
     let newObj = {...userData}
     newObj[e.target.name] = e.target.value;
@@ -12,7 +13,16 @@ function Auth() {
 
   const submitForm = async() => {
     if (activeForm == "login") {
-        await loginUser(userData)
+        let loginData = await loginUser(userData)
+        if(!loginData){
+            alert('Could noit log you in. Please make sure username and password is correct and try again.')
+            return
+        }
+        localStorage.setItem('auth-token', loginData.accessToken)
+        localStorage.setItem('userId', loginData.userId)
+        navigate('/dashboard')
+
+
     } else {
         if(userData.password != userData.passwordRepeat){
             alert('Make sure the passwords match')

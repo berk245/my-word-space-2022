@@ -10,6 +10,19 @@ const loginUser = async (userData) => {
   return false;
 };
 
+const signupUser = async (userData) => {
+    let response = await fetch(
+      "http://localhost:5000/signup",
+      getRequestBody("POST", userData)
+    );
+    if (response.ok) {
+      response = await response.json();
+      return response;
+    }
+    return false;
+  };
+  
+
 const getRequestBody = (requestType, data) => {
   return {
     method: requestType,
@@ -20,4 +33,4 @@ const getRequestBody = (requestType, data) => {
   };
 };
 
-export { loginUser };
+export { loginUser, signupUser };
