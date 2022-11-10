@@ -5,7 +5,6 @@ module.exports = async (req, res) => {
     let words = await Word.findAll({
       where: {
         CreatorID: req.body.userId,
-        Status: "active",
       },
     });
     res.status(200).json({ words: words });
