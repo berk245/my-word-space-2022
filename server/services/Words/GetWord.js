@@ -1,9 +1,18 @@
-const db = require("../../config/database");
+const Word = require("../../models/Word.model");
 
 module.exports = async (wordId, notebookId, userId) => {
-    const result = await db.execute(
-      `SELECT * FROM Word WHERE  WordID = ? AND NotebookID = ? AND CreatorID = ?  `,
-      [wordId, notebookId, userId]
-    );
-    return result[0][0] || false;
-  };
+  
+  try {
+    let word = await Word.findOne({
+      where: {
+        WordID: wordId,
+        CreatorID: userId,
+        NotebookID: notebookId,
+      },
+    });
+    return word
+  } catch (err) {
+    console.log(err)
+    return false
+  }
+}

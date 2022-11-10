@@ -1,12 +1,14 @@
-const db = require("../../config/database");
+const Notebook = require("../../models/Notebook.model");
 
 module.exports = async (userId, notebookId) => {
   try {
-    const result = await db.execute(
-      `SELECT * FROM Notebook WHERE CreatorID = ? AND NotebookID = ? `,
-      [userId, notebookId]
-    );
-    return result[0][0];
+    let notebook = await Notebook.findOne({
+      where: {
+        CreatorID: userId,
+        NotebookID: notebookId,
+      },
+    });
+    return notebook;
   } catch (err) {
     return false;
   }
