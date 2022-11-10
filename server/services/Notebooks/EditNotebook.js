@@ -13,10 +13,17 @@ module.exports = async (req, res) => {
       res.status(400).json({ error: "Could not find the notebook" });
       return;
     }
-    await db.execute(
-      `UPDATE notebook SET NotebookName = ? WHERE (NotebookID = ?)`,
-      [req.body.newNotebookName, req.body.notebookId]
-    );
+
+    notebook.update(
+      {
+        NotebookName: req.body.newNotebookName
+      },
+      {
+        where:{
+          notebookID: req.body.notebookId
+        }
+      }
+    )
     res.status(200).json({ updateNotebookSuccess: true });
   } catch (err) {
     console.log(err)
