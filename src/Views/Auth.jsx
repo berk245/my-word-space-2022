@@ -1,33 +1,42 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {loginUser} from '../utils'
+import { loginUser, signupUser } from "../utils";
 function Auth() {
   const [activeForm, setActiveForm] = useState("login");
   const [userData, setUserData] = useState();
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   const onChange = (e) => {
-    let newObj = {...userData}
+    let newObj = { ...userData };
     newObj[e.target.name] = e.target.value;
-    setUserData(newObj)
+    setUserData(newObj);
   };
 
-  const submitForm = async() => {
+  const submitForm = async () => {
     if (activeForm == "login") {
-        let loginData = await loginUser(userData)
-        if(!loginData){
-            alert('Could noit log you in. Please make sure username and password is correct and try again.')
-            return
-        }
-        localStorage.setItem('auth-token', loginData.accessToken)
-        localStorage.setItem('userId', loginData.userId)
-        navigate('/dashboard')
-
-
+      let loginData = await loginUser(userData);
+      if (!loginData) {
+        alert(
+          "Could noit log you in. Please make sure username and password is correct and try again."
+        );
+        return;
+      }
+      localStorage.setItem("auth-token", loginData.accessToken);
+      localStorage.setItem("userId", loginData.userId);
+      navigate("/dashboard");
     } else {
-        if(userData.password != userData.passwordRepeat){
-            alert('Make sure the passwords match')
-            return false
-        }
+      if (userData.password != userData.passwordRepeat) {
+        alert("Please make sure the passwords match");
+        return false;
+      }
+      let signupSuccess = await signupUser(userData);
+
+      if(signupSuccess){
+        alert('Signup successful. Please login with your credentials')
+        setActiveForm('login')
+      }else{
+        alert('There was a problem signing you up. Please try again.')
+      }
+      return
     }
   };
   return (
@@ -35,7 +44,7 @@ function Auth() {
       <h1>Welcome to the app</h1>
       <div className="auth-form">
         <input
-            onChange={(e)=>onChange(e)}
+          onChange={(e) => onChange(e)}
           type="text"
           name="username"
           id="username"
@@ -43,7 +52,7 @@ function Auth() {
         />
         {activeForm === "signup" && (
           <input
-            onChange={(e)=>onChange(e)}
+            onChange={(e) => onChange(e)}
             type="email"
             placeholder="Email address"
             name="email"
@@ -51,7 +60,7 @@ function Auth() {
           />
         )}
         <input
-            onChange={(e)=>onChange(e)}
+          onChange={(e) => onChange(e)}
           type="password"
           name="password"
           id="password"
@@ -59,7 +68,7 @@ function Auth() {
         />
         {activeForm === "signup" && (
           <input
-            onChange={(e)=>onChange(e)}
+            onChange={(e) => onChange(e)}
             type="password"
             placeholder="Repeat password"
             name="passwordRepeat"
