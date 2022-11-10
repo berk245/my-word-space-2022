@@ -9,11 +9,11 @@ module.exports = async (req, res) => {
     let { notebookId, wordOriginal, wordTranslation, wordType, userId } =
       req.body;
 
-    // let notebook = await GetNotebook(userId, notebookId);
-    // if (!notebook)  { 
-    //     res.status(400).json({ error: 'Could not find the notebook' });
-    //     return
-    //  };
+    let notebook = await GetNotebook(userId, notebookId);
+    if (!notebook)  { 
+        res.status(400).json({ error: 'Could not find the notebook' });
+        return
+     };
 
     await Word.create(
       {     
