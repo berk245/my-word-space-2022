@@ -1,5 +1,3 @@
-const db = require("../../config/database");
-const GetUser = require("../GetUser");
 
 const Exercise = require("../../models/Exercise.model");
 
