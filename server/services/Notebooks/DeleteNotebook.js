@@ -13,9 +13,13 @@ module.exports = async (req, res) => {
       return;
     }
 
-    await db.execute(`DELETE FROM notebook  WHERE (NotebookID = ?)`, [
-      req.body.notebookId,
-    ]);
+    await notebook.destroy(
+      {
+        where:{
+          NotebookID: req.body.notebookId
+        }
+      }
+    )
     res.status(200).json({ deleteNotebookSuccess: true });
   } catch (err) {
     res.status(400).json({ error: err });
