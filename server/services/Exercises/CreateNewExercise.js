@@ -1,12 +1,18 @@
 const db = require("../../config/database");
+const Exercise = require('../../models/Exercise.model')
+
 module.exports = async ({ userId, amount }) => {
     try {
-      let exercise = await db.execute(
-        "INSERT INTO `my-word-space`.`Exercise` (`UserID` , `QuestionCount`) VALUES (?, ?)",
-        [userId, amount]
-      );
-      return exercise[0].insertId;
+      let newExercise = await Exercise.create(
+        {
+          UserId: userId,
+          QuestionCount: amount
+        }
+      )
+      return newExercise.dataValues.ExerciseID;
     } catch (err) {
         return false;
     }
   };
+
+
