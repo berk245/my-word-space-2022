@@ -21,7 +21,14 @@ function Auth() {
         return;
       }
       localStorage.setItem("auth-token", loginData.accessToken);
-      localStorage.setItem("userId", loginData.userId);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          userId: loginData.userId,
+          username: loginData.username,
+        })
+      );
+
       navigate("/dashboard");
     } else {
       if (userData.password != userData.passwordRepeat) {
@@ -30,13 +37,13 @@ function Auth() {
       }
       let signupSuccess = await signupUser(userData);
 
-      if(signupSuccess){
-        alert('Signup successful. Please login with your credentials')
-        setActiveForm('login')
-      }else{
-        alert('There was a problem signing you up. Please try again.')
+      if (signupSuccess) {
+        alert("Signup successful. Please login with your credentials");
+        setActiveForm("login");
+      } else {
+        alert("There was a problem signing you up. Please try again.");
       }
-      return
+      return;
     }
   };
   return (
