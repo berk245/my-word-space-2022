@@ -22,6 +22,7 @@ const signupUser = async (userData) => {
   return response.ok;
 };
 
+
 const getRequestBody = (requestType, data) => {
   return {
     method: requestType,
@@ -31,6 +32,8 @@ const getRequestBody = (requestType, data) => {
     body: JSON.stringify(data),
   };
 };
+
+
 
 const saveUserData = ({ token, userId, username }) => {
   try {

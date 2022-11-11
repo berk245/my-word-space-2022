@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Dashboard() {
   const { username, userId } = JSON.parse(localStorage.getItem("user"));
-  
+
   const navigate = useNavigate();
   if (!userId) {
     return (
@@ -24,6 +24,17 @@ function Dashboard() {
     <div className="dashboard-main">
       <div className="welcome-text">
         <p>Welcome {username}</p>
+      </div>
+      <div className="links">
+        <button>
+          <Link to={"/exercise"}>Exercise</Link>
+        </button>
+        <button>
+          <Link to={"/word"}>word</Link>
+        </button>
+        <button>
+          <Link to={"/notebook"}>notebook</Link>
+        </button>
       </div>
     </div>
   );
