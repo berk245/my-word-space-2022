@@ -3,7 +3,6 @@ const db = require("../../config/database");
 const Notebook = require("../../models/Notebook.model");
 const GetUser = require("../GetUser")
 module.exports = async (req, res) => {
-  console.log(req)
   try {
     const user = await GetUser.byUserId(req.params.userId)
     if(!user) {
