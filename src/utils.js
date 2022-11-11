@@ -41,6 +41,16 @@ const createNotebook = async({userId, newNotebookName}) => {
   return response.ok || false
 }
 
+const editNotebookName = async(params) => {
+  console.log(params)
+  let response = await fetch(
+    "http://localhost:5000/notebook/edit",
+    getRequestBody("POST", params)
+  );
+  console.log(response)
+  return response.ok || false
+}
+
 
 const saveUserData = ({ token, userId, username }) => {
   try {
@@ -61,4 +71,4 @@ const saveUserData = ({ token, userId, username }) => {
   }
 };
 
-export { loginUser, signupUser, createNotebook };
+export { loginUser, signupUser, createNotebook, editNotebookName };

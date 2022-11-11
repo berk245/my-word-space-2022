@@ -68,8 +68,8 @@ function Notebook() {
                 <div className="view-list">
                   {userNotebooks.length ? (
                     <>
-                      {userNotebooks.map((notebook) => {
-                        return <ListItem content={notebook} />;
+                      {userNotebooks.map((notebook, idx) => {
+                        return <ListItem key={idx} userId={userId} reload={()=> setReloadList(!reloadList)} content={notebook} />;
                       })}
                     </>
                   ) : (
