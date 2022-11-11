@@ -16,19 +16,10 @@ function Auth() {
       let loginData = await loginUser(userData);
       if (!loginData) {
         alert(
-          "Could noit log you in. Please make sure username and password is correct and try again."
+          "Could not log you in. Please make sure username and password is correct and try again."
         );
         return;
       }
-      localStorage.setItem("auth-token", loginData.accessToken);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          userId: loginData.userId,
-          username: loginData.username,
-        })
-      );
-
       navigate("/dashboard");
     } else {
       if (userData.password != userData.passwordRepeat) {

@@ -1,13 +1,17 @@
 const loginUser = async (userData) => {
-  let response = await fetch(
-    "http://localhost:5000/login",
-    getRequestBody("POST", userData)
-  );
-  if (response.ok) {
-    response = await response.json();
-    return response;
+  try {
+    let response = await fetch(
+      "http://localhost:5000/login",
+      getRequestBody("POST", userData)
+    );
+    if (response.ok) {
+      response = await response.json();
+      saveUserData(response);
+      return true;
+    }
+  } catch {
+    return false;
   }
-  return false;
 };
 
 const signupUser = async (userData) => {
@@ -26,6 +30,25 @@ const getRequestBody = (requestType, data) => {
     },
     body: JSON.stringify(data),
   };
+};
+
+const saveUserData = ({ token, userId, username }) => {
+  try {
+    console.log("Here");
+    document.cookie = `token=${token}`;
+
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        userId: userId,
+        username: username,
+      })
+    );
+    return;
+  } catch (err) {
+    console.log(err);
+    return;
+  }
 };
 
 export { loginUser, signupUser };

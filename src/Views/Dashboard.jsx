@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const { username, userId } = JSON.parse(localStorage.getItem("user"));
+  
   const navigate = useNavigate();
   if (!userId) {
     return (
