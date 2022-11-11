@@ -6,6 +6,7 @@ import Auth from "./Views/Auth";
 import Dashboard from "./Views/Dashboard";
 import Notebook from "./Views/Notebook";
 import NotFound from "./Views/NotFound";
+import NotAuthorized from "./Views/NotAuthorized";
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
         <Route path="/exercise" element={<Exercise />} />
         <Route path="/word" element={<Word />} />
         <Route path="/notebook" element={<Notebook />} />
-        <Route path="/notebook" element={<NotFound />} />
+        <Route path="/not-authorized" element={<NotAuthorized />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </Router>
   );

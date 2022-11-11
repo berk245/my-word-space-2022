@@ -33,6 +33,13 @@ const getRequestBody = (requestType, data) => {
   };
 };
 
+const createNotebook = async({userId, newNotebookName}) => {
+  let response = await fetch(
+    "http://localhost:5000/notebook/add",
+    getRequestBody("POST", {userId: userId, notebookName: newNotebookName})
+  );
+  return response.ok || false
+}
 
 
 const saveUserData = ({ token, userId, username }) => {
@@ -54,4 +61,4 @@ const saveUserData = ({ token, userId, username }) => {
   }
 };
 
-export { loginUser, signupUser };
+export { loginUser, signupUser, createNotebook };
