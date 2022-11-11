@@ -1,17 +1,18 @@
 const db = require("../../config/database");
 
 const Notebook = require("../../models/Notebook.model");
-
+const GetUser = require("../GetUser")
 module.exports = async (req, res) => {
+  console.log(req)
   try {
-    if (!req.body.userId) {
-      res.status(400).json({ error: "Missing required fields" });
-      return;
+    const user = await GetUser.byUserId(req.params.userId)
+    if(!user) {
+      res.status(500).json({error: 'Could not find the user'})
+      return
     }
-
     const notebooks = await Notebook.findAll({
       where: {
-        CreatorID: req.body.userId,
+        CreatorID: req.params.userId,
       },
     });
     res.status(200).json({ notebooks: notebooks });

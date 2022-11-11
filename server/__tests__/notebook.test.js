@@ -5,10 +5,9 @@ describe("Notebooks route", () => {
   describe("Should return errors if", () => {
     test("get-all-notebooks request is missing a user identifier", async () => {
       const response = await request(app)
-        .get("/notebook/get-all")
-        .send({ userId: "" });
-      expect(response.statusCode).toBe(400);
-      expect(response.body).toEqual({ error: "Missing required fields" });
+        .get("/notebook/get-all/xyz")
+      expect(response.statusCode).toBe(500);
+      expect(response.body).toEqual({ error: "Could not find the user" });
     });
     test("add-new-notebook request is missing a user identifier or a notebook name", async () => {
       let bodyData = [
@@ -100,8 +99,7 @@ describe("Notebooks route", () => {
   });
   test("should return all notebooks of a specific user", async () => {
     const response = await request(app)
-      .get("/notebook/get-all")
-      .send({ userId: 1 });
+      .get("/notebook/get-all/1")
     expect(response.statusCode).toBe(200);
     expect(response.body.notebooks).toBeDefined();
   });
