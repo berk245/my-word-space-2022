@@ -6,7 +6,7 @@ const EditWord = require("../services/Words/EditWord");
 const DeleteWord = require("../services/Words/DeleteWord");
 const GetWordData = require("../services/Words/GetWordData");
 module.exports = function () {
-  router.get("/get-all", GetAllWords);
+  router.get("/get-all/:userId", GetAllWords);
   router.get("/:wordId", GetWordData)
   router.post("/add", AddWord);
   router.post("/edit", EditWord);
