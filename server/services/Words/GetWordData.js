@@ -1,7 +1,6 @@
 const Word = require("../../models/Word.model");
 module.exports = async (req, res) => {
   try {
-    
     const word = await Word.findOne({
       where: {
         WordID: req.params.wordId
