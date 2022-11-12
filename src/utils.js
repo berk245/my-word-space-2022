@@ -102,4 +102,16 @@ const deleteWord = async(params) => {
   return response.ok
 }
 
-export { loginUser, signupUser, createWord, createNotebook, editNotebookName, parseIdFromURL, deleteNotebook, editWord, deleteWord, isUserAuthenticated };
+const getUserWords = async(userId) => {
+  let response = await fetch(baseUrl + `/word/get-all/${userId}`)
+
+  if(response.ok){
+    response = await response.json()
+    console.log(response)
+    return response.words
+  }else{
+    return false
+  }
+}
+
+export { loginUser, signupUser, createWord, createNotebook, editNotebookName, parseIdFromURL, deleteNotebook, editWord, deleteWord, getUserWords, isUserAuthenticated };

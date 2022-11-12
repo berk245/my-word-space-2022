@@ -58,8 +58,9 @@ function Notebook() {
               reload={() => setReloadList(!reloadList)}
             />
           )}
+          <h4>Words in this notebook</h4>
           <WordsList
-            notebookWords={notebookWords}
+            wordList={notebookWords}
             notebookId={notebookId}
             userId={userId}
             reload={() => {

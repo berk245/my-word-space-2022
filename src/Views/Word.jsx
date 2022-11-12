@@ -4,7 +4,7 @@ import useWordData from "../Hooks/useWordData";
 import { deleteWord } from "../utils";
 import WordForm from "../Components/WordForm";
 function Word() {
-  const { username, userId } = JSON.parse(localStorage.getItem("user"));
+  const { userId } = JSON.parse(localStorage.getItem("user"));
   const wordId = parseIdFromURL(window.location);
   const [showEditWordForm, setShowEditWordForm] = useState(false);
   const [serverMessage, setServerMessage] = useState("");

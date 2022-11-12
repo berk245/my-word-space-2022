@@ -5,6 +5,7 @@ import { createWord, editWord } from "../utils";
 function WordForm({
   type,
   userId,
+  userNotebooks,
   wordId = "",
   notebookId = "",
   reload,
@@ -38,7 +39,7 @@ function WordForm({
       close();
     } else {
       alert("Something went wrong while creating a new notebook.");
-      return
+      return;
     }
   };
 
@@ -63,11 +64,21 @@ function WordForm({
         placeholder="Word Translation"
       />
       <span>Notebook: </span>
-      <select name="wordType" id="wordType" onChange={(e) => updateFields(e)}>
-        <option value={notebookId} selected>
-          {" "}
-          {notebookId}
-        </option>
+      <select
+        name="notebookId"
+        id="notebookId"
+        defaultValue={notebookId}
+        onChange={(e) => updateFields(e)}
+      >
+        <option value="">-</option>
+        {userNotebooks.map((notebook) => {
+          return (
+            <option value={notebook.NotebookID}>
+              {" "}
+              {notebook.NotebookName} ({notebook.NotebookID})
+            </option>
+          );
+        })}
       </select>
       <span>Word Type: </span>
       <select

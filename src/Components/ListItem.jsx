@@ -9,26 +9,6 @@ function ListItem({ content, userId, reload }) {
 
   const navigate = useNavigate()
 
-  const submitUpdate = async() => {
-    try{
-        setFetchingData(true)
-        let updateSuccess = await editNotebookName({userId: userId, notebookId: content.NotebookID, newNotebookName: newNotebookName})
-        if(updateSuccess){
-
-        }else{
-            alert('Something went wrong with the update. Please try again.')
-        }
-    }catch(err){
-        alert('Something went wrong with the update. Please try again.')
-        console.log(err)
-    }finally{
-        setFetchingData(false)
-        setEditItem(false)
-        setNewNotebookName('')
-        reload()
-    }
-
-  }
   if (editItem) return <EditNotebookForm content={content} reload={reload} userId={userId}/>
   else {
     return (
