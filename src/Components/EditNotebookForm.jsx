@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import {useNavigate} from 'react-router-dom'
 import {editNotebookName} from '../utils'
-import EditNotebookForm from './EditNotebookForm'
-function ListItem({ content, userId, reload }) {
+
+function EditNotebookForm({ content, userId, reload,  close}) {
   const [editItem, setEditItem] = useState(false);
   const [fetchingData, setFetchingData] = useState(false)
   const [newNotebookName, setNewNotebookName] = useState(content.NotebookName)
@@ -13,9 +13,8 @@ function ListItem({ content, userId, reload }) {
     try{
         setFetchingData(true)
         let updateSuccess = await editNotebookName({userId: userId, notebookId: content.NotebookID, newNotebookName: newNotebookName})
-        if(updateSuccess){
-
-        }else{
+        if(updateSuccess) reload()
+        else{
             alert('Something went wrong with the update. Please try again.')
         }
     }catch(err){
@@ -25,21 +24,20 @@ function ListItem({ content, userId, reload }) {
         setFetchingData(false)
         setEditItem(false)
         setNewNotebookName('')
-        reload()
+        close()
     }
 
   }
-  if (editItem) return <EditNotebookForm content={content} reload={reload} userId={userId}/>
-  else {
     return (
-      <div className="list-item">
-        <span>{content.NotebookName}</span>
+      <div className="edit-form">
+        <input onChange={(e)=>{setNewNotebookName(e.target.value)}} defaultValue={content.NotebookName}></input>
         <span>
-        <button onClick={()=>navigate(`/notebook/${content.NotebookID}`)} disabled={fetchingData}> > </button>
+          <button onClick={submitUpdate} disabled={fetchingData}>Submit</button>
+          <button onClick={close}>Cancel</button>
         </span>
       </div>
     );
-  }
+
 }
 
-export default ListItem;
+export default EditNotebookForm;

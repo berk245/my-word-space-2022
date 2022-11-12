@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser, signupUser } from "../utils";
+import { loginUser, signupUser, isUserAuthenticated } from "../utils";
+
 function Auth() {
   const [activeForm, setActiveForm] = useState("login");
   const [userData, setUserData] = useState();
@@ -10,6 +11,11 @@ function Auth() {
     newObj[e.target.name] = e.target.value;
     setUserData(newObj);
   };
+
+
+  useEffect(() => {
+    if(isUserAuthenticated()) navigate('/dashboard')
+  }, [])
 
   const submitForm = async () => {
     if (activeForm == "login") {

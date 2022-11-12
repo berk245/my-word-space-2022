@@ -1,87 +1,60 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useNotebook from "../Hooks/useNotebook";
+import useNotebookInfo from "../Hooks/useNotebookInfo";
 import ListItem from "../Components/ListItem";
-import {createNotebook} from '../utils'
+import {parseNotebookId, deleteNotebook} from '../utils'
+import EditNotebookForm from '../Components/EditNotebookForm'
+import WordsList from '../Components/WordsList'
+
 function Notebook() {
   const { username, userId } = JSON.parse(localStorage.getItem("user"));
-  const [addNotebookForm, setAddnotebookForm] = useState(false);
-  const [newNotebookName, setNewNotebookName] = useState("");
-  const [reloadList, setReloadList] = useState(false);
+  const notebookId = parseNotebookId(window.location)
+  const [reloadList, setReloadList] = useState(false)
+  const [showEditNotebookForm, setShowEditNotebookForm] = useState(false)
+  const [serverMessage, setServerMessage] = useState(false)
   const navigate = useNavigate();
 
-  const { userNotebooks, fetchingData, fetchError } = useNotebook(
-    userId,
+  const { notebookInfo, notebookWords , fetchingData, fetchError } = useNotebookInfo(
+    notebookId,
     reloadList
   );
   if (!username || !userId) navigate("/not-authorized");
 
-  const addNewNotebook = async() => {
-    let createSuccess = await createNotebook({newNotebookName, userId})
-    if(createSuccess) {
-      closeAddNewForm()
-      setReloadList(!reloadList)
-    }else{
-      alert('Something went wrong while creating a new notebook.')
-      return
+  const handleDelete = async() => {
+    try{
+    let deleteConfirmed = window.confirm('Are you sure you want to delete this notebook?')
+    if(!deleteConfirmed) return
+    let deleteSuccess = await deleteNotebook({userId, notebookId})
+    if(deleteSuccess){
+      setServerMessage('Delete successful. Redirecting you back to notebooks page.')
+      setTimeout(()=>{
+        setServerMessage('')
+        navigate('/notebooks')
+      },1500)
+    }
+    else throw new Error()}catch(err){
+      alert('Something went wrong. Please try again later.')
     }
   }
-
-  const closeAddNewForm = () => {
-    setNewNotebookName("");
-    setAddnotebookForm(false);
-  };
+  if(fetchingData) return <p>Loading</p>
   return (
-    <div>
-      <h1>Notebooks</h1>
-      <div className="view-main-content">
-        {fetchingData ? (
-          <p>Loading</p>
-        ) : (
-          <div className="page-content">
-            {fetchError ? (
-              <h4>There was an error accessing your notebooks.</h4>
-            ) : (
-              <div className="items-list">
-                <div className="list-title">
-                  <h3>Your Notebooks</h3>
-                  {!addNotebookForm && (
-                    <button onClick={() => setAddnotebookForm(true)}>
-                      Add Notebook
-                    </button>
-                  )}
-                  {addNotebookForm && (
-                    <div className="add-new-form">
-                      <input
-                        onChange={(e) => setNewNotebookName(e.target.value)}
-                        type="text"
-                        name="notebook-name"
-                        id="notebook-name"
-                      />
-                      <button onClick={() => addNewNotebook()}>
-                        Submit
-                      </button>
-                      <button onClick={closeAddNewForm}>Cancel</button>
-                    </div>
-                  )}
-                </div>
-                <div className="view-list">
-                  {userNotebooks.length ? (
-                    <>
-                      {userNotebooks.map((notebook, idx) => {
-                        return <ListItem key={idx} userId={userId} reload={()=> setReloadList(!reloadList)} content={notebook} />;
-                      })}
-                    </>
-                  ) : (
-                    <p>You don't have any notebooks</p>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
+    <>
+    {serverMessage ?
+<p>{serverMessage}</p>
+      :
+      <div>
+
+      <button onClick={()=> navigate('/notebooks')}>Go back</button>
+        <h1>{notebookInfo.NotebookName}</h1>
+        <button onClick={()=> setShowEditNotebookForm(true)}>Edit</button>
+        <button onClick={handleDelete}>Delete</button>
+
+        {showEditNotebookForm && <EditNotebookForm content={notebookInfo} userId={userId} close={() => setShowEditNotebookForm(false) } reload={()=>setReloadList(!reloadList)}/>}
+        <WordsList notebookWords={notebookWords} userId={userId} reload = {()=> {setReloadList(!reloadList)}} /> 
       </div>
-    </div>
+    }
+    </>
+
   );
 }
 

@@ -33,7 +33,7 @@ function Dashboard() {
           <Link to={"/word"}>word</Link>
         </button>
         <button>
-          <Link to={"/notebook"}>notebook</Link>
+          <Link to={"/notebooks"}>notebook</Link>
         </button>
       </div>
     </div>

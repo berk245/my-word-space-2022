@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function useNotebook(userId, reloadList) {
+function useNotebooksList(userId, reloadList) {
   const [fetchingData, setFetchingData] = useState(true);
   const [fetchError, setFetchError] = useState(false);
   const [userNotebooks, setUserNotebooks] = useState([]);
@@ -33,4 +33,4 @@ function useNotebook(userId, reloadList) {
   return { fetchingData, fetchError, userNotebooks };
 }
 
-export default useNotebook;
+export default useNotebooksList;

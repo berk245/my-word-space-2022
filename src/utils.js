@@ -1,7 +1,8 @@
+const baseUrl = "http://localhost:5000"
 const loginUser = async (userData) => {
   try {
     let response = await fetch(
-      "http://localhost:5000/login",
+      baseUrl + "/login",
       getRequestBody("POST", userData)
     );
     if (response.ok) {
@@ -14,9 +15,16 @@ const loginUser = async (userData) => {
   }
 };
 
+
+const isUserAuthenticated = () => {
+  let authToken = document.cookie.match('auth_token')
+  if(authToken) return true
+  else return false
+}
+
 const signupUser = async (userData) => {
   let response = await fetch(
-    "http://localhost:5000/signup",
+    baseUrl + "/signup",
     getRequestBody("POST", userData)
   );
   return response.ok;
@@ -35,7 +43,7 @@ const getRequestBody = (requestType, data) => {
 
 const createNotebook = async({userId, newNotebookName}) => {
   let response = await fetch(
-    "http://localhost:5000/notebook/add",
+    baseUrl + "/notebook/add",
     getRequestBody("POST", {userId: userId, notebookName: newNotebookName})
   );
   return response.ok || false
@@ -44,10 +52,9 @@ const createNotebook = async({userId, newNotebookName}) => {
 const editNotebookName = async(params) => {
   console.log(params)
   let response = await fetch(
-    "http://localhost:5000/notebook/edit",
+    baseUrl + "/notebook/edit",
     getRequestBody("POST", params)
   );
-  console.log(response)
   return response.ok || false
 }
 
@@ -55,7 +62,7 @@ const editNotebookName = async(params) => {
 const saveUserData = ({ token, userId, username }) => {
   try {
     console.log("Here");
-    document.cookie = `token=${token}`;
+    document.cookie = `auth_token=${token}`;
 
     localStorage.setItem(
       "user",
@@ -71,4 +78,14 @@ const saveUserData = ({ token, userId, username }) => {
   }
 };
 
-export { loginUser, signupUser, createNotebook, editNotebookName };
+const parseNotebookId = (url) => {
+  return (url.pathname.split('/').reverse()[0]);
+}
+
+const deleteNotebook = async(params) => {
+  let response = await fetch(baseUrl + '/notebook/delete', getRequestBody("DELETE", params))
+  return response.ok
+
+}
+
+export { loginUser, signupUser, createNotebook, editNotebookName, parseNotebookId, deleteNotebook, isUserAuthenticated };
