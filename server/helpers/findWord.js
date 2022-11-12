@@ -1,4 +1,4 @@
-const Word = require("../../models/Word.model");
+const Word = require("../models/Word.model");
 
 module.exports = async (wordId, notebookId, userId) => {
   

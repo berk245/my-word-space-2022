@@ -1,4 +1,4 @@
-const Notebook = require("../../models/Notebook.model");
+const Notebook = require("../models/Notebook.model");
 
 module.exports = async (userId, notebookId, request=false) => {
   try {

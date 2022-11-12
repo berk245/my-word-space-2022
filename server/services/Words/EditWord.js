@@ -1,4 +1,4 @@
-const GetWord = require("./GetWord");
+const findWord = require("../../helpers/findWord");
 
 module.exports = async (req, res) => {
   if (hasMissingFields(req.body)) {
@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
   let { userId, notebookId, wordOriginal, wordTranslation, wordType, wordId } =
     req.body;
 
-  let word = await GetWord(wordId, notebookId, userId);
+  let word = await findWord(wordId, notebookId, userId);
   if (!word) {
     res.status(400).json({ error: "Could not find the word" });
     return;

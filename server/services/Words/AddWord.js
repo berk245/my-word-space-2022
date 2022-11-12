@@ -1,4 +1,4 @@
-const GetNotebook = require("../Notebooks/GetNotebook");
+const findNotebook = require("../../helpers/findNotebook");
 const Word = require('../../models/Word.model')
 module.exports = async (req, res) => {
   try {
@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     let { notebookId, wordOriginal, wordTranslation, wordType, userId } =
       req.body;
 
-    let notebook = await GetNotebook(userId, notebookId);
+    let notebook = await findNotebook(userId, notebookId);
     if (!notebook)  { 
         res.status(400).json({ error: 'Could not find the notebook' });
         return
