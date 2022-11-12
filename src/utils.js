@@ -78,7 +78,7 @@ const saveUserData = ({ token, userId, username }) => {
   }
 };
 
-const parseNotebookId = (url) => {
+const parseIdFromURL = (url) => {
   return (url.pathname.split('/').reverse()[0]);
 }
 
@@ -87,5 +87,10 @@ const deleteNotebook = async(params) => {
   return response.ok
 
 }
+const deleteWord = async(params) => {
+  let response = await fetch(baseUrl + '/word/delete', getRequestBody("DELETE", params))
+  return response.ok
 
-export { loginUser, signupUser, createNotebook, editNotebookName, parseNotebookId, deleteNotebook, isUserAuthenticated };
+}
+
+export { loginUser, signupUser, createNotebook, editNotebookName, parseIdFromURL, deleteNotebook, deleteWord, isUserAuthenticated };

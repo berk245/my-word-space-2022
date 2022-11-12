@@ -16,7 +16,7 @@ function App() {
         <Route path="/" element={<Auth/>} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/exercise" element={<Exercise />} />
-        <Route path="/word" element={<Word />} />
+        <Route path="/word/:id" element={<Word />} />
         <Route path="/notebooks" element={<Notebooks />} />
         <Route path="/notebook/:id" element={<Notebook />} />
         <Route path="/not-authorized" element={<NotAuthorized />} />

@@ -1,22 +1,22 @@
 import React, { useState } from "react";
-import {useNavigate} from 'react-router-dom'
-import EditNotebookForm from './EditNotebookForm'
+import { useNavigate } from "react-router-dom";
 function ListItemWord({ content, userId, reload }) {
+  const navigate = useNavigate();
 
-
-  console.log(content);
-
-  const navigate = useNavigate()
-
-  const submitUpdate = async() => {
-  }
-  // if (editItem) return <p>Edit word form</p>
-
-    return (
-      <div className="list-item">
-          <li>{content.WordOriginal}</li>
-      </div>
-    );
-  }
+  return (
+    <div className="list-item">
+      <li>
+        <span>Original: {content.WordOriginal}</span>
+        <span>Translation: {content.WordTranslation}</span>
+        <span>
+          <button onClick={() => navigate(`/word/${content.WordID}`)}>
+            {" "}
+            >{" "}
+          </button>
+        </span>
+      </li>
+    </div>
+  );
+}
 
 export default ListItemWord;
