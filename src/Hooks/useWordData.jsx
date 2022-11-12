@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function useWordData(wordId) {
+function useWordData(wordId, refetchData) {
   const [fetchingData, setFetchingData] = useState(true);
   const [fetchError, setFetchError] = useState(false);
   const [wordData, setWordData] = useState([]);
@@ -28,7 +28,7 @@ function useWordData(wordId) {
   useEffect(() => {
     resetData()
     getWordData(wordId);
-  }, [wordId]);
+  }, [wordId, refetchData]);
 
   return { fetchingData, fetchError, wordData };
 }

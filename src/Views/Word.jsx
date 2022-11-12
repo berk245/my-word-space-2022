@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import { parseIdFromURL } from "../utils";
 import useWordData from "../Hooks/useWordData";
 import { deleteWord } from "../utils";
+import WordForm from "../Components/WordForm";
 function Word() {
   const { username, userId } = JSON.parse(localStorage.getItem("user"));
   const wordId = parseIdFromURL(window.location);
   const [showEditWordForm, setShowEditWordForm] = useState(false);
   const [serverMessage, setServerMessage] = useState("");
-  const { fetchingData, fetchError, wordData } = useWordData(wordId);
+  const [refetchData, setRefetchData] = useState(false);
+
+  const { fetchingData, fetchError, wordData } = useWordData(
+    wordId,
+    refetchData
+  );
 
   const handleDelete = async () => {
     let confirmed = window.confirm(
@@ -33,29 +39,33 @@ function Word() {
 
   if (serverMessage) return <p>{serverMessage}</p>;
   if (fetchingData) return <p>Loading</p>;
-  if (showEditWordForm)
-    return (
-      <div>
-        <h1>Word</h1>
-        <p> Word:</p> <input type="text" defaultValue={wordData.WordOriginal} />
-        <p> Translation:</p>{" "}
-        <input type="text" defaultValue={wordData.WordOriginal} />
-        <br />
-        <br />
-        <button>Submit</button>
-        <button onClick={() => setShowEditWordForm(false)}>Cancel</button>
-      </div>
-    );
 
   return (
     <div>
+      <button onClick={() => window.history.back()}>Go back</button>
       <h1>Word</h1>
-      <span>
-        <button onClick={() => setShowEditWordForm(true)}>Edit</button>
-        <button onClick={handleDelete}>Delete</button>
-      </span>
-      <p> Word: {wordData.WordOriginal}</p>
-      <p> Translation: {wordData.WordOriginal}</p>
+      {showEditWordForm ? (
+        <WordForm
+          type="edit"
+          wordId= {wordId}
+          userId={userId}
+          notebookId={wordData.NotebookID}
+          wordOriginal={wordData.WordOriginal}
+          wordTranslation={wordData.WordTranslation}
+          wordType={wordData.WordType}
+          close={() => setShowEditWordForm(false)}
+          reload={() => setRefetchData(!refetchData)}
+        />
+      ) : (
+        <>
+          <span>
+            <button onClick={() => setShowEditWordForm(true)}>Edit</button>
+            <button onClick={handleDelete}>Delete</button>
+          </span>
+          <p> Word: {wordData.WordOriginal}</p>
+          <p> Translation: {wordData.WordTranslation}</p>
+        </>
+      )}
     </div>
   );
 }

@@ -87,10 +87,19 @@ const deleteNotebook = async(params) => {
   return response.ok
 
 }
+const createWord = async(newWord) => {
+  let response = await fetch(baseUrl + '/word/add', getRequestBody('POST', newWord))
+  return response.ok
+}
+
+const editWord = async(newWord) => {
+  let response = await fetch(baseUrl + '/word/edit', getRequestBody('POST', newWord))
+  return response.ok
+}
+
 const deleteWord = async(params) => {
   let response = await fetch(baseUrl + '/word/delete', getRequestBody("DELETE", params))
   return response.ok
-
 }
 
-export { loginUser, signupUser, createNotebook, editNotebookName, parseIdFromURL, deleteNotebook, deleteWord, isUserAuthenticated };
+export { loginUser, signupUser, createWord, createNotebook, editNotebookName, parseIdFromURL, deleteNotebook, editWord, deleteWord, isUserAuthenticated };

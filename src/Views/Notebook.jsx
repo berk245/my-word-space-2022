@@ -60,6 +60,7 @@ function Notebook() {
           )}
           <WordsList
             notebookWords={notebookWords}
+            notebookId={notebookId}
             userId={userId}
             reload={() => {
               setReloadList(!reloadList);
