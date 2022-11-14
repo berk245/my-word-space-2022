@@ -6,12 +6,12 @@ import {isUserAuthenticated} from '../utils'
 function AllWords() {
   const { userId, username } = JSON.parse(localStorage.getItem("user"));
   const [refetch, setRefetch] = useState(false)
-
+  const navigate = useNavigate()
   useEffect(() => {
     if(!isUserAuthenticated()) navigate('/not-authorized')
   }, [])
 
-  const navigate = useNavigate()
+
 
   const {userWords, fetchError, fetchingData} = useAllUserWords(userId, refetch)
 
