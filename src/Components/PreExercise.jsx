@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-import { formatNotebooksArray, getExerciseQuestions } from "../utils";
+import { formatNotebooksArray, getExerciseQuestions, isUserAuthenticated } from "../utils";
 function PreExercise({
   userNotebooks,
   userId,
@@ -15,6 +15,9 @@ function PreExercise({
   });
   const [requestError, setRequestError] = useState(false)
   const navigate = useNavigate();
+  if(!isUserAuthenticated()){
+    navigate('/not-authorized')
+  }
 
   const formattedNotebooks = formatNotebooksArray(userNotebooks);
   const wordTypes = [

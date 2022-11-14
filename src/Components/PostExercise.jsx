@@ -1,8 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import {isUserAuthenticated} from '../utils'
 function PostExercise({ exerciseResults }) {
   const navigate = useNavigate()
+  if(!isUserAuthenticated()){
+    navigate('/not-authorized')
+  }
   return (
     <div>
       <h2>Exercise Review</h2>
