@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import {getNotebookData} from '../utils'
 
 function useNotebookInfo(notebookId, reloadList) {
   const [fetchingData, setFetchingData] = useState(true);
@@ -6,10 +7,11 @@ function useNotebookInfo(notebookId, reloadList) {
   const [notebookInfo, setNotebookInfo] = useState('')
   const [notebookWords, setNotebookWords] = useState('')
 
-  const getNotebookData = async (notebookId) => {
+  const getData = async (notebookId) => {
     try {
-      const url = `http://localhost:5000/notebook/get-notebook-data/${notebookId}`;
-      let response = await fetch(url);
+
+      let response = await getNotebookData(notebookId)
+      
       if (response.ok) {
         response = await response.json();
         setNotebookInfo(response.notebookInfo)
@@ -30,7 +32,7 @@ function useNotebookInfo(notebookId, reloadList) {
   useEffect(() => {
     if(!notebookId) return
     resetData()
-    getNotebookData(notebookId);
+    getData(notebookId);
   }, [notebookId, reloadList]);
 
   return { fetchingData, fetchError, notebookInfo, notebookWords };

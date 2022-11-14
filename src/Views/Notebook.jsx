@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useNotebookInfo from "../Hooks/useNotebookInfo";
-import ListItem from "../Components/ListItem";
-import { parseIdFromURL, deleteNotebook } from "../utils";
+import { parseIdFromURL, deleteNotebook, isUserAuthenticated } from "../utils";
 import EditNotebookForm from "../Components/EditNotebookForm";
 import WordsList from "../Components/WordsList";
 
@@ -14,6 +13,9 @@ function Notebook() {
   const [serverMessage, setServerMessage] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!isUserAuthenticated()) navigate("/not-authorized");
+  }, []);
   const { notebookInfo, notebookWords, fetchingData, fetchError } =
     useNotebookInfo(notebookId, reloadList);
   if (!username || !userId) navigate("/not-authorized");

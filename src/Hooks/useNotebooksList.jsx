@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import {getUserNotebooksList} from '../utils'
 function useNotebooksList(userId, reloadList) {
   const [fetchingData, setFetchingData] = useState(true);
   const [fetchError, setFetchError] = useState(false);
@@ -7,8 +7,9 @@ function useNotebooksList(userId, reloadList) {
 
   const getUserNotebooks = async (userId) => {
     try {
-      const url = `http://localhost:5000/notebook/get-all/${userId}`;
-      let response = await fetch(url);
+
+      let response = await getUserNotebooksList(userId)
+    
       if (response.ok) {
         response = await response.json();
         setUserNotebooks(response.notebooks);

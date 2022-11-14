@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useNotebooksList from "../Hooks/useNotebooksList";
-
 import AddNewNotebook from '../Components/AddNewNotebook'
 import NotebooksList from '../Components/NotebooksList'
+import { isUserAuthenticated } from "../utils";
 function Notebooks() {
   const { username, userId } = JSON.parse(localStorage.getItem("user"));
   const [addNotebookForm, setAddnotebookForm] = useState(false);
   const [reloadList, setReloadList] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isUserAuthenticated()) navigate("/not-authorized");
+  }, []);
 
   const { userNotebooks, fetchingData, fetchError } = useNotebooksList(
     userId,

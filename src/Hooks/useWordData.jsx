@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-
+import {getWordData} from '../utils'
 function useWordData(wordId, refetchData) {
   const [fetchingData, setFetchingData] = useState(true);
   const [fetchError, setFetchError] = useState(false);
   const [wordData, setWordData] = useState([]);
 
-  const getWordData = async (wordId) => {
+  const getData = async (wordId) => {
     try {
-      const url = `http://localhost:5000/word/${wordId}`;
-      let response = await fetch(url);
+      let response = await getWordData(wordId);
       if (response.ok) {
         response = await response.json();
         setWordData(response);
@@ -27,7 +26,7 @@ function useWordData(wordId, refetchData) {
   }
   useEffect(() => {
     resetData()
-    getWordData(wordId);
+    getData(wordId);
   }, [wordId, refetchData]);
 
   return { fetchingData, fetchError, wordData };

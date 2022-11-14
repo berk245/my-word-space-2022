@@ -1,10 +1,15 @@
 import React, {useState, useEffect} from 'react'
 import useAllUserWords from '../Hooks/useAllUserWords';
 import WordsList from '../Components/WordsList';
-import {useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom';
+import {isUserAuthenticated} from '../utils'
 function AllWords() {
   const { userId, username } = JSON.parse(localStorage.getItem("user"));
   const [refetch, setRefetch] = useState(false)
+
+  useEffect(() => {
+    if(!isUserAuthenticated()) navigate('/not-authorized')
+  }, [])
 
   const navigate = useNavigate()
 

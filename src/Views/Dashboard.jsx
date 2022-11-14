@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-
+import {isUserAuthenticated} from '../utils'
 function Dashboard() {
   const { username, userId } = JSON.parse(localStorage.getItem("user"));
-
+  useEffect(() => {
+    if(!isUserAuthenticated()) navigate('/not-authorized')
+  }, [])
   const navigate = useNavigate();
   if (!userId) {
     return (
