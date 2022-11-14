@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
       return
     }
     let {wordId, notebookId, userId} = req.body;
-    let word = await findWord(wordId, notebookId, userId);
+    let word = await findWord(wordId, userId);
     if (!word) {
       res.status(400).json({ error: "Could not find the word" });
       return
