@@ -14,7 +14,7 @@ module.exports = async function ({ userId, exerciseParameters }, createQuestionP
   let result = [];
 
   uniqueIndexes.map((idx) => {
-    result.push(wordPool[idx]);
+    result.push({...wordPool[idx].dataValues, userAnswer: ''});
   });
 
   return result;
