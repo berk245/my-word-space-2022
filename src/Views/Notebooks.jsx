@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useNotebooksList from "../Hooks/useNotebooksList";
-import ListItem from "../Components/ListItem";
 
 import AddNewNotebook from '../Components/AddNewNotebook'
 import NotebooksList from '../Components/NotebooksList'
@@ -24,6 +23,7 @@ function Notebooks() {
   };
   return (
     <div>
+      <button onClick={()=>navigate('/')}> Go back </button>
       <h1>Notebooks</h1>
       <div className="view-main-content">
         {fetchingData ? (
