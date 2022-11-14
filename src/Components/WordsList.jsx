@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import WordForm from "./WordForm";
 import ListItemWord from "./ListItemWord";
-
-function WordsList({ userNotebooks, wordList, notebookId = "", userId, reload }) {
+function WordsList({ wordList, notebookId = "", userId, reload }) {
   const [showAddNewWordForm, setShowAddNewWordForm] = useState(false);
+  
   return (
     <div className="view-list">
       {!showAddNewWordForm && (
@@ -13,7 +13,6 @@ function WordsList({ userNotebooks, wordList, notebookId = "", userId, reload })
       {showAddNewWordForm && (
         <WordForm
           type="addNew"
-          userNotebooks={userNotebooks}
           notebookId={notebookId}
           userId={userId}
           reload={reload}

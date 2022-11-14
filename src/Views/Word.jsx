@@ -39,7 +39,6 @@ function Word() {
 
   if (serverMessage) return <p>{serverMessage}</p>;
   if (fetchingData) return <p>Loading</p>;
-
   return (
     <div>
       <button onClick={() => window.history.back()}>Go back</button>

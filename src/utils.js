@@ -107,7 +107,6 @@ const getUserWords = async(userId) => {
 
   if(response.ok){
     response = await response.json()
-    console.log(response)
     return response.words
   }else{
     return false

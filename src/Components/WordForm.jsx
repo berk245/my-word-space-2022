@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createWord, editWord } from "../utils";
+import useNotebooksList from "../Hooks/useNotebooksList";
 
 function WordForm({
   type,
   userId,
-  userNotebooks,
   wordId = "",
   notebookId = "",
   reload,
@@ -23,11 +23,15 @@ function WordForm({
     wordId: wordId,
   });
 
+
+  const {userNotebooks, fetchingData, fetchError} = useNotebooksList(userId)
+
   const updateFields = (e) => {
     let updateObj = { ...newWord };
     updateObj[e.target.id] = e.target.value;
     setNewWord(updateObj);
   };
+
 
   const handleSubmit = async () => {
     let requestSuccess;
@@ -38,11 +42,12 @@ function WordForm({
       reload();
       close();
     } else {
-      alert("Something went wrong while creating a new notebook.");
+      alert("Something went wrong. Please try again.");
       return;
     }
   };
 
+  if(fetchingData) return <p>Loading</p>
   return (
     <div className="add-new-form">
       <span>Original: </span>
@@ -71,9 +76,9 @@ function WordForm({
         onChange={(e) => updateFields(e)}
       >
         <option value="">-</option>
-        {userNotebooks.map((notebook) => {
+        {userNotebooks.map((notebook, idx) => {
           return (
-            <option value={notebook.NotebookID}>
+            <option value={notebook.NotebookID} key={idx}>
               {" "}
               {notebook.NotebookName} ({notebook.NotebookID})
             </option>
