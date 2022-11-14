@@ -113,4 +113,38 @@ const getUserWords = async(userId) => {
   }
 }
 
-export { loginUser, signupUser, createWord, createNotebook, editNotebookName, parseIdFromURL, deleteNotebook, editWord, deleteWord, getUserWords, isUserAuthenticated };
+
+const formatNotebooksArray = (userNotebooks) => {
+  let result = [];
+  userNotebooks.map((nb) => {
+      result.push({
+          label: nb.NotebookName,
+          key: nb.NotebookID,
+          value: nb.NotebookID
+      })
+  })
+
+  return result;
+}
+
+const getExerciseQuestions = async(userId, exerciseParameters) => {
+  
+  const postObj = {
+    userId: userId, 
+    exerciseParameters: exerciseParameters
+  }
+  const response = await fetch(baseUrl+'/exercise/begin', getRequestBody('POST', postObj))
+
+  const exerciseQuestions = await response.json()
+  return exerciseQuestions;
+} 
+
+const completeExercise = async(params) => {
+  const response = await fetch(baseUrl+'/exercise/complete', getRequestBody('POST', params))
+
+  const exerciseResults = await response.json()
+  return exerciseResults;
+}
+
+
+export { loginUser, signupUser, formatNotebooksArray, createWord, createNotebook, editNotebookName, parseIdFromURL, deleteNotebook, editWord, deleteWord, getUserWords, getExerciseQuestions, completeExercise, isUserAuthenticated };
