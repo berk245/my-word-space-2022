@@ -1,5 +1,3 @@
-const db = require("../config/database");
-
 const Exercise = require("../models/Exercise.model");
 const Word = require("../models/Word.model");
 
