@@ -1,6 +1,6 @@
-const Notebook = require("../../models/Notebook.model");
+const Notebook = require("../models/Notebook.model");
 
-module.exports = async (userId, notebookId) => {
+module.exports = async (userId, notebookId, request=false) => {
   try {
     let notebook = await Notebook.findOne({
       where: {

@@ -1,6 +1,4 @@
-const GetWord = require("./GetWord");
-const db = require("../../config/database");
-
+const findWord = require("../../helpers/findWord");
 module.exports = async (req, res) => {
   try{
     if (!req.body.userId || !req.body.notebookId || !req.body.wordId) {
@@ -8,7 +6,7 @@ module.exports = async (req, res) => {
       return
     }
     let {wordId, notebookId, userId} = req.body;
-    let word = await GetWord(wordId, notebookId, userId);
+    let word = await findWord(wordId, userId);
     if (!word) {
       res.status(400).json({ error: "Could not find the word" });
       return

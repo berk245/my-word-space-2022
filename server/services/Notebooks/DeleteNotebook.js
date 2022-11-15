@@ -1,5 +1,4 @@
-const db = require("../../config/database");
-const GetNotebook = require("./GetNotebook");
+const findNotebook = require("../../helpers/findNotebook");
 module.exports = async (req, res) => {
   try {
     if (!req.body.userId || !req.body.notebookId) {
@@ -7,7 +6,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    let notebook = await GetNotebook(req.body.userId, req.body.notebookId);
+    let notebook = await findNotebook(req.body.userId, req.body.notebookId);
     if (!notebook){
       res.status(400).json({ error: "Could not find the notebook" });
       return;

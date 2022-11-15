@@ -8,6 +8,8 @@ const exerciseRoute = require("./routes/exercise");
 const bodyParser = require("body-parser");
 const verifyToken = require("./helpers/verifyToken");
 const cors = require("cors");
+const swaggerUI = require('swagger-ui-express')
+const swaggerSpecs = require('./config/swagger')
 // require("dotenv").config({path: path.join(__dirname, '..', '.env')})
 require('dotenv').config()
 const app = express();
@@ -16,6 +18,8 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(verifyToken);
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs))
 
 app.use("/login", loginRoute());
 
