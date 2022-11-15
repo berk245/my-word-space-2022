@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
     res.status(200).json({ signupSuccess: true });
   } catch (err) {
     console.log(err)
-    res.status(500).json({ error: "Could not save the user."});
+    res.status(500).json({ error: err});
   }
 };
 

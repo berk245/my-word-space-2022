@@ -31,7 +31,7 @@ app.use("/user", userRoute());
 app.use("/exercise", exerciseRoute());
 
 app.use('/*', (req,res)=>{
-  res.status(404).json({error: 'Could not be found'})
+  res.status(404).json({error: 'Route does not exist'})
 })
 
 const port = process.env.PORT || 5000;
