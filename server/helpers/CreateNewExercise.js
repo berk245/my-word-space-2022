@@ -1,8 +1,7 @@
-const Exercise = require('../../models/Exercise.model')
+const Exercise = require('../models/Exercise.model')
 
 module.exports = async ({ userId, amount }) => {
     try {
-      console.log('We are here', userId, amount)
       let newExercise = await Exercise.create(
         {
           UserID: userId,

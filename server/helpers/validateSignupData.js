@@ -1,5 +1,5 @@
 const _ = require("lodash/core");
-const GetUser = require('../services/GetUser')
+const GetUser = require('./GetUser')
 
 module.exports = validateSignupData = async (
  

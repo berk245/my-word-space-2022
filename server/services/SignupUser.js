@@ -1,5 +1,5 @@
 const validateSignupData = require("../helpers/validateSignupData");
-const saveUserToDatabase = require('./SaveUserToDatabase')
+const saveUserToDatabase = require('../helpers/SaveUserToDatabase')
 
 module.exports = async (req, res) => {
   const errors = await validateSignupData(req.body);

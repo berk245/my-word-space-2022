@@ -1,4 +1,4 @@
-const Exercise = require("../../models/Exercise.model");
+const Exercise = require("../models/Exercise.model");
 module.exports = async function (exerciseId) {
   try {
     let query = await Exercise.findOne({

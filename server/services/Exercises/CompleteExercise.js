@@ -1,6 +1,6 @@
 
-const isExerciseComplete = require('./IsExerciseComplete.js')
-const UpdateExerciseAndWordStats = require('./UpdateExerciseAndWordStats.js')
+const isExerciseComplete = require('../../helpers/IsExerciseComplete.js')
+const UpdateExerciseAndWordStats = require('../../helpers/UpdateExerciseAndWordStats.js')
 module.exports = async (req, res) => {
   try {
     if (!req.body.userId || !req.body.exerciseId || !req.body.exerciseData) {

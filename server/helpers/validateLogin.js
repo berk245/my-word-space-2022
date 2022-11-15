@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const GetUser = require('../services/GetUser')
+const GetUser = require('./GetUser')
 
 module.exports = async function (username, passwordFromRequest){
     const User = await GetUser.byUsername(username);

@@ -1,7 +1,7 @@
 const db = require("../../config/database");
 
 const Notebook = require("../../models/Notebook.model");
-const GetUser = require("../GetUser")
+const GetUser = require("../../helpers/GetUser")
 module.exports = async (req, res) => {
   try {
     const user = await GetUser.byUserId(req.params.userId)

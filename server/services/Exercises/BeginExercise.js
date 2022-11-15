@@ -1,7 +1,7 @@
 const getExerciseQuestions = require("../../helpers/getExerciseQuestions");
-const createQuestionPool = require("./CreateQuestionPool");
-const CreateNewExercise = require("./CreateNewExercise");
-const GetUser = require("../GetUser");
+const createQuestionPool = require("../../helpers/CreateQuestionPool");
+const CreateNewExercise = require("../../helpers/CreateNewExercise");
+const GetUser = require("../../helpers/GetUser");
 module.exports = async (req, res) => {
   if (requestHasMissingFields(req)) {
     res.status(400).json({ error: "Missing required fields" });

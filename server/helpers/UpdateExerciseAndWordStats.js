@@ -1,7 +1,7 @@
-const db = require("../../config/database");
+const db = require("../config/database");
 
-const Exercise = require("../../models/Exercise.model");
-const Word = require("../../models/Word.model");
+const Exercise = require("../models/Exercise.model");
+const Word = require("../models/Word.model");
 
 module.exports = async function ({ exerciseId, exerciseData }) {
   let correctCount = 0;

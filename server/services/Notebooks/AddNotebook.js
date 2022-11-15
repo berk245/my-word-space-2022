@@ -1,4 +1,4 @@
-const GetUser = require("../GetUser");
+const GetUser = require("../../helpers/GetUser");
 const Notebook = require("../../models/Notebook.model");
 module.exports = async (req, res) => {
   try {
