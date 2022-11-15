@@ -1,10 +1,9 @@
-const db = require("../../config/database");
 const findNotebook = require("../../helpers/findNotebook");
 
 module.exports = async (req, res) => {
   try {
     if (!req.body.userId || !req.body.notebookId || !req.body.newNotebookName) {
-      res.status(400).json({error: 'Missing required fields'});
+      res.status(400).json({ error: "Missing required fields" });
       return;
     }
 
@@ -16,17 +15,17 @@ module.exports = async (req, res) => {
 
     notebook.update(
       {
-        NotebookName: req.body.newNotebookName
+        NotebookName: req.body.newNotebookName,
       },
       {
-        where:{
-          notebookID: req.body.notebookId
-        }
+        where: {
+          notebookID: req.body.notebookId,
+        },
       }
-    )
+    );
     res.status(200).json({ updateNotebookSuccess: true });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(400).json({ error: err });
   }
 };
