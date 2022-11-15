@@ -3,16 +3,16 @@ const app = require("../app.js");
 
 
 const getExerciseQuestions = require('../helpers/getExerciseQuestions')
-const IsExerciseComplete = require('../helpers/IsExerciseComplete')
-const UpdateExerciseAndWordStats = require('../helpers/UpdateExerciseAndWordStats')
-const CreateNewExercise = require('../helpers/CreateNewExercise')
+const isExerciseComplete = require('../helpers/isExerciseComplete')
+const updateExerciseAndWordStats = require('../helpers/updateExerciseAndWordStats')
+const createNewExercise = require('../helpers/createNewExercise')
 
 
 
 jest.mock('../helpers/getExerciseQuestions')
-jest.mock('../helpers/IsExerciseComplete')
-jest.mock('../helpers/CreateNewExercise')
-jest.mock('../helpers/UpdateExerciseAndWordStats')
+jest.mock('../helpers/isExerciseComplete')
+jest.mock('../helpers/createNewExercise')
+jest.mock('../helpers/updateExerciseAndWordStats')
 
 
 
@@ -102,7 +102,7 @@ describe("Exercise route", () => {
     test("begin exercise request fails to create a new exercise in the db", async () => {
       jest.resetAllMocks()
       getExerciseQuestions.mockResolvedValueOnce([1,2,3]);
-      CreateNewExercise.mockResolvedValueOnce(false);
+      createNewExercise.mockResolvedValueOnce(false);
       const response = await request(app)
         .post("/exercise/begin")
         .send({
@@ -140,7 +140,7 @@ describe("Exercise route", () => {
     });
     test("complete-exercise request is made with a non-existent or already completed exercise", async () => {
       jest.resetAllMocks()  
-      IsExerciseComplete.mockResolvedValueOnce(true)
+      isExerciseComplete.mockResolvedValueOnce(true)
         const response = await request(app)
           .post("/exercise/complete")
           .send( {
@@ -153,7 +153,7 @@ describe("Exercise route", () => {
     });
     test("complete-exercise cannot update exercise and word stats", async () => {
       jest.resetAllMocks()  
-      UpdateExerciseAndWordStats.mockImplementationOnce(()=> {throw new Error})
+      updateExerciseAndWordStats.mockImplementationOnce(()=> {throw new Error})
         const response = await request(app)
           .post("/exercise/complete")
           .send( {

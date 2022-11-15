@@ -1,14 +1,14 @@
 const getExerciseQuestions = require("../../helpers/getExerciseQuestions");
-const createQuestionPool = require("../../helpers/CreateQuestionPool");
-const CreateNewExercise = require("../../helpers/CreateNewExercise");
-const GetUser = require("../../helpers/GetUser");
+const createQuestionPool = require("../../helpers/createQuestionPool");
+const createNewExercise = require("../../helpers/createNewExercise");
+const getUser = require("../../helpers/getUser");
 module.exports = async (req, res) => {
   if (requestHasMissingFields(req)) {
     res.status(400).json({ error: "Missing required fields" });
     return;
   }
 
-  let user = await GetUser.byUserId(req.body.userId);
+  let user = await getUser.byUserId(req.body.userId);
   if (!user) {
     res.status(400).json({ error: "Could not find the user" });
     return;
@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const exerciseId = await CreateNewExercise({
+  const exerciseId = await createNewExercise({
     userId: req.body.userId,
     amount: req.body.exerciseParameters.amount,
   });

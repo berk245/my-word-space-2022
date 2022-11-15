@@ -1,5 +1,5 @@
 const db = require("../../config/database");
-const GetUser = require("../../helpers/GetUser");
+const getUser = require("../../helpers/getUser");
 
 const Exercise = require("../../models/Exercise.model");
 
@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
       res.status(400).json({ error: "Missing required fields" });
       return;
     }
-    let user = await GetUser.byUserId(req.body.userId);
+    let user = await getUser.byUserId(req.body.userId);
     if (!user) {
       res.status(400).json({ error: "Could not find the user" });
       return;

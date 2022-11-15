@@ -1,5 +1,5 @@
 const _ = require("lodash/core");
-const GetUser = require('./GetUser')
+const getUser = require('./getUser')
 
 module.exports = validateSignupData = async (
  
@@ -20,13 +20,13 @@ module.exports = validateSignupData = async (
 
 const isEmailInUse = async (email) => {
   if (!email) return false;
-  const user = await GetUser.byEmail(email);
+  const user = await getUser.byEmail(email);
   return user || false;
 };
 
 const isUsernameTaken = async (username) => {
   if (!username) return false;
-  const user = await GetUser.byUsername(username);
+  const user = await getUser.byUsername(username);
 
   return user || false;
 };

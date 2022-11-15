@@ -1,6 +1,6 @@
 
-const isExerciseComplete = require('../../helpers/IsExerciseComplete.js')
-const UpdateExerciseAndWordStats = require('../../helpers/UpdateExerciseAndWordStats.js')
+const isExerciseComplete = require('../../helpers/isExerciseComplete.js')
+const updateExerciseAndWordStats = require('../../helpers/updateExerciseAndWordStats.js')
 module.exports = async (req, res) => {
   try {
     if (!req.body.userId || !req.body.exerciseId || !req.body.exerciseData) {
@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
       1st iteration to evaluate the user answer and updating the word stats
       2nd iteration to update the exercise data (how many correct answers) 
       Clean up and make it more obvious if possible */
-    await UpdateExerciseAndWordStats(req.body);
+    await updateExerciseAndWordStats(req.body);
     res.status(200).send({ exerciseCompletionSuccess: true });
   } catch (err) {
     console.log(err);

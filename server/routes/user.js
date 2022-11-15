@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const findUsers = require('../helpers/GetUser')
+const findUsers = require('../helpers/getUser')
 
 
 module.exports = function(){

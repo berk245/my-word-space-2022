@@ -1,4 +1,4 @@
-const GetUser = require("../../helpers/GetUser");
+const getUser = require("../../helpers/getUser");
 const Notebook = require("../../models/Notebook.model");
 module.exports = async (req, res) => {
   try {
@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
 
     let { userId, notebookName } = req.body;
 
-    let user = await GetUser.byUserId(userId);
+    let user = await getUser.byUserId(userId);
     if (!user) {
       res.status(400).json({ error: "User cannot be found" });
       return;

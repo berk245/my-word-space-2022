@@ -1,10 +1,10 @@
 const db = require("../../config/database");
 
 const Notebook = require("../../models/Notebook.model");
-const GetUser = require("../../helpers/GetUser")
+const getUser = require("../../helpers/getUser")
 module.exports = async (req, res) => {
   try {
-    const user = await GetUser.byUserId(req.params.userId)
+    const user = await getUser.byUserId(req.params.userId)
     if(!user) {
       res.status(500).json({error: 'Could not find the user'})
       return
