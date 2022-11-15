@@ -3,14 +3,6 @@ const app = require("../app.js");
 
 describe("Words route", () => {
   describe("Should return errors if", () => {
-    test("get-all words request is missing a user identifier", async () => {
-      const response = await request(app)
-        .get("/word/get-all")
-        .send({ userId: "" });
-      expect(response.statusCode).toBe(400);
-      expect(response.body).toEqual({ error: "Missing required fields" });
-    });
-
     test("add-new request is missing a user identifier or word parameters", async () => {
       let bodyData = [
         {
@@ -80,7 +72,7 @@ describe("Words route", () => {
         wordTranslation: 'test',
         wordType: 'noun'
       });
-      expect(response.statusCode).toBe(400);
+      expect(response.statusCode).toBe(500);
       expect(response.body).toEqual({ error: "Could not find the word" });
     });
     test("delete-word request is missing fields or user identifier", async () => {
@@ -127,8 +119,7 @@ describe("Words route", () => {
   });
   test("should return all words of a specific user", async () => {
     const response = await request(app)
-      .get("/word/get-all")
-      .send({ userId: 1 });
+      .get("/word/get-all/1")
     expect(response.statusCode).toBe(200);
     expect(response.body.words).toBeDefined();
   });

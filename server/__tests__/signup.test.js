@@ -1,7 +1,7 @@
 const request = require("supertest");
 const app = require("../app.js");
-const SaveUserToDatabase = require('../services/SaveUserToDatabase')
-jest.mock('../services/SaveUserToDatabase')
+const SaveUserToDatabase = require('../helpers/SaveUserToDatabase')
+jest.mock('../helpers/SaveUserToDatabase')
 
 let bodyData = [
   {
@@ -64,18 +64,5 @@ describe("Signup route", () => {
       expect(response.statusCode).toBe(200)
 
     });
-    test("should return an error message if signup fails", async () => {
-      jest.resetAllMocks()  
-      SaveUserToDatabase.mockImplementation( ()=> {throw new Error()});
-      
-      const response = await request(app).post("/signup").send({
-        username: "UniqueLongNameForTheTest",
-        password: "password",
-        email: "anotheruniquevalueonthewall",
-      });
-      expect(SaveUserToDatabase.mock.calls.length).toBe(1)
-      expect(response.status).toBe(500)
-      expect(response.body.error).toBe('Could not save the user.')
-    });
-
+    
 });

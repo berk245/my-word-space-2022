@@ -3,16 +3,16 @@ const app = require("../app.js");
 
 
 const getExerciseQuestions = require('../helpers/getExerciseQuestions')
-const IsExerciseComplete = require('../services/Exercises/IsExerciseComplete')
-const UpdateExerciseAndWordStats = require('../services/Exercises/UpdateExerciseAndWordStats')
-const CreateNewExercise = require('../services/Exercises/CreateNewExercise')
+const IsExerciseComplete = require('../helpers/IsExerciseComplete')
+const UpdateExerciseAndWordStats = require('../helpers/UpdateExerciseAndWordStats')
+const CreateNewExercise = require('../helpers/CreateNewExercise')
 
 
 
 jest.mock('../helpers/getExerciseQuestions')
-jest.mock('../services/Exercises/IsExerciseComplete')
-jest.mock('../services/Exercises/CreateNewExercise')
-jest.mock('../services/Exercises/UpdateExerciseAndWordStats')
+jest.mock('../helpers/IsExerciseComplete')
+jest.mock('../helpers/CreateNewExercise')
+jest.mock('../helpers/UpdateExerciseAndWordStats')
 
 
 

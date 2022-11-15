@@ -1,4 +1,4 @@
-const CreateNewExercise = require('../../services/Exercises/CreateNewExercise')
+const CreateNewExercise = require('../../helpers/CreateNewExercise')
 
 describe("Create new exercise", () => {
     test("should return error when it is called without a user id or exercise id", async () => {

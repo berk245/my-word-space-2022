@@ -1,4 +1,4 @@
-const IsExerciseComplete = require("../../services/Exercises/IsExerciseComplete");
+const IsExerciseComplete = require("../../helpers/IsExerciseComplete");
 
 describe("Is exercise complete  ", () => {
   test("should return true when the query fails (possibly for a non-existent entry)", async () => {

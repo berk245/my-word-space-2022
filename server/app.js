@@ -9,14 +9,15 @@ const bodyParser = require("body-parser");
 const verifyToken = require("./helpers/verifyToken");
 const cors = require("cors");
 // require("dotenv").config({path: path.join(__dirname, '..', '.env')})
-require('dotenv').config()
+require("dotenv").config();
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
-app.use(verifyToken);
-
+if (process.env.NODE_ENV !== "test") {
+  app.use(verifyToken);
+}
 
 app.use("/login", loginRoute());
 
@@ -30,14 +31,14 @@ app.use("/user", userRoute());
 
 app.use("/exercise", exerciseRoute());
 
-app.use('/*', (req,res)=>{
-  res.status(404).json({error: 'Route does not exist'})
-})
+app.use("/*", (req, res) => {
+  res.status(404).json({ error: "Route does not exist" });
+});
 
 const port = process.env.PORT || 5000;
 
-if (process.env.NODE_ENV !== 'test') {
-  app.listen(port, () => console.log(`Listening on port ${port}`))
+if (process.env.NODE_ENV !== "test") {
+  app.listen(port, () => console.log(`Listening on port ${port}`));
 }
 
 module.exports = app;

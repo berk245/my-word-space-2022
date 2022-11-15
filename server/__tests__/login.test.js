@@ -44,10 +44,10 @@ describe("Login", () => {
  
   test("should return token after a succesful login", async () => {
     const response = await request(app).post("/login").send({
-      username: 'test-user-2',
+      username: 'front-test',
       password: '1234'
     });
     expect(response.statusCode).toBe(200);
-    expect(response.body.accessToken).toBeDefined()
+    expect(response.body.token).toBeDefined()
   });
 });
