@@ -53,4 +53,4 @@ const updateExerciseStatsAfterCompletion = async ({
   );
 
   return true;
-};s
+};
