@@ -8,6 +8,7 @@ const exerciseRoute = require("./routes/exercise");
 const bodyParser = require("body-parser");
 const verifyToken = require("./helpers/verifyToken");
 const cors = require("cors");
+const logger = require('./config/logger')
 // require("dotenv").config({path: path.join(__dirname, '..', '.env')})
 require("dotenv").config();
 const app = express();
@@ -18,6 +19,14 @@ app.use(bodyParser.json());
 if (process.env.NODE_ENV !== "test") {
   app.use(verifyToken);
 }
+
+app.use((req, res, next) => {
+  logger.log("info", `Requesting ${req.method} ${req.originalUrl}`, {
+    tags: "http",
+    additionalInfo: { body: req.body, headers: req.headers },
+  });
+  next();
+});
 
 app.use("/login", loginRoute());
 

@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-cloudwatch-logs": "^3.212.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.0",
     "cookie-parser": "^1.4.6",
@@ -23,7 +24,9 @@
     "path": "^0.12.7",
     "sequelize": "^6.25.5",
     "swagger-jsdoc": "^6.2.5",
-    "swagger-ui-express": "^4.6.0"
+    "swagger-ui-express": "^4.6.0",
+    "winston": "^3.8.2",
+    "winston-cloudwatch": "^6.1.1"
   },
   "devDependencies": {
     "jest": "^29.1.2",
