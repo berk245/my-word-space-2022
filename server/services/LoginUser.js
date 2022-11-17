@@ -28,6 +28,7 @@ module.exports = async (req, res) => {
     });
     return;
   } catch (err) {
+    console.log(err)
     CloudWatch.log(
       "error",
       "error in /login",
