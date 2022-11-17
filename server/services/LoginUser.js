@@ -1,6 +1,7 @@
 const validateLogin = require("../helpers/validateLogin.js");
 const getUserTokens = require("../helpers/getUserTokens.js");
 const CloudWatch = require("../config/logger");
+
 module.exports = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -29,10 +30,9 @@ module.exports = async (req, res) => {
   } catch (err) {
     CloudWatch.log(
       "error",
-      `Error in login:${err}`,
-      `userId: ${userId}`,      
+      "error in /login",
+      `Error details: ${err}`,
     );
-    res.status(500).send({ error: err.message });
-    return;
+    res.status(500).send("Server error");
   }
 };
