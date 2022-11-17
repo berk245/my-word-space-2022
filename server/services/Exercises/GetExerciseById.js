@@ -1,6 +1,5 @@
-
 const Exercise = require("../../models/Exercise.model");
-
+const CloudWatch = require("../../config/logger");
 module.exports = async (req, res) => {
   try {
     if (!req.body.userId || !req.body.exerciseId) {
@@ -16,12 +15,18 @@ module.exports = async (req, res) => {
       },
     });
 
-    if (!exercise) res.status(400).json({ error: "Could not find the exercise" });
+    if (!exercise)
+      res.status(404).json({ error: "Could not find the exercise" });
     else res.status(200).json({ exercise: exercise });
 
     return;
   } catch (err) {
-    res.status(400).json({ error: err });
+    CloudWatch.log(
+      "error",
+      "error in /exercise/get",
+      `Error details: ${err}`,
+      `Request body: ${req.body}`
+    );
+    res.status(500).send("Server error");
   }
-
 };
