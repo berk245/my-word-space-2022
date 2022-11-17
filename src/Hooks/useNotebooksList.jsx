@@ -9,7 +9,6 @@ function useNotebooksList(userId, reloadList) {
     try {
 
       let response = await getUserNotebooksList(userId)
-    
       if (response.ok) {
         response = await response.json();
         setUserNotebooks(response.notebooks);

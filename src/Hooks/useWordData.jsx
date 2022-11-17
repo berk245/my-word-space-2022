@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {getWordData} from '../utils'
+import { getWordData } from "../utils";
 function useWordData(wordId, refetchData) {
   const [fetchingData, setFetchingData] = useState(true);
   const [fetchError, setFetchError] = useState(false);
@@ -8,6 +8,7 @@ function useWordData(wordId, refetchData) {
   const getData = async (wordId) => {
     try {
       let response = await getWordData(wordId);
+
       if (response.ok) {
         response = await response.json();
         setWordData(response);
@@ -21,12 +22,12 @@ function useWordData(wordId, refetchData) {
   };
 
   const resetData = () => {
-    setFetchError(false)
-    setFetchingData(true)
-  }
+    setFetchError(false);
+    setFetchingData(true);
+  };
   useEffect(() => {
-    if(!wordId) return
-    resetData()
+    if (!wordId) return;
+    resetData();
     getData(wordId);
   }, [wordId, refetchData]);
 

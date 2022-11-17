@@ -1,5 +1,17 @@
 // const baseUrl = "https://api.berkozzambak.online";
 const baseUrl = "http://localhost:5000";
+
+const getRequestBody = (requestType, data) => {
+  return {
+    method: requestType,
+    headers: {
+      "Content-Type": "application/json",
+      token: parseAuthCookie("auth_token"),
+    },
+    body: JSON.stringify(data),
+  };
+};
+
 const loginUser = async (userData) => {
   try {
     let response = await fetch(
@@ -16,15 +28,20 @@ const loginUser = async (userData) => {
   }
 };
 
-const logoutUser = (navigate) => {
-  document.cookie = `auth_token=`;
-  localStorage.clear()
-  navigate('/')
-}
+const logoutUser = () => {
+  if (document.cookie.match("auth_token")) document.cookie = `auth_token=n/a`;
+  if (localStorage.getItem("user")) localStorage.removeItem("user");
+  window.location = "/";
+};
+
+const handle403Response = (response) => {
+  alert("Authentication problem. Please login again");
+  logoutUser();
+  return;
+};
 
 const isUserAuthenticated = () => {
-  let user = localStorage.getItem('user');
-  console.log(user)
+  let user = localStorage.getItem("user");
   if (user) return true;
   else return false;
 };
@@ -34,19 +51,8 @@ const signupUser = async (userData) => {
     baseUrl + "/signup",
     getRequestBody("POST", userData)
   );
-    response = await response.json()
-    return response;
-};
-
-const getRequestBody = (requestType, data) => {
-  return {
-    method: requestType,
-    headers: {
-      "Content-Type": "application/json",
-      token: parseAuthCookie("auth_token"),
-    },
-    body: JSON.stringify(data),
-  };
+  response = await response.json();
+  return response;
 };
 
 const createNotebook = async ({ userId, newNotebookName }) => {
@@ -62,6 +68,7 @@ const editNotebookName = async (params) => {
     baseUrl + "/notebook/edit",
     getRequestBody("POST", params)
   );
+  if(response.status === 403) return handle403Response()
   return response.ok || false;
 };
 
@@ -74,6 +81,7 @@ const getNotebookData = async (notebookId) => {
       token: parseAuthCookie("auth_token"),
     },
   });
+  if(response.status === 403) return handle403Response()
   return response;
 };
 
@@ -87,6 +95,7 @@ const getUserNotebooksList = async (userId) => {
       token: parseAuthCookie("auth_token"),
     },
   });
+  if(response.status === 403) return handle403Response()
   return response;
 };
 
@@ -113,18 +122,20 @@ const parseIdFromURL = (url) => {
 };
 
 const deleteNotebook = async (params) => {
-  console.log(params)
   let response = await fetch(
     baseUrl + "/notebook/delete",
     getRequestBody("DELETE", params)
   );
+  if(response.status === 403) return handle403Response()
   return response.ok;
 };
+
 const createWord = async (newWord) => {
   let response = await fetch(
     baseUrl + "/word/add",
     getRequestBody("POST", newWord)
   );
+  if(response.status === 403) return handle403Response()
   return response.ok;
 };
 
@@ -133,6 +144,7 @@ const editWord = async (newWord) => {
     baseUrl + "/word/edit",
     getRequestBody("POST", newWord)
   );
+  if(response.status === 403) return handle403Response()
   return response.ok;
 };
 
@@ -141,7 +153,7 @@ const deleteWord = async (params) => {
     baseUrl + "/word/delete",
     getRequestBody("DELETE", params)
   );
-
+  if(response.status === 403) return handle403Response()
   return response.ok;
 };
 
@@ -158,14 +170,15 @@ const parseAuthCookie = (cookieName) => {
 const getWordData = async (wordId) => {
   const url = `${baseUrl}/word/${wordId}`;
 
-  let wordData = await fetch(url, {
+  let response = await fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       token: parseAuthCookie("auth_token"),
     },
   });
-  return wordData;
+  if(response.status === 403) return handle403Response()
+  return response;
 };
 
 const getUserWords = async (userId) => {
@@ -176,7 +189,7 @@ const getUserWords = async (userId) => {
       token: parseAuthCookie("auth_token"),
     },
   });
-
+  if(response.status === 403) return handle403Response()
   if (response.ok) {
     response = await response.json();
     return response.words;
@@ -207,6 +220,7 @@ const getExerciseQuestions = async (userId, exerciseParameters) => {
     baseUrl + "/exercise/begin",
     getRequestBody("POST", postObj)
   );
+  if(response.status === 403) return handle403Response()
 
   const exerciseQuestions = await response.json();
   return exerciseQuestions;
@@ -217,6 +231,7 @@ const completeExercise = async (params) => {
     baseUrl + "/exercise/complete",
     getRequestBody("POST", params)
   );
+  if(response.status === 403) return handle403Response()
 
   const exerciseResults = await response.json();
   return exerciseResults;
