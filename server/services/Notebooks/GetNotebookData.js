@@ -6,18 +6,19 @@ module.exports = async (req, res) => {
   try {
     const notebookInfo = await Notebook.findOne({
       where: {
-        NotebookID: req.params.notebookId
+        NotebookID: req.params.notebookId,
       },
     });
 
     const notebookWords = await Word.findAll({
       where: {
-        NotebookID: req.params.notebookId
-      }
-    })
+        NotebookID: req.params.notebookId,
+      },
+    });
 
-
-    res.status(200).json({ notebookInfo: notebookInfo, notebookWords: notebookWords });
+    res
+      .status(200)
+      .json({ notebookInfo: notebookInfo, notebookWords: notebookWords });
   } catch (err) {
     CloudWatch.log(
       "error",

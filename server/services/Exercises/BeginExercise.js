@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
 
     let user = await getUser.byUserId(req.body.userId);
     if (!user) {
-      res.status(400).json({ error: "Could not find the user" });
+      res.status(404).json({ error: "Could not find the user" });
       return;
     }
 
@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
       createQuestionPool
     );
     if (exerciseQuestions.error) {
-      res.status(400).json({ error: exerciseQuestions.error });
+      res.status(500).json({ error: exerciseQuestions.error });
       return;
     }
 

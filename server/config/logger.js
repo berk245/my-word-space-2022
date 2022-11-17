@@ -12,7 +12,7 @@ const logger = new winston.createLogger({
 if (process.env.NODE_ENV === "production") {
   const cloudwatchConfig = {
     logGroupName: process.env.CLOUDWATCH_GROUP_NAME,
-    logStreamName: `${process.env.CLOUDWATCH_GROUP_NAME}-${process.env.NODE_ENV}`,
+    logStreamName: `${process.env.CLOUDWATCH_GROUP_NAME}`,
     awsAccessKeyId: process.env.CLOUDWATCH_ACCESS_KEY,
     awsSecretKey: process.env.CLOUDWATCH_SECRET_ACCESS_KEY,
     awsRegion: process.env.CLOUDWATCH_REGION,

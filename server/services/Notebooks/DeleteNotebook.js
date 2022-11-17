@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
 
     let notebook = await findNotebook(req.body.userId, req.body.notebookId);
     if (!notebook) {
-      res.status(400).json({ error: "Could not find the notebook" });
+      res.status(404).json({ error: "Could not find the notebook" });
       return;
     }
 

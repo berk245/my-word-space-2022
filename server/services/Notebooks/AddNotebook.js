@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
 
     let user = await getUser.byUserId(userId);
     if (!user) {
-      res.status(400).json({ error: "User cannot be found" });
+      res.status(404).json({ error: "User cannot be found" });
       return;
     }
 

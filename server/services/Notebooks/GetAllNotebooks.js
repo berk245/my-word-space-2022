@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
   try {
     const user = await getUser.byUserId(req.params.userId);
     if (!user) {
-      res.status(500).json({ error: "Could not find the user" });
+      res.status(404).json({ error: "Could not find the user" });
       return;
     }
     const notebooks = await Notebook.findAll({

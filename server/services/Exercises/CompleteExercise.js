@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     }
     if (await isExerciseComplete(req.body.exerciseId)) {
       res
-        .status(400)
+        .status(404)
         .json({ error: "Exercise cannot be found or is already completed" });
       return;
     }

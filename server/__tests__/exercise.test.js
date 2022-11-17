@@ -32,7 +32,7 @@ describe("Exercise route", () => {
       ];
       for (const body of bodyData) {
         const response = await request(app).get("/exercise/get").send(body);
-        expect(response.statusCode).toBe(400);
+        expect(response.statusCode).toBe(404);
         expect(response.body).toEqual({ error: "Missing required fields" });
       }
     });
@@ -41,7 +41,7 @@ describe("Exercise route", () => {
       const response = await request(app)
         .get("/exercise/get-all")
         .send({ userId: "" });
-      expect(response.statusCode).toBe(400);
+      expect(response.statusCode).toBe(404);
       expect(response.body).toEqual({ error: "Missing required fields" });
     });
     test("begin-exercise request is missing a user id or word amount", async () => {
@@ -66,7 +66,7 @@ describe("Exercise route", () => {
       ];
       for (const body of bodyData) {
         const response = await request(app).post("/exercise/begin").send(body);
-        expect(response.statusCode).toBe(400);
+        expect(response.statusCode).toBe(404);
         expect(response.body).toEqual({ error: "Missing required fields" });
       }
     });
@@ -81,7 +81,7 @@ describe("Exercise route", () => {
             amount: 2,
           },
         });
-      expect(response.statusCode).toBe(400);
+      expect(response.statusCode).toBe(404);
       expect(response.body).toEqual({ error: "Could not find the user" });
     });
     test("begin exercise request has more words than the user has", async () => {

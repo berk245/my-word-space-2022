@@ -6,7 +6,7 @@ describe("Notebooks route", () => {
     test("get-all-notebooks request is missing a user identifier", async () => {
       const response = await request(app)
         .get("/notebook/get-all/xyz")
-      expect(response.statusCode).toBe(500);
+      expect(response.statusCode).toBe(404);
       expect(response.body).toEqual({ error: "Could not find the user" });
     });
     test("add-new-notebook request is missing a user identifier or a notebook name", async () => {
@@ -31,7 +31,7 @@ describe("Notebooks route", () => {
       const response = await request(app)
         .post("/notebook/add")
         .send({ userId: "n/a", notebookName: "test-name" });
-      expect(response.statusCode).toBe(400);
+      expect(response.statusCode).toBe(404);
       expect(response.body).toEqual({ error: "User cannot be found" });
     });
     test("update-notebook request is missing a user id or a notebook identifier or a new name for the notebook", async () => {
@@ -65,7 +65,7 @@ describe("Notebooks route", () => {
         newNotebookName: "update-name",
         notebookId: "n/a",
       });
-      expect(response.statusCode).toBe(400);
+      expect(response.statusCode).toBe(404);
       expect(response.body).toEqual({ error: "Could not find the notebook" });
     });
     test("delete-notebook request is missing a notebook or user identifier", async () => {
@@ -93,7 +93,7 @@ describe("Notebooks route", () => {
         userId: 1,
         notebookId: "n/a",
       });
-      expect(response.statusCode).toBe(400);
+      expect(response.statusCode).toBe(404);
       expect(response.body).toEqual({ error: "Could not find the notebook" });
     });
   });
@@ -103,16 +103,4 @@ describe("Notebooks route", () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.notebooks).toBeDefined();
   });
-  // test("should succesfuly add a notebook", async () => {
-  //   addNewNotebook.mockReturnValueOnce({
-  //     statusCode: 200,
-  //     body: { addNotebookSuccess: true },
-  //   });
-  //   await request(app)
-  //     .post("/notebook/add")
-  //     .send({ userId: "1", notebookName: "test-name" });
-  //   expect(addNewNotebook.mock.calls.length).toBe(1);
-  //   expect(addNewNotebook.mock.calls[0][0]["userId"]).toBeDefined();
-  //   expect(addNewNotebook.mock.calls[0][0]["notebookName"]).toBeDefined();
-  // });
 });
