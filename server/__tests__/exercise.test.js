@@ -20,29 +20,14 @@ jest.mock('../helpers/updateExerciseAndWordStats')
 describe("Exercise route", () => {
   describe("should return errors when", () => {
     test("get exercise request is missing a user or exercise id", async () => {
-      let bodyData = [
-        {
-          userId: "",
-          exerciseId: "",
-        },
-        {
-          userId: "test-username",
-          exerciseId: "",
-        },
-      ];
-      for (const body of bodyData) {
-        const response = await request(app).get("/exercise/get").send(body);
+        const response = await request(app).get("/exercise/get");
         expect(response.statusCode).toBe(404);
-        expect(response.body).toEqual({ error: "Missing required fields" });
-      }
     });
 
     test("get all exercises is missing user id", async () => {
       const response = await request(app)
-        .get("/exercise/get-all")
-        .send({ userId: "" });
+        .get("/exercise/get-all/xyz")
       expect(response.statusCode).toBe(404);
-      expect(response.body).toEqual({ error: "Missing required fields" });
     });
     test("begin-exercise request is missing a user id or word amount", async () => {
       let bodyData = [
@@ -66,7 +51,7 @@ describe("Exercise route", () => {
       ];
       for (const body of bodyData) {
         const response = await request(app).post("/exercise/begin").send(body);
-        expect(response.statusCode).toBe(404);
+        expect(response.statusCode).toBe(400);
         expect(response.body).toEqual({ error: "Missing required fields" });
       }
     });
@@ -96,7 +81,7 @@ describe("Exercise route", () => {
             amount: 15000,
           },
         });
-      expect(response.statusCode).toBe(400);
+      expect(response.statusCode).toBe(500);
       expect(response.body.error).toEqual("Not enough words");
     });
     test("begin exercise request fails to create a new exercise in the db", async () => {
@@ -148,7 +133,7 @@ describe("Exercise route", () => {
             exerciseId: 1,
             exerciseData: { 1: 2 },
           },);
-        expect(response.statusCode).toBe(400);
+        expect(response.statusCode).toBe(404);
         expect(response.body).toEqual({ error: "Exercise cannot be found or is already completed" });
     });
     test("complete-exercise cannot update exercise and word stats", async () => {
@@ -186,63 +171,4 @@ describe("Exercise route", () => {
     //
     //
   });
-
-    // describe("Complete exercise route", () => {
-    //   test("Should call the evaluateExercise function with the right parameters", async () => {});
-  //     //
-  //     //
-  //     test("Should call the updateExerciseStats function in db", async () => {
-  //         completeExercise.mockReturnValueOnce({
-  //           statusCode: 200,
-  //         });
-  //         let testExerciseData = new Array(10).fill({})
-  //         await request(app)
-  //           .post("/exercise/complete")
-  //           .send({
-  //             userId: 5,
-  //             exerciseId: 1,
-  //             exerciseData: testExerciseData,
-  //           });
-
-  //         expect(completeExercise.mock.calls.length).toBe(1);
-  //         expect(completeExercise.mock.calls[0][0]['userId']).toBe(5);
-  //         expect(completeExercise.mock.calls[0][0]['exerciseId']).toBe(1);
-  //       });
-  //     //Should update each exercise word based on user id
-  //     test("Should call the updateExerciseStats function in db", async () => {
-  //         updateExerciseWordsAfterExerciseIsCompleted.mockReturnValueOnce({
-  //           statusCode: 200,
-  //         });
-  //         let testExerciseData = new Array(10).fill({})
-  //         await request(app)
-  //           .post("/exercise/complete")
-  //           .send({
-  //             userId: 5,
-  //             exerciseId: 1,
-  //             exerciseData: testExerciseData,
-  //           });
-
-  //         expect(updateExerciseWordsAfterExerciseIsCompleted.mock.calls.length).toBe(1);
-  //         expect(updateExerciseWordsAfterExerciseIsCompleted.mock.calls[0][0]['userId']).toBe(5);
-  //         expect(updateExerciseWordsAfterExerciseIsCompleted.mock.calls[0][0]['exerciseId']).toBe(1);
-  //         expect(updateExerciseWordsAfterExerciseIsCompleted.mock.calls[0][0]['exerciseWords']).toHaveLength(15);
-  //       });
-
-  //   test("Should call the function to create exerciseWords db entries", async () => {
-  //     createExerciseWords.mockReturnValueOnce({
-  //       statusCode: 200,
-  //     });
-  //     let testExerciseData = new Array(10).fill({})
-  //           await request(app).post("/exercise/complete").send({
-  //             userId: 5,
-  //             exerciseId: 1,
-  //             exerciseData: testExerciseData,
-  //           });
-
-  //     expect(createExerciseWords.mock.calls.length).toBe(1);
-  //     expect(createExerciseWords.mock.calls[0][0]["exerciseWords"]).toHaveLength(
-  //       10
-  //     );
-  //   });
-    // });
 });

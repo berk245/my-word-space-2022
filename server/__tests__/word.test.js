@@ -36,7 +36,7 @@ describe("Words route", () => {
           wordOriginal: "original",
           wordTranslation: "translation",
         });
-      expect(response.statusCode).toBe(400);
+      expect(response.statusCode).toBe(404);
       expect(response.body).toEqual({ error: "Could not find the notebook" });
     });
     test("edit-word request is missing a word id or update fields for words", async () => {
@@ -72,7 +72,7 @@ describe("Words route", () => {
         wordTranslation: 'test',
         wordType: 'noun'
       });
-      expect(response.statusCode).toBe(500);
+      expect(response.statusCode).toBe(404);
       expect(response.body).toEqual({ error: "Could not find the word" });
     });
     test("delete-word request is missing fields or user identifier", async () => {
@@ -113,7 +113,7 @@ describe("Words route", () => {
           wordId: 309,
           notebookId: 1555
       });
-      expect(response.statusCode).toBe(400);
+      expect(response.statusCode).toBe(404);
       expect(response.body).toEqual({ error: "Could not find the word" });
     });
   });
@@ -123,25 +123,4 @@ describe("Words route", () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.words).toBeDefined();
   });
-  // test('should successfully call add new word function', async()=>{
-  //   addNewWord.mockReturnValueOnce({
-  //     statusCode: 200,
-  //     body: { addWordSuccess: true },
-  //   });
-  //   const response = await request(app).post("/word/add").send({
-  //     userId: "1",
-  //     notebookId: "1",
-  //     wordType: 'noun',
-  //     wordOriginal: "test-word",
-  //     wordTranslation: "test-translation",
-  //   },);
-
-  //   expect(addNewWord.mock.calls.length).toBe(1);
-  //   expect(addNewWord.mock.calls[0][0]["userId"]).toBeDefined();
-  //   expect(addNewWord.mock.calls[0][0]["notebookId"]).toBeDefined();
-  //   expect(addNewWord.mock.calls[0][0]["wordType"]).toBeDefined();
-  //   expect(addNewWord.mock.calls[0][0]["wordOriginal"]).toBeDefined();
-  //   expect(addNewWord.mock.calls[0][0]["wordTranslation"]).toBeDefined();
-    
-  // })
 });

@@ -11,7 +11,7 @@ module.exports = async ({ userId, amount }) => {
       )
       return newExercise.dataValues.ExerciseID;
     } catch (err) {
-        CloudWatch.log("error", `Error while creating new exercise:${err}`, `userId: ${userId}`, `OuestionCount: ${QuestionCount}`)
+        CloudWatch.log("error", `Error while creating new exercise:${err}`, `userId: ${userId}`, `OuestionCount: ${amount}`)
         return false;
     }
   };
