@@ -12,8 +12,8 @@ const logger = new winston.createLogger({
 const cloudwatchConfig = {
   logGroupName: process.env.CLOUDWATCH_GROUP_NAME,
   logStreamName: `${process.env.CLOUDWATCH_GROUP_NAME}`,
-  awsAccessKeyId: process.env.CLOUDWATCH_ACCESS_KEY,
-  awsSecretKey: process.env.CLOUDWATCH_SECRET_ACCESS_KEY,
+  awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  awsSecretKey: process.env.AWS_SECRET_ACCESS_KEY,
   awsRegion: process.env.CLOUDWATCH_REGION,
   messageFormatter: ({ level, message, additionalInfo }) =>
     `[${level}] : ${message} \nAdditional Info: ${JSON.stringify(
