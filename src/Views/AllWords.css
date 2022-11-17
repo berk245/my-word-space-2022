@@ -1,0 +1,105 @@
+.all-words-view-main{
+    width: 90%;
+    margin: 1rem auto;
+}
+.section-title{
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.section-title-button{
+    font-size: 0.7rem;
+    font-weight: bold;
+    height: 50%;  
+}
+
+.all-words-box{
+    border: 1px solid silver;
+    border-radius: 5px;
+}
+
+.word-list-headers{
+    display: flex;
+    background: #ebebeb;
+    padding: 0.5rem;
+}
+.word-list-header{
+    flex-basis: 30%;
+    text-align: center;
+    font-weight: 600;
+}
+
+.word-list-line{
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid silver;
+}
+.word-list-line:hover{
+    background: #ebebeb;
+}
+.word-list-cell{
+    flex-basis: 30%;
+    text-align: center;
+}
+
+.add-new-word-form{
+    border: 1px solid silver;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: #ebebeb;
+}
+
+.add-new-word-form-input-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.label-input-pair{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-basis: 15%;
+}
+
+.form-title{
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+
+.add-word-form-input{
+    font-size: 0.85rem;
+}
+
+.add-new-word-select{
+    padding: 0.45rem;
+    border-color: silver;
+    border-radius: 0.5rem;
+    min-width: 10rem;
+}
+
+.form-submit-buttons{
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.form-submit-button{
+    background: rgb(73,100,255);
+    color: white;
+    border: none;
+    padding: 0 1.5rem;
+}
+
+.form-submit-button:hover{
+    background: rgb(73,100,255) !important;
+    opacity: 0.8;
+}
+
+

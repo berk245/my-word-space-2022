@@ -1,40 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import WordForm from "./WordForm";
+import React from "react";
 import ListItemWord from "./ListItemWord";
 function WordsList({ wordList, notebookId = "", userId, reload }) {
-  const [showAddNewWordForm, setShowAddNewWordForm] = useState(false);
-  
+  if (!wordList.length) return <p>No words to display</p>;
   return (
-    <div className="view-list">
-      {!showAddNewWordForm && (
-        <button onClick={() => setShowAddNewWordForm(true)}>Add Word</button>
-      )}
-      {showAddNewWordForm && (
-        <WordForm
-          type="addNew"
-          notebookId={notebookId}
-          userId={userId}
-          reload={reload}
-          close={() => setShowAddNewWordForm(false)}
-        />
-      )}
-      {wordList.length ? (
-        <>
-          {wordList.map((word, idx) => {
-            return (
-              <ListItemWord
-                key={idx}
-                userId={userId}
-                reload={reload}
-                content={word}
-              />
-            );
-          })}
-        </>
-      ) : (
-        <p>No words to display</p>
-      )}
+    <div className="all-words-box">
+      <div className="word-list-headers">
+        <span className="word-list-header">Original</span>
+        <span className="word-list-header">Translation</span>
+        <span className="word-list-header">Notebook</span>
+      </div>
+      <div className="">
+        {wordList.map((word, idx) => {
+          return (
+            <ListItemWord
+              key={idx}
+              userId={userId}
+              reload={reload}
+              content={word}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }

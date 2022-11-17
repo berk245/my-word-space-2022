@@ -3,19 +3,23 @@ import useAllUserWords from "../Hooks/useAllUserWords";
 import WordsList from "../Components/WordsList";
 import { useNavigate } from "react-router-dom";
 import { isUserAuthenticated } from "../utils";
-import './Auth.css'
+import WordForm from "../Components/WordForm";
+
+import "./AllWords.css";
 function AllWords() {
   const [userId, setUserId] = useState();
-  const [username, setUsername] = useState('')
+  const [username, setUsername] = useState("");
   const [refetch, setRefetch] = useState(false);
+  const [showAddNewWordForm, setShowAddNewWordForm] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!isUserAuthenticated()) navigate("/not-authorized");
     else {
       const userInfo = JSON.parse(localStorage.getItem("user"));
-      setUserId(userInfo.userId)
-      setUsername(userInfo.username)
+      setUserId(userInfo.userId);
+      setUsername(userInfo.username);
     }
   }, []);
 
@@ -26,9 +30,25 @@ function AllWords() {
 
   if (fetchingData) return <p>Loading</p>;
   return (
-    <div className="view-main">
-      <button onClick={() => navigate("/")}>Go back</button>
-      <h2>Words of {username}</h2>
+    <div className="all-words-view-main">
+      <button className="btn go-back-button" onClick={() => navigate("/")}>
+        Go back
+      </button>
+      <div className="section-title">
+        <h2>Words of {username}</h2>
+        {!showAddNewWordForm && (
+          <button className='btn section-title-button' onClick={() => setShowAddNewWordForm(true)}>Add Word</button>
+        )}
+        
+      </div>
+      {showAddNewWordForm && (
+          <WordForm
+            type="addNew"
+            userId={userId}
+            reload={() => setRefetch(!refetch)}
+            close={() => setShowAddNewWordForm(false)}
+          />
+        )}
       <WordsList
         wordList={userWords}
         userId={userId}
