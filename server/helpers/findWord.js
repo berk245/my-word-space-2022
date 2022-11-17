@@ -1,5 +1,5 @@
 const Word = require("../models/Word.model");
-
+const CloudWatch = require('../config/logger')
 module.exports = async (wordId, userId) => {
   
   try {
@@ -11,7 +11,7 @@ module.exports = async (wordId, userId) => {
     });
     return word
   } catch (err) {
-    console.log(err)
+    CloudWatch.log("error", `Error in findWord.js:${err}`, `wordId: ${wordId}`, `userId: ${userId}`)
     return false
   }
 }
