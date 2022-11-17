@@ -35,18 +35,21 @@ function CurrentExercise({userId, exerciseData, setExerciseResults, setCurrentVi
 
     return (
     <div>
-        <button onClick={goBack}>Go back</button>
+        <button className='btn go-back-button' onClick={goBack}>Go back</button>
         <h2>Exercise</h2>
         {resultsError && <p>{resultsError}</p>}
+        <div className="questions-box">
         {exerciseQuestions.map((question, index) => {
             return(
-                <div key={index} className="">
-                    <span>{question.WordOriginal}</span>
-                    <input type="text" onChange={(e) => updateAnswer(e.target.value, index)}/>
+                <div key={index} className="exercise-question">
+                    <span className='question-word'>Q{index+1}): {question.WordOriginal}</span>
+                    <input className='number-input user-answer' placeholder='Type in your answer here' type="text" onChange={(e) => updateAnswer(e.target.value, index)}/>
                 </div>
             )
         })}
-        <button onClick={submitExercise}>Submit</button>
+        </div>
+        
+        <button className='btn' onClick={submitExercise}>Submit Answers</button>
     </div>
   )
 }
