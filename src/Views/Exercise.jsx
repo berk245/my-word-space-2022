@@ -6,13 +6,13 @@ import PostExercise from '../Components/PostExercise';
 import {isUserAuthenticated} from '../utils'
 import {useNavigate} from 'react-router-dom'
 function Exercise() {
-  
+  const [userId, setUserId] = useState();
+  const [username, setUsername] = useState('')
   const [currentView, setCurrentView] = useState('preExercise')
   const [exerciseData, setExerciseData] = useState({})
   const [exerciseResults, setExerciseResults] = useState({})
   const {userNotebooks, fetchError, fetchingData} = useNotebooksList(userId)
-  const [userId, setUserId] = useState();
-  const [username, setUsername] = useState('')
+  
   const navigate = useNavigate()
 
   useEffect(() => {

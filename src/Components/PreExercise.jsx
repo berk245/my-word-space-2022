@@ -65,6 +65,7 @@ function PreExercise({
     setExerciseData(exerciseData)
     setCurrentView('exercise')
   };
+  if(!userNotebooks.length) return <p>You do not have any notebooks yet. To exercise, please <a href="/notebooks"> create a notebook </a>.</p>
   return (
     <div>
       <button onClick={() => navigate("/")}>Go back</button>

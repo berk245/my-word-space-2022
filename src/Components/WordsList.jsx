@@ -33,7 +33,7 @@ function WordsList({ wordList, notebookId = "", userId, reload }) {
           })}
         </>
       ) : (
-        <p>You don't have any words in this notebook</p>
+        <p>No words to display</p>
       )}
     </div>
   );

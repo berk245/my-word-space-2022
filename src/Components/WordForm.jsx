@@ -48,7 +48,7 @@ function WordForm({
   };
 
   if(fetchingData) return <p>Loading</p>
-  if(!userNotebooks.length) return <p>Create a notebook first to add words inside.</p>
+  if(!userNotebooks.length) return <p>You do not have any notebooks yet. To add a word, please first <a href="/notebooks"> create a notebook </a>.</p>
   return (
     <div className="add-new-form">
       <span>Original: </span>
