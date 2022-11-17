@@ -1,6 +1,6 @@
 const validateLogin = require("../helpers/validateLogin.js");
 const getUserTokens = require("../helpers/getUserTokens.js");
-
+const CloudWatch = require("../config/logger");
 module.exports = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -18,8 +18,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    let { accessToken, refreshToken } = await getUserTokens(validatedUser);
-    if (!accessToken || !refreshToken) throw new Error("Could not get tokens");
+    let accessToken = await getUserTokens(validatedUser);
     res.status(200).json({
       loginSuccess: true,
       token: accessToken,
@@ -28,6 +27,11 @@ module.exports = async (req, res) => {
     });
     return;
   } catch (err) {
+    CloudWatch.log(
+      "error",
+      `Error in login:${err}`,
+      `userId: ${userId}`,      
+    );
     res.status(500).send({ error: err.message });
     return;
   }
