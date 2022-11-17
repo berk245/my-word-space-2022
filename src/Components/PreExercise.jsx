@@ -68,12 +68,13 @@ function PreExercise({
   if(!userNotebooks.length) return <p>You do not have any notebooks yet. To exercise, please <a href="/notebooks"> create a notebook </a>.</p>
   return (
     <div>
-      <button onClick={() => navigate("/")}>Go back</button>
-      <h2>Setup the exercise</h2>
-      {requestError && <p>{requestError}</p>}
-      <div className="">
+      <button className='btn go-back-button' onClick={() => navigate("/")}>Go back</button>
+      <h2>Setup exercise</h2>
+      {requestError && <p className="error-text">{requestError}</p>}
+      <div className="parameter-selector amount-picker">
         <span>Word Amount</span>
         <input
+        className="number-input"
           onChange={(e) =>
             setExerciseParameters({
               ...exerciseParameters,
@@ -85,8 +86,8 @@ function PreExercise({
           name="amount"
         />
       </div>
-      <div className="">
-        <span>Notebooks</span>
+      <div className="parameter-selector">
+        <span>Choose Notebooks</span>
         <Select
           isMulti
           options={formattedNotebooks}
@@ -94,16 +95,16 @@ function PreExercise({
         />
       </div>
 
-      <div className="">
-        <span>Word Types</span>
+      <div className="parameter-selector">
+        <span>Choose Word Types</span>
         <Select
           isMulti
           options={wordTypes}
           onChange={(e) => onSelectChange("wordTypes", e)}
         />
       </div>
-
-      <button onClick={onSubmit}>Begin exercise</button>
+      <br />
+      <button className='btn' onClick={onSubmit}>Begin exercise</button>
     </div>
   );
 }

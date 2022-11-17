@@ -1,0 +1,28 @@
+.exercise-view-main{
+    width: 90%;
+    margin: 1rem auto;
+}
+
+.go-back-button{
+    padding: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.parameter-selector{
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.amount-picker{
+    
+}
+
+.number-input{
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    min-width: 16rem;
+    border: 1px solid silver;
+    border-radius: 5px;
+}

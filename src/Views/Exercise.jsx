@@ -5,6 +5,8 @@ import CurrentExercise from '../Components/CurrentExercise';
 import PostExercise from '../Components/PostExercise';
 import {isUserAuthenticated} from '../utils'
 import {useNavigate} from 'react-router-dom'
+import './Exercise.css'
+
 function Exercise() {
   const [userId, setUserId] = useState();
   const [username, setUsername] = useState('')
@@ -27,7 +29,7 @@ function Exercise() {
 
   if(fetchingData) return <p>Loading</p>
   return (
-    <div>
+    <div className='exercise-view-main'>
       {currentView == 'preExercise' && <PreExercise userNotebooks={userNotebooks} userId={userId} setExerciseData={setExerciseData} setCurrentView={setCurrentView}/>}
       {currentView == 'exercise' && <CurrentExercise userId={userId} exerciseData={exerciseData} setExerciseResults={setExerciseResults} setCurrentView={setCurrentView}/>}
       {currentView == 'postExercise' && <PostExercise exerciseResults={exerciseResults}/>}
