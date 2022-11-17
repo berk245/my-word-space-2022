@@ -92,9 +92,9 @@ function Auth() {
           />
         )}
         {activeForm === "login" ? (
-          <p>Don't have an account? <a onClick={() => setActiveForm("signup")}>Signup</a></p>
+          <p>Don't have an account? <a className='auth-link' onClick={() => setActiveForm("signup")}>Signup</a></p>
         ) : (
-          <a onClick={() => setActiveForm("login")}>Back to login form</a>
+          <a className='auth-link' onClick={() => setActiveForm("login")}>Back to login form</a>
         )}
 
         {authError && <p> Errors: {authError}</p>}
