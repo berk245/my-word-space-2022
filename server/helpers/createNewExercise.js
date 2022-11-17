@@ -1,4 +1,5 @@
 const Exercise = require('../models/Exercise.model')
+const CloudWatch = require('../config/logger')
 
 module.exports = async ({ userId, amount }) => {
     try {
@@ -10,7 +11,7 @@ module.exports = async ({ userId, amount }) => {
       )
       return newExercise.dataValues.ExerciseID;
     } catch (err) {
-      console.log(err)
+        CloudWatch.log("error", `Error while creating new exercise:${err}`, `userId: ${userId}`, `OuestionCount: ${QuestionCount}`)
         return false;
     }
   };

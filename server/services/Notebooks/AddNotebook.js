@@ -1,5 +1,7 @@
 const getUser = require("../../helpers/getUser");
 const Notebook = require("../../models/Notebook.model");
+const CloudWatch = require("../../config/logger");
+
 module.exports = async (req, res) => {
   try {
     if (!req.body.userId || !req.body.notebookName) {
@@ -21,7 +23,12 @@ module.exports = async (req, res) => {
     });
     res.status(200).json({ addNotebookSuccess: true });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: err });
+    CloudWatch.log(
+      "error",
+      "error in /notebook/add",
+      `Error details: ${err}`,
+      `Request body: ${req.body}`
+    );
+    res.status(500).send("Server error");
   }
 };

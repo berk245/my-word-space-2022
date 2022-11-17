@@ -1,4 +1,5 @@
 const findNotebook = require("../../helpers/findNotebook");
+const CloudWatch = require("../../config/logger");
 
 module.exports = async (req, res) => {
   try {
@@ -25,7 +26,12 @@ module.exports = async (req, res) => {
     );
     res.status(200).json({ updateNotebookSuccess: true });
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ error: err });
+    CloudWatch.log(
+      "error",
+      "error in /notebook/edit",
+      `Error details: ${err}`,
+      `Request body: ${req.body}`
+    );
+    res.status(500).send("Server error");
   }
 };

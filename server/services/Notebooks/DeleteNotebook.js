@@ -1,5 +1,7 @@
 const findNotebook = require("../../helpers/findNotebook");
 const deleteWordsWithinNotebook = require("../../helpers/deleteWordsWithinNotebook");
+const CloudWatch = require("../../config/logger");
+
 module.exports = async (req, res) => {
   try {
     if (!req.body.userId || !req.body.notebookId) {
@@ -23,7 +25,12 @@ module.exports = async (req, res) => {
     });
     res.status(200).json({ deleteNotebookSuccess: true });
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ error: err });
+    CloudWatch.log(
+      "error",
+      "error in /notebook/delete",
+      `Error details: ${err}`,
+      `Request body: ${req.body}`
+    );
+    res.status(500).send("Server error");
   }
 };

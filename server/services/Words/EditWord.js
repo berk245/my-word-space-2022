@@ -1,4 +1,5 @@
 const findWord = require("../../helpers/findWord");
+const CloudWatch = require("../../config/logger");
 
 module.exports = async (req, res) => {
   if (hasMissingFields(req.body)) {
@@ -11,7 +12,7 @@ module.exports = async (req, res) => {
 
   let word = await findWord(wordId, userId);
   if (!word) {
-    res.status(500).json({ error: "Could not find the word" });
+    res.status(404).json({ error: "Could not find the word" });
     return;
   }
 
@@ -36,8 +37,13 @@ module.exports = async (req, res) => {
       res.status(200).json({ updateWordSuccess: true });
     })
     .catch((err) => {
-      console.log(err);
-      res.status(500).json({ error: err });
+      CloudWatch.log(
+        "error",
+        "error in /word/edit",
+        `Error details: ${err}`,
+        `Request body: ${req.body}`
+      );
+      res.status(500).send("Server error");
     });
 };
 

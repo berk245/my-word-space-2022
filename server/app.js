@@ -6,8 +6,10 @@ const wordRoute = require("./routes/word");
 const notebookRoute = require("./routes/notebook");
 const exerciseRoute = require("./routes/exercise");
 const bodyParser = require("body-parser");
-const verifyToken = require("./helpers/verifyToken");
+const verifyToken = require("./middlewares/verifyToken");
+const logRequestInfo = require("./middlewares/logRequestInfo");
 const cors = require("cors");
+const logger = require('./config/logger')
 // require("dotenv").config({path: path.join(__dirname, '..', '.env')})
 require("dotenv").config();
 const app = express();
@@ -15,9 +17,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
-if (process.env.NODE_ENV !== "test") {
-  app.use(verifyToken);
-}
+
+app.use(logRequestInfo);
+app.use(verifyToken);
 
 app.use("/login", loginRoute());
 
