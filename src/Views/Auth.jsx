@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser, signupUser, isUserAuthenticated } from "../utils";
+import "./Auth.css";
 
 function Auth() {
   const [activeForm, setActiveForm] = useState("login");
   const [userData, setUserData] = useState();
-  const [authError, setAuthError] = useState('')
+  const [authError, setAuthError] = useState("");
   const navigate = useNavigate();
   const onChange = (e) => {
-    setAuthError('')
+    setAuthError("");
     let newObj = { ...userData };
     newObj[e.target.name] = e.target.value;
     setUserData(newObj);
   };
 
-
   useEffect(() => {
-    if(isUserAuthenticated()) navigate('/dashboard')
-  }, [])
+    if (isUserAuthenticated()) navigate("/dashboard");
+  }, []);
 
   const submitForm = async () => {
     if (activeForm == "login") {
@@ -40,22 +40,25 @@ function Auth() {
         alert("Signup successful. Please login with your credentials");
         setActiveForm("login");
       } else {
-        let errorText = ''
-        if(signupRequest.existingUsernameError) errorText  = 'Username already exists.'
-        if(signupRequest.existingEmailError) errorText += ' Email is already taken.'
+        let errorText = "";
+        if (signupRequest.existingUsernameError)
+          errorText = "Username already exists.";
+        if (signupRequest.existingEmailError)
+          errorText += " Email is already taken.";
 
-        setAuthError(errorText)
+        setAuthError(errorText);
       }
       return;
     }
   };
   return (
-    <div>
+    <div className="view-main">
       <h1>Welcome to the app</h1>
       <div className="auth-form">
         <input
           onChange={(e) => onChange(e)}
           type="text"
+          className="text-input"
           name="username"
           id="username"
           placeholder="username"
@@ -64,6 +67,7 @@ function Auth() {
           <input
             onChange={(e) => onChange(e)}
             type="email"
+            className="text-input"
             placeholder="Email address"
             name="email"
             id="email"
@@ -73,6 +77,7 @@ function Auth() {
           onChange={(e) => onChange(e)}
           type="password"
           name="password"
+          className="text-input"
           id="password"
           placeholder="password"
         />
@@ -80,19 +85,20 @@ function Auth() {
           <input
             onChange={(e) => onChange(e)}
             type="password"
+            className="text-input"
             placeholder="Repeat password"
             name="passwordRepeat"
             id="passwordRepeat"
           />
         )}
         {activeForm === "login" ? (
-          <a onClick={() => setActiveForm("signup")}>Signup</a>
+          <p>Don't have an account? <a onClick={() => setActiveForm("signup")}>Signup</a></p>
         ) : (
           <a onClick={() => setActiveForm("login")}>Back to login form</a>
         )}
 
         {authError && <p> Errors: {authError}</p>}
-        <button onClick={submitForm}>Submit</button>
+        <button className='btn action-button' onClick={submitForm}>Submit</button>
       </div>
     </div>
   );

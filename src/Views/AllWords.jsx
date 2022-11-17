@@ -3,6 +3,7 @@ import useAllUserWords from "../Hooks/useAllUserWords";
 import WordsList from "../Components/WordsList";
 import { useNavigate } from "react-router-dom";
 import { isUserAuthenticated } from "../utils";
+import './Auth.css'
 function AllWords() {
   const [userId, setUserId] = useState();
   const [username, setUsername] = useState('')
@@ -25,7 +26,7 @@ function AllWords() {
 
   if (fetchingData) return <p>Loading</p>;
   return (
-    <div>
+    <div className="view-main">
       <button onClick={() => navigate("/")}>Go back</button>
       <h2>Words of {username}</h2>
       <WordsList
