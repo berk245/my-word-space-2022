@@ -1,4 +1,5 @@
 const Word = require("../../models/Word.model");
+const CloudWatch = require("../../config/logger");
 
 module.exports = async (req, res) => {
   try {
@@ -14,6 +15,12 @@ module.exports = async (req, res) => {
     });
     res.status(200).json({ words: words });
   } catch (err) {
-    res.status(400).json({ error: err });
+    CloudWatch.log(
+      "error",
+      "error in /word/get-all",
+      `Error details: ${err}`,
+      `Request params: ${req.params}`
+    );
+    res.status(500).send("Server error");
   }
 };
