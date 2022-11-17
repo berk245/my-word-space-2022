@@ -1,20 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { parseIdFromURL } from "../utils";
 import useWordData from "../Hooks/useWordData";
 import { deleteWord, isUserAuthenticated } from "../utils";
 import WordForm from "../Components/WordForm";
 import {useNavigate} from 'react-router-dom'
 function Word() {
-  const { userId } = JSON.parse(localStorage.getItem("user"));
   const wordId = parseIdFromURL(window.location);
   const [showEditWordForm, setShowEditWordForm] = useState(false);
   const [serverMessage, setServerMessage] = useState("");
   const [refetchData, setRefetchData] = useState(false);
 
+  const [userId, setUserId] = useState();
+  const [username, setUsername] = useState('')
   const navigate = useNavigate()
-  if(!isUserAuthenticated()){
-    navigate('/not-authorized')
-  }
+
+  useEffect(() => {
+    if (!isUserAuthenticated()) navigate("/not-authorized");
+    else {
+      const userInfo = JSON.parse(localStorage.getItem("user"));
+      setUserId(userInfo.userId)
+      setUsername(userInfo.username)
+    }
+  }, []);
 
   const { fetchingData, fetchError, wordData } = useWordData(
     wordId,

@@ -7,17 +7,22 @@ import {isUserAuthenticated} from '../utils'
 import {useNavigate} from 'react-router-dom'
 function Exercise() {
   
- 
-  const { userId } = JSON.parse(localStorage.getItem("user"));
   const [currentView, setCurrentView] = useState('preExercise')
   const [exerciseData, setExerciseData] = useState({})
   const [exerciseResults, setExerciseResults] = useState({})
   const {userNotebooks, fetchError, fetchingData} = useNotebooksList(userId)
-  
+  const [userId, setUserId] = useState();
+  const [username, setUsername] = useState('')
   const navigate = useNavigate()
+
   useEffect(() => {
-    if(!isUserAuthenticated()) navigate('/not-authorized')
-  }, [])
+    if (!isUserAuthenticated()) navigate("/not-authorized");
+    else {
+      const userInfo = JSON.parse(localStorage.getItem("user"));
+      setUserId(userInfo.userId)
+      setUsername(userInfo.username)
+    }
+  }, []);
 
 
   if(fetchingData) return <p>Loading</p>

@@ -25,6 +25,7 @@ function useWordData(wordId, refetchData) {
     setFetchingData(true)
   }
   useEffect(() => {
+    if(!wordId) return
     resetData()
     getData(wordId);
   }, [wordId, refetchData]);

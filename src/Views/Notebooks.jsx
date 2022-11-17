@@ -5,13 +5,19 @@ import AddNewNotebook from '../Components/AddNewNotebook'
 import NotebooksList from '../Components/NotebooksList'
 import { isUserAuthenticated } from "../utils";
 function Notebooks() {
-  const { username, userId } = JSON.parse(localStorage.getItem("user"));
   const [addNotebookForm, setAddnotebookForm] = useState(false);
   const [reloadList, setReloadList] = useState(false);
-  const navigate = useNavigate();
+  const [userId, setUserId] = useState();
+  const [username, setUsername] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!isUserAuthenticated()) navigate("/not-authorized");
+    else {
+      const userInfo = JSON.parse(localStorage.getItem("user"));
+      setUserId(userInfo.userId)
+      setUsername(userInfo.username)
+    }
   }, []);
 
   const { userNotebooks, fetchingData, fetchError } = useNotebooksList(

@@ -1,3 +1,4 @@
+// const baseUrl = "https://api.berkozzambak.online";
 const baseUrl = "http://localhost:5000";
 const loginUser = async (userData) => {
   try {
@@ -15,9 +16,16 @@ const loginUser = async (userData) => {
   }
 };
 
+const logoutUser = (navigate) => {
+  document.cookie = `auth_token=`;
+  localStorage.clear()
+  navigate('/')
+}
+
 const isUserAuthenticated = () => {
-  let authToken = document.cookie.match("auth_token");
-  if (authToken) return true;
+  let user = localStorage.getItem('user');
+  console.log(user)
+  if (user) return true;
   else return false;
 };
 
@@ -26,7 +34,8 @@ const signupUser = async (userData) => {
     baseUrl + "/signup",
     getRequestBody("POST", userData)
   );
-  return response.ok;
+    response = await response.json()
+    return response;
 };
 
 const getRequestBody = (requestType, data) => {
@@ -57,7 +66,7 @@ const editNotebookName = async (params) => {
 };
 
 const getNotebookData = async (notebookId) => {
-  const url = `http://localhost:5000/notebook/get-notebook-data/${notebookId}`;
+  const url = `${baseUrl}/notebook/get-notebook-data/${notebookId}`;
   let response = await fetch(url, {
     method: "GET",
     headers: {
@@ -69,7 +78,7 @@ const getNotebookData = async (notebookId) => {
 };
 
 const getUserNotebooksList = async (userId) => {
-  const url = `http://localhost:5000/notebook/get-all/${userId}`;
+  const url = `${baseUrl}/notebook/get-all/${userId}`;
 
   let response = await fetch(url, {
     method: "GET",
@@ -104,6 +113,7 @@ const parseIdFromURL = (url) => {
 };
 
 const deleteNotebook = async (params) => {
+  console.log(params)
   let response = await fetch(
     baseUrl + "/notebook/delete",
     getRequestBody("DELETE", params)
@@ -146,7 +156,7 @@ const parseAuthCookie = (cookieName) => {
 };
 
 const getWordData = async (wordId) => {
-  const url = `http://localhost:5000/word/${wordId}`;
+  const url = `${baseUrl}/word/${wordId}`;
 
   let wordData = await fetch(url, {
     method: "GET",
@@ -215,6 +225,7 @@ const completeExercise = async (params) => {
 export {
   loginUser,
   signupUser,
+  logoutUser,
   formatNotebooksArray,
   createWord,
   getWordData,

@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Exercise from "./Views/Exercise";
 import Word from "./Views/Word";
 import Auth from "./Views/Auth";
@@ -9,9 +9,9 @@ import Notebook from "./Views/Notebook";
 import AllWords from "./Views/AllWords"
 import NotFound from "./Views/NotFound";
 import NotAuthorized from "./Views/NotAuthorized";
-
 function App() {
   return (
+    <>
     <Router>
       <Routes>
         <Route path="/" element={<Auth/>} />
@@ -25,6 +25,7 @@ function App() {
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </Router>
+    </>
   );
 }
 

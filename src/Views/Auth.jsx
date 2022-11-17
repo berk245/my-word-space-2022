@@ -5,8 +5,10 @@ import { loginUser, signupUser, isUserAuthenticated } from "../utils";
 function Auth() {
   const [activeForm, setActiveForm] = useState("login");
   const [userData, setUserData] = useState();
+  const [authError, setAuthError] = useState('')
   const navigate = useNavigate();
   const onChange = (e) => {
+    setAuthError('')
     let newObj = { ...userData };
     newObj[e.target.name] = e.target.value;
     setUserData(newObj);
@@ -32,13 +34,17 @@ function Auth() {
         alert("Please make sure the passwords match");
         return false;
       }
-      let signupSuccess = await signupUser(userData);
+      let signupRequest = await signupUser(userData);
 
-      if (signupSuccess) {
+      if (signupRequest.signupSuccess) {
         alert("Signup successful. Please login with your credentials");
         setActiveForm("login");
       } else {
-        alert("There was a problem signing you up. Please try again.");
+        let errorText = ''
+        if(signupRequest.existingUsernameError) errorText  = 'Username already exists.'
+        if(signupRequest.existingEmailError) errorText += ' Email is already taken.'
+
+        setAuthError(errorText)
       }
       return;
     }
@@ -84,6 +90,8 @@ function Auth() {
         ) : (
           <a onClick={() => setActiveForm("login")}>Back to login form</a>
         )}
+
+        {authError && <p> Errors: {authError}</p>}
         <button onClick={submitForm}>Submit</button>
       </div>
     </div>

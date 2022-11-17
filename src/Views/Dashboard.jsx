@@ -1,12 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import {isUserAuthenticated} from '../utils'
+import {isUserAuthenticated, logoutUser} from '../utils'
 function Dashboard() {
-  const { username, userId } = JSON.parse(localStorage.getItem("user"));
-  useEffect(() => {
-    if(!isUserAuthenticated()) navigate('/not-authorized')
-  }, [])
   const navigate = useNavigate();
+  const [userId, setUserId] = useState();
+  const [username, setUsername] = useState('')
+
+  useEffect(() => {
+    if (!isUserAuthenticated()) navigate("/not-authorized");
+    else {
+      const userInfo = JSON.parse(localStorage.getItem("user"));
+      setUserId(userInfo.userId)
+      setUsername(userInfo.username)
+    }
+  }, []);
   if (!userId) {
     return (
       <div>
@@ -24,6 +31,7 @@ function Dashboard() {
 
   return (
     <div className="dashboard-main">
+      <button onClick={()=> logoutUser(navigate)}>Sign out</button>
       <div className="welcome-text">
         <p>Welcome {username}</p>
       </div>

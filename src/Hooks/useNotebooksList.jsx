@@ -27,6 +27,7 @@ function useNotebooksList(userId, reloadList) {
     setFetchingData(true)
   }
   useEffect(() => {
+    if(!userId) return
     resetData()
     getUserNotebooks(userId);
   }, [userId, reloadList]);

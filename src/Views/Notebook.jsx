@@ -6,15 +6,22 @@ import EditNotebookForm from "../Components/EditNotebookForm";
 import WordsList from "../Components/WordsList";
 
 function Notebook() {
-  const { username, userId } = JSON.parse(localStorage.getItem("user"));
   const notebookId = parseIdFromURL(window.location);
   const [reloadList, setReloadList] = useState(false);
   const [showEditNotebookForm, setShowEditNotebookForm] = useState(false);
   const [serverMessage, setServerMessage] = useState(false);
+
+  const [userId, setUserId] = useState();
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!isUserAuthenticated()) navigate("/not-authorized");
+    else {
+      const userInfo = JSON.parse(localStorage.getItem("user"));
+      setUserId(userInfo.userId);
+      setUsername(userInfo.username);
+    }
   }, []);
   const { notebookInfo, notebookWords, fetchingData, fetchError } =
     useNotebookInfo(notebookId, reloadList);
