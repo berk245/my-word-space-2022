@@ -4,18 +4,18 @@ const CloudWatch = require("../../config/logger");
 
 module.exports = async (req, res) => {
   try {
-    if (!req.body.userId) {
+    if (!req.params.userId) {
       res.status(400).json({ error: "Missing required fields" });
       return;
     }
-    let user = await getUser.byUserId(req.body.userId);
+    let user = await getUser.byUserId(req.params.userId);
     if (!user) {
-      res.status(400).json({ error: "Could not find the user" });
+      res.status(404).json({ error: "Could not find the user" });
       return;
     }
     const exercises = await Exercise.findAll({
       where: {
-        UserID: req.body.userId,
+        UserID: req.params.userId,
       },
     });
     res.status(200).json({ exercises: exercises });
@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
       "error",
       "error in /exercise/get",
       `Error details: ${err}`,
-      `Request body: ${req.body}`
+      `Request params: ${req.params}`
     );
     res.status(500).send("Server error");
   }
