@@ -8,10 +8,17 @@
     align-items: center;
 }
 
+.section-title-buttons{
+    display: flex;
+    gap: 1rem;
+}
+
 .section-title-button{
     font-size: 0.7rem;
     font-weight: bold;
-    height: 50%;  
+    height: 50%; 
+    background: rgb(73,100,255);
+    color: white;
 }
 
 .all-words-box{
@@ -102,4 +109,18 @@
     opacity: 0.8;
 }
 
+.danger-button{
+    background: crimson
+}
 
+.word-info-line{
+    padding: 1rem;
+    border-bottom: 1px solid silver;
+    display: flex;
+    gap: 1rem;
+}
+
+.line-label{
+    font-weight: 600;
+    flex-basis: 7.5%;
+}

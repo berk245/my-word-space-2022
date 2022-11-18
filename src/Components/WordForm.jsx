@@ -55,7 +55,13 @@ function WordForm({
     );
   return (
     <div className="add-new-word-form">
-      <div className="form-title">Add a new word</div>
+      <div className="form-title">
+        {type == 'addNew' ?
+        'Add a new word'
+        :
+       ' Edit Word'
+      }
+        </div>
       <div className="add-new-word-form-input-section">
         <div className="label-input-pair">
           <span>Original: </span>

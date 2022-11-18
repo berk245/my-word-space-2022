@@ -53,9 +53,30 @@ function Word() {
   if (serverMessage) return <p>{serverMessage}</p>;
   if (fetchingData) return <p>Loading</p>;
   return (
-    <div>
-      <button onClick={() => window.history.back()}>Go back</button>
-      <h1>Word</h1>
+    <div className="exercise-view-main">
+      <button
+        className="btn go-back-button"
+        onClick={() => window.history.back()}
+      >
+        Go back
+      </button>
+      <div className="section-title">
+        <h1>Word Info</h1>
+        <div className="section-title-buttons">
+          <button
+            className="btn section-title-button"
+            onClick={() => setShowEditWordForm(true)}
+          >
+            Edit Word
+          </button>
+          <button
+            className="btn section-title-button danger-button"
+            onClick={handleDelete}
+          >
+            Delete Word
+          </button>
+        </div>
+      </div>
       {showEditWordForm ? (
         <WordForm
           type="edit"
@@ -69,14 +90,28 @@ function Word() {
           reload={() => setRefetchData(!refetchData)}
         />
       ) : (
-        <>
-          <span>
-            <button onClick={() => setShowEditWordForm(true)}>Edit</button>
-            <button onClick={handleDelete}>Delete</button>
-          </span>
-          <p> Word: {wordData.WordOriginal}</p>
-          <p> Translation: {wordData.WordTranslation}</p>
-        </>
+        <div className="questions-box">
+          <div className="word-info-line">
+            <span className="line-label">Original:</span>
+            <span className="line-content"> {wordData.WordOriginal}</span>
+          </div>
+          <div className="word-info-line">
+            <span className="line-label">Translation:</span>
+            <span className="line-content"> {wordData.WordTranslation}</span>
+          </div>
+          <div className="word-info-line">
+            <span className="line-label">Notebook ID:</span>
+            <span className="line-content"> {wordData.NotebookID}</span>
+          </div>
+          <div className="word-info-line">
+            <span className="line-label">Times Exercised:</span>
+            <span className="line-content"> {wordData.TimesSeen}</span>
+          </div>
+          <div className="word-info-line">
+            <span className="line-label">Correct Answers:</span>
+            <span className="line-content"> {wordData.CorrectAnswers}</span>
+          </div>
+        </div>
       )}
     </div>
   );
