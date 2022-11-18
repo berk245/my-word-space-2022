@@ -10,6 +10,11 @@ module.exports = async (req, res) => {
       },
     });
 
+    if(!notebookInfo){
+      res.status(404).json('Could not find notebook')
+      return
+    }
+
     const notebookWords = await Word.findAll({
       where: {
         NotebookID: req.params.notebookId,
