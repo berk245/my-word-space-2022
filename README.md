@@ -160,7 +160,7 @@ Returns information on an exercise
     exerciseParameters: {
         amount: 15,
         notebooks: [array of notebook ids],
-        wordTypes: [enum representations of 'adjective', 'verb', 'noun' ]
+        wordTypes: ['adjective', 'noun', 'verb', 'other' ] //or their enum representations 1-4
     }
   ```
 
