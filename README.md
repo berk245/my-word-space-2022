@@ -2,11 +2,40 @@
 
 A Node.js/Express application for the SE_22 Web Backend Technologies module at CODE University of Applied Sciences, Berlin.
 
+
+## Project Description
+
+**My Word Space** is a  platform that allows users to create notebooks, add words (similar to flashcards) into them, and practice them in a random fashion later on. 
+
+The idea originated from the vocabulary notebooks I used use while practicing German. The current application is more of a prototype with limited amount of features and a very simple design. Currently available features are:
+
+1. Signing up and logging in
+2. Creating, editing and deleting a notebook
+3. Adding words into notebooks.
+4. Editing and deleting words
+5. Specifying the amount, word types, and notebooks to choose questions from and exercise
+6. Keeping basic performance statistics related to words
+
+
 The server is live on https://api.berkozzambak.online
 
 To play around and test the features, a simple React app that is connected to the server can be visited at:
 https://client.berkozzambak.online
-## Project Diagram
+
+
+## Project Flow
+
+The server code is deployed on a EC2 instance and runs constantly with the help of systemctl methods. 
+
+MySQL database for production lives in the same instance. 
+
+Nginx is installed in the instance and redirects the http requests to the Node application. Currently it does not do much more than that, but could later be setup to handle server caching or load balancing.
+
+The passwords are stored hashed. Each login validates the user credentials and a successful login request returns a JWT token. This token is required for each request (except login and signup) and should be passed in the header. Any request that lacks the header filed or have an invalid token returns a 403 response.
+
+After authentication, the Node app connects to the MySQL database and accesses data using Sequelize.
+
+Monitoring of the application is done via AWS CloudWatch. The server errors are logged in the dedicated log group.
 
 ![Untitled Diagram drawio(1)](https://user-images.githubusercontent.com/32645610/202607161-ac84d762-b91c-4bc8-afb9-46957662dbc0.png)
 
@@ -127,11 +156,13 @@ Returns information on an exercise
 | `exerciseParameters` | `object` | **Required** |
 
 **exercise parameters should look like:
+  ```
     exerciseParameters: {
         amount: 15,
         notebooks: [array of notebook ids],
         wordTypes: [enum representations of 'adjective', 'verb', 'noun' ]
-    } 
+    }
+  ```
 
 #### Complete Exercise
 
