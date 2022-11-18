@@ -6,7 +6,7 @@ const CloudWatch = require("../../config/logger");
 module.exports = async (req, res) => {
   try {
     if (requestHasMissingFields(req)) {
-      res.status(400).json({ error: "Missing required fields" });
+      res.status(400).json({ error: "Missing or invalid required fields" });
       return;
     }
 
@@ -54,9 +54,12 @@ module.exports = async (req, res) => {
 const requestHasMissingFields = (req) => {
   return (
     !req.body.userId ||
+    +req.body.userId < 0 ||
     !req.body.exerciseParameters?.amount ||
-    req.body.exerciseParameters?.amount < 0 ||
+    +req.body.exerciseParameters?.amount < 0 ||
     !req.body.exerciseParameters?.wordTypes ||
     !req.body.exerciseParameters?.notebooks
   );
 };
+
+
