@@ -176,6 +176,23 @@ Returns information on an exercise
 | `exerciseId` | `string` | **Required** |
 | `exerciseData` | `object` | **Required** |
 
+**exercise data should look like:
+  ```
+    "exerciseData": [
+        {
+            "WordID": ,
+            "NotebookID": ,
+            "LastSeenAt": ,
+            "TimesSeen": ,
+            "CorrectAnswers": ,
+            "WordOriginal": "",
+            "WordTranslation": "",
+            "WordType": "",
+            "CreatorID": ,
+            "userAnswer": ""
+        }
+    ]
+  ```
 
 #### Get User Notebooks
 
