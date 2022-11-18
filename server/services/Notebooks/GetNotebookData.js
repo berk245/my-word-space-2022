@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     });
 
     if(!notebookInfo){
-      res.status(404).json('Could not find notebook')
+      res.status(404).json({error: 'Could not find notebook'})
       return
     }
 
