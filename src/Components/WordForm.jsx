@@ -23,6 +23,8 @@ function WordForm({
     wordId: wordId,
   });
 
+  const navigate = useNavigate()
+
   const { userNotebooks, fetchingData, fetchError } = useNotebooksList(userId);
 
   const updateFields = (e) => {
@@ -50,7 +52,7 @@ function WordForm({
     return (
       <p>
         You do not have any notebooks yet. To add a word, please first{" "}
-        <a className='auth-link' href="/notebooks"> create a notebook </a>.
+        <a className='auth-link' onClick={() => navigate("/notebooks")}> create a notebook </a>.
       </p>
     );
   return (

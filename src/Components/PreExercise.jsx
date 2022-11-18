@@ -90,7 +90,7 @@ function PreExercise({
         </button>
         <p>
           You do not have any notebooks yet. To exercise, please{" "}
-          <a className="auth-link" href="/notebooks">
+          <a className="auth-link" onClick={() => navigate("/notebooks")}>
             {" "}
             create a notebook{" "}
           </a>
