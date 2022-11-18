@@ -16,6 +16,12 @@ module.exports = async (req, res) => {
     return;
   }
 
+  const wordTypes = ["adjective", "noun", "verb"];
+  if (!wordTypes.includes(wordType)) {
+    res.status(500).json({ error: "Invalid word type" });
+    return;
+  }
+
   word
     .update(
       {
@@ -23,7 +29,7 @@ module.exports = async (req, res) => {
         NotebookID: notebookId,
         WordOriginal: wordOriginal,
         WordTranslation: wordTranslation,
-        WordType: wordType
+        WordType: wordType,
       },
       {
         where: {

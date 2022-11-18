@@ -17,6 +17,12 @@ module.exports = async (req, res) => {
       return;
     }
 
+    const wordTypes = ["adjective", "noun", "verb"]
+    if(!wordTypes.includes(wordType)){
+      res.status(500).json({ error: "Invalid word type" });
+      return;
+    }
+
     await Word.create({
       NotebookID: notebookId,
       WordOriginal: wordOriginal,
