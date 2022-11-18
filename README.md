@@ -313,7 +313,7 @@ Returns information on a word
 
 
 
-#### Delete notebook
+#### Delete word
 
 
 ```http
@@ -325,7 +325,7 @@ Returns information on a word
 | :-------- | :------- | :-------------------------------- |
 | `userId` | `string` | **Required** |
 | `notebookId` | `string` | **Required** |
-| `notebookId` | `string` | **Required** |
+| `wordId` | `string` | **Required** |
 
 
 ## Running Tests
