@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-import { formatNotebooksArray, getExerciseQuestions, isUserAuthenticated } from "../utils";
+import {
+  formatNotebooksArray,
+  getExerciseQuestions,
+  isUserAuthenticated,
+} from "../utils";
 function PreExercise({
   userNotebooks,
   userId,
@@ -13,10 +17,10 @@ function PreExercise({
     notebooks: [],
     wordTypes: [],
   });
-  const [requestError, setRequestError] = useState(false)
+  const [requestError, setRequestError] = useState(false);
   const navigate = useNavigate();
-  if(!isUserAuthenticated()){
-    navigate('/not-authorized')
+  if (!isUserAuthenticated()) {
+    navigate("/not-authorized");
   }
 
   const formattedNotebooks = formatNotebooksArray(userNotebooks);
@@ -36,6 +40,11 @@ function PreExercise({
       key: "Verb",
       value: "verb",
     },
+    {
+      label: "Other",
+      key: "Other",
+      value: "other",
+    },
   ];
   const onSelectChange = (type, e) => {
     if (type === "notebooks") {
@@ -54,31 +63,52 @@ function PreExercise({
     }
   };
 
-  const onSubmit = async() => {
-    setRequestError('')
-    if(!exerciseParameters.amount || !exerciseParameters.notebooks.length || !exerciseParameters.wordTypes.length){
-      setRequestError('Please fill all the fields')
-      return
+  const onSubmit = async () => {
+    setRequestError("");
+    if (
+      !exerciseParameters.amount ||
+      !exerciseParameters.notebooks.length ||
+      !exerciseParameters.wordTypes.length
+    ) {
+      setRequestError("Please fill all the fields");
+      return;
     }
-    let exerciseData = await getExerciseQuestions(userId, exerciseParameters)
+    let exerciseData = await getExerciseQuestions(userId, exerciseParameters);
 
-    if(exerciseData.error){
-      setRequestError(exerciseData.error)
-      return
+    if (exerciseData.error) {
+      setRequestError(exerciseData.error);
+      return;
     }
-    setExerciseData(exerciseData)
-    setCurrentView('exercise')
+    setExerciseData(exerciseData);
+    setCurrentView("exercise");
   };
-  if(!userNotebooks.length) return <p>You do not have any notebooks yet. To exercise, please <a href="/notebooks"> create a notebook </a>.</p>
+  if (!userNotebooks.length)
+    return (
+      <>
+        <button className="btn go-back-button" onClick={() => navigate("/")}>
+          Go back
+        </button>
+        <p>
+          You do not have any notebooks yet. To exercise, please{" "}
+          <a className="auth-link" href="/notebooks">
+            {" "}
+            create a notebook{" "}
+          </a>
+          .
+        </p>
+      </>
+    );
   return (
     <div>
-      <button className='btn go-back-button' onClick={() => navigate("/")}>Go back</button>
+      <button className="btn go-back-button" onClick={() => navigate("/")}>
+        Go back
+      </button>
       <h2>Setup exercise</h2>
       {requestError && <p className="error-text">{requestError}</p>}
       <div className="parameter-selector amount-picker">
         <span>Word Amount</span>
         <input
-        className="number-input"
+          className="number-input"
           onChange={(e) =>
             setExerciseParameters({
               ...exerciseParameters,
@@ -108,7 +138,9 @@ function PreExercise({
         />
       </div>
       <br />
-      <button className='btn big-blue-button' onClick={onSubmit}>Begin exercise</button>
+      <button className="btn big-blue-button" onClick={onSubmit}>
+        Begin exercise
+      </button>
     </div>
   );
 }
