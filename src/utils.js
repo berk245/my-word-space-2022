@@ -1,5 +1,5 @@
-// const baseUrl = "https://api.berkozzambak.online";
-const baseUrl = "http://localhost:5000";
+const baseUrl = "https://api.berkozzambak.online";
+// const baseUrl = "http://localhost:5000";
 
 const getRequestBody = (requestType, data) => {
   return {
@@ -73,7 +73,7 @@ const editNotebookName = async (params) => {
 };
 
 const getNotebookData = async (notebookId) => {
-  const url = `${baseUrl}/notebook/get-notebook-data/${notebookId}`;
+  const url = `${baseUrl}/notebook/get-data/${notebookId}`;
   let response = await fetch(url, {
     method: "GET",
     headers: {

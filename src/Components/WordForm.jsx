@@ -50,7 +50,7 @@ function WordForm({
     return (
       <p>
         You do not have any notebooks yet. To add a word, please first{" "}
-        <a href="/notebooks"> create a notebook </a>.
+        <a className='auth-link' href="/notebooks"> create a notebook </a>.
       </p>
     );
   return (
