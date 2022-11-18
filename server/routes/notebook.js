@@ -8,7 +8,7 @@ const GetNotebookData = require("../services/Notebooks/GetNotebookData");
 
 module.exports = function () {
   router.get("/get-all/:userId", GetAllNotebooks);
-  router.get("/get-notebook-data/:notebookId", GetNotebookData);
+  router.get("/get-data/:notebookId", GetNotebookData);
   router.post("/add", AddNotebook);
   router.post("/edit", EditNotebook);
   router.delete("/delete", DeleteNotebook);
