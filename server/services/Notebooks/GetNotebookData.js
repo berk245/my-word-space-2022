@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
   } catch (err) {
     CloudWatch.log(
       "error",
-      "error in /notebook/get-notebook-data",
+      "error in /notebook/get-data",
       `Error details: ${err}`,
       `Request params: ${req.params}`
     );
