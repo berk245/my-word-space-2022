@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
     CloudWatch.log(
       "error",
       "error in /signup",
-      `Error details: ${err}`,
+       err
     );
     res.status(500).send("Server error");
   }

@@ -1,7 +1,6 @@
 const express = require("express");
 const loginRoute = require("./routes/login.js");
 const signupRoute = require("./routes/signup.js");
-const userRoute = require("./routes/user");
 const wordRoute = require("./routes/word");
 const notebookRoute = require("./routes/notebook");
 const exerciseRoute = require("./routes/exercise");
@@ -10,7 +9,6 @@ const verifyToken = require("./middlewares/verifyToken");
 const logRequestInfo = require("./middlewares/logRequestInfo");
 const cors = require("cors");
 const logger = require('./config/logger')
-// require("dotenv").config({path: path.join(__dirname, '..', '.env')})
 require("dotenv").config();
 const app = express();
 
@@ -28,8 +26,6 @@ app.use("/signup", signupRoute());
 app.use("/notebook", notebookRoute());
 
 app.use("/word", wordRoute());
-
-app.use("/user", userRoute());
 
 app.use("/exercise", exerciseRoute());
 
