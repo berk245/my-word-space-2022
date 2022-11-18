@@ -8,6 +8,11 @@
     font-size: 0.9rem !important;
 }
 
+.big-blue-button{
+    background: rgb(73,100,255) !important;
+    color: white;
+}
+
 .parameter-selector{
     margin: 1rem 0;
     display: flex;

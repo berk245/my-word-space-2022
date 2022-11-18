@@ -32,7 +32,7 @@ function Notebook() {
   const handleDelete = async () => {
     try {
       let deleteConfirmed = window.confirm(
-        "Are you sure you want to delete this notebook?"
+        "This will delete the notebook and all the words within. Are you sure?"
       );
       if (!deleteConfirmed) return;
       let deleteSuccess = await deleteNotebook({ userId, notebookId });

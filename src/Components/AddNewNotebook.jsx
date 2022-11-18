@@ -15,17 +15,20 @@ function AddNewNotebook({ userId, reload, close }) {
   }
 
 return(
-        <div className="add-new-form">
+        <div className="add-new-word-form">
+          <div className="form-title"> Add New Notebook</div>
           <input
             onChange={(e) => setNewNotebookName(e.target.value)}
             type="text"
             name="notebook-name"
             id="notebook-name"
+            className="number-input"
+            placeholder="Notebook Name"
           />
-          <button onClick={() => addNewNotebook()}>
+          <button className="btn go-back-button form-submit-button" onClick={() => addNewNotebook()}>
             Submit
           </button>
-          <button onClick={close}>Cancel</button>
+          <button className="btn go-back-button" onClick={close}>Cancel</button>
         </div>
       )
     }

@@ -54,8 +54,12 @@ function PreExercise({
     }
   };
 
-
   const onSubmit = async() => {
+    setRequestError('')
+    if(!exerciseParameters.amount || !exerciseParameters.notebooks.length || !exerciseParameters.wordTypes.length){
+      setRequestError('Please fill all the fields')
+      return
+    }
     let exerciseData = await getExerciseQuestions(userId, exerciseParameters)
 
     if(exerciseData.error){
@@ -104,7 +108,7 @@ function PreExercise({
         />
       </div>
       <br />
-      <button className='btn' onClick={onSubmit}>Begin exercise</button>
+      <button className='btn big-blue-button' onClick={onSubmit}>Begin exercise</button>
     </div>
   );
 }
