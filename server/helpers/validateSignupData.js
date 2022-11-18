@@ -9,13 +9,15 @@ module.exports = validateSignupData = async ({ username, password, email }) => {
     return errors;
   }
   if (await isUsernameTaken(username)) errors.existingUsernameError = true;
-  if (await isEmailInUse(email)) errors.existingEmailError = true;
+  if(!isEmailAddressValid(email)) errors.inValidemailError = true;
+  else if (await isEmailInUse(email)) errors.existingEmailError = true;
 
   return _.isEmpty(errors) ? false : errors;
 };
 
 const isEmailInUse = async (email) => {
   if (!email) return false;
+
   const user = await getUser.byEmail(email);
   return user || false;
 };
@@ -26,3 +28,8 @@ const isUsernameTaken = async (username) => {
 
   return user || false;
 };
+
+function isEmailAddressValid(email) {
+  var re = /\S+@\S+\.\S+/;
+  return re.test(email);
+}
