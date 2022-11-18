@@ -52,7 +52,7 @@ describe("Exercise route", () => {
       for (const body of bodyData) {
         const response = await request(app).post("/exercise/begin").send(body);
         expect(response.statusCode).toBe(400);
-        expect(response.body).toEqual({ error: "Missing required fields" });
+        expect(response.body).toEqual({ error: "Missing or invalid required fields" });
       }
     });
     test("begin exercise request is made with a user that does not exist", async () => {

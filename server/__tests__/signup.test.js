@@ -56,7 +56,7 @@ describe("Signup route", () => {
       const response = await request(app).post("/signup").send({
         username: "UniqueLongNameForTheTest",
         password: "password",
-        email: "anotheruniquevalueonthewall",
+        email: "unique@email.co.uk",
       });
 
       expect(saveUserToDatabase.mock.calls.length).toBe(1)
