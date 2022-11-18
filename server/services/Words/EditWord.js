@@ -59,7 +59,6 @@ const hasMissingFields = (obj) => {
 
   for (const key of requiredKeys) {
     if (!obj[key]) {
-      console.log(key);
       return true;
     }
   }

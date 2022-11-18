@@ -1,5 +1,6 @@
 const mysql = require("mysql2");
 const path = require("path");
+const CloudWatch = require("../config/logger");
 
 require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
@@ -15,11 +16,10 @@ const db = new Sequelize(
   }
 );
 
-db
-  .authenticate()
+db.authenticate()
   .then(() => {
     console.log("Connected to db successfuly");
   })
-  .catch((err) => console.log(err));
+  .catch((err) => CloudWatch.log("error", "error in DB connection", err));
 
 module.exports = db;

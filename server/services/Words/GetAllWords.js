@@ -4,7 +4,6 @@ const CloudWatch = require("../../config/logger");
 module.exports = async (req, res) => {
   try {
     if(!req.params.userId){
-      console.log('Here')
       res.status(400).json({ error: 'Missing required fields' });
       return
     } 
