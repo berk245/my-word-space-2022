@@ -55,6 +55,7 @@ const requestHasMissingFields = (req) => {
   return (
     !req.body.userId ||
     !req.body.exerciseParameters?.amount ||
+    req.body.exerciseParameters?.amount < 0 ||
     !req.body.exerciseParameters?.wordTypes ||
     !req.body.exerciseParameters?.notebooks
   );
