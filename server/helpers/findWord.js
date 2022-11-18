@@ -1,12 +1,13 @@
 const Word = require("../models/Word.model");
 const CloudWatch = require('../config/logger')
-module.exports = async (wordId, userId) => {
+module.exports = async (wordId, userId, notebookId) => {
   
   try {
     let word = await Word.findOne({
       where: {
         WordID: wordId,
         CreatorID: userId,
+        NotebookID: notebookId
       },
     });
     return word
