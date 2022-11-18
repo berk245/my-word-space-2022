@@ -179,6 +179,7 @@ Returns information on an exercise
 **exercise data should look like:
   ```
     "exerciseData": [
+        //for each word in the exercise
         {
             "WordID": ,
             "NotebookID": ,
@@ -191,6 +192,7 @@ Returns information on an exercise
             "CreatorID": ,
             "userAnswer": ""
         }
+        ...
     ]
   ```
 
