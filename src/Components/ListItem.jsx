@@ -1,21 +1,24 @@
 import React, { useState } from "react";
-import {useNavigate} from 'react-router-dom'
-import {editNotebookName} from '../utils'
-import EditNotebookForm from './EditNotebookForm'
+import { useNavigate } from "react-router-dom";
+import { editNotebookName } from "../utils";
+import EditNotebookForm from "./EditNotebookForm";
 function ListItem({ content, userId, reload }) {
   const [editItem, setEditItem] = useState(false);
-  const [fetchingData, setFetchingData] = useState(false)
-  const [newNotebookName, setNewNotebookName] = useState(content.NotebookName)
+  const [fetchingData, setFetchingData] = useState(false);
+  const [newNotebookName, setNewNotebookName] = useState(content.NotebookName);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  if (editItem) return <EditNotebookForm content={content} reload={reload} userId={userId}/>
+  if (editItem)
+    return (
+      <EditNotebookForm content={content} reload={reload} userId={userId} />
+    );
   else {
     return (
-      <div className="list-item">
+      <div className="notebook-info-line"  onClick={() => navigate(`/notebook/${content.NotebookID}`)}>
         <span>{content.NotebookName}</span>
-        <span>
-        <button onClick={()=>navigate(`/notebook/${content.NotebookID}`)} disabled={fetchingData}> > </button>
+        <span className="helper-text">
+          (Click to see details/edit/delete)
         </span>
       </div>
     );

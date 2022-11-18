@@ -4,12 +4,14 @@ import useNotebookInfo from "../Hooks/useNotebookInfo";
 import { parseIdFromURL, deleteNotebook, isUserAuthenticated } from "../utils";
 import EditNotebookForm from "../Components/EditNotebookForm";
 import WordsList from "../Components/WordsList";
+import WordForm from "../Components/WordForm";
 
 function Notebook() {
   const notebookId = parseIdFromURL(window.location);
   const [reloadList, setReloadList] = useState(false);
   const [showEditNotebookForm, setShowEditNotebookForm] = useState(false);
   const [serverMessage, setServerMessage] = useState(false);
+  const [showAddNewWordForm, setShowAddNewWordForm] = useState(false);
 
   const [userId, setUserId] = useState();
   const [username, setUsername] = useState("");
@@ -48,37 +50,74 @@ function Notebook() {
     }
   };
   if (fetchingData) return <p>Loading</p>;
-  return (
-    <>
-      {serverMessage ? (
-        <p>{serverMessage}</p>
-      ) : (
-        <div>
-          <button onClick={() => navigate("/notebooks")}>Go back</button>
-          <h1>{notebookInfo.NotebookName}</h1>
-          <button onClick={() => setShowEditNotebookForm(true)}>Edit</button>
-          <button onClick={handleDelete}>Delete</button>
+  if (serverMessage) return <p>{serverMessage}</p>;
 
-          {showEditNotebookForm && (
-            <EditNotebookForm
-              content={notebookInfo}
-              userId={userId}
-              close={() => setShowEditNotebookForm(false)}
-              reload={() => setReloadList(!reloadList)}
-            />
-          )}
-          <h4>Words in this notebook</h4>
-          <WordsList
-            wordList={notebookWords}
-            notebookId={notebookId}
-            userId={userId}
-            reload={() => {
-              setReloadList(!reloadList);
-            }}
-          />
+  return (
+    <div className="exercise-view-main">
+      <button
+        className="btn go-back-button"
+        onClick={() => navigate("/notebooks")}
+      >
+        Go back
+      </button>
+      <div className="section-title">
+        <h1>{notebookInfo.NotebookName}</h1>
+        <div className="section-title-buttons">
+          <button
+            className="btn section-title-button"
+            onClick={() => setShowEditNotebookForm(true)}
+          >
+            Edit Notebook
+          </button>
+          <button
+            className="btn section-title-button danger-button"
+            onClick={handleDelete}
+          >
+            Delete Notebook
+          </button>
         </div>
+      </div>
+
+      {showEditNotebookForm && (
+        <EditNotebookForm
+          content={notebookInfo}
+          userId={userId}
+          close={() => setShowEditNotebookForm(false)}
+          reload={() => setReloadList(!reloadList)}
+        />
       )}
-    </>
+      <div>
+        <div className="section-title">
+          <h4>Words in this notebook</h4>
+          {!showAddNewWordForm && (
+            <button
+              className="btn section-title-button"
+              onClick={() => setShowAddNewWordForm(true)}
+            >
+              Add Word
+            </button>
+          )}
+        </div>
+      </div>
+
+      {showAddNewWordForm && (
+        <WordForm
+          type="addNew"
+          userId={userId}
+          notebookId={notebookId}
+          reload={() => setReloadList(!reloadList)}
+          close={() => setShowAddNewWordForm(false)}
+        />
+      )}
+      <WordsList
+        wordList={notebookWords}
+        notebookId={notebookId}
+        userId={userId}
+        reload={() => {
+          setReloadList(!reloadList);
+        }}
+      />
+    </div>
   );
 }
 

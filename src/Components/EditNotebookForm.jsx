@@ -29,12 +29,16 @@ function EditNotebookForm({ content, userId, reload,  close}) {
 
   }
     return (
-      <div className="edit-form">
-        <input onChange={(e)=>{setNewNotebookName(e.target.value)}} defaultValue={content.NotebookName}></input>
-        <span>
-          <button onClick={submitUpdate} disabled={fetchingData}>Submit</button>
-          <button onClick={close}>Cancel</button>
-        </span>
+      <div className="add-new-word-form">
+        <p>Edit Notebook</p>
+        <div className="label-input-pair">
+
+        </div>
+        <input className="number-input" onChange={(e)=>{setNewNotebookName(e.target.value)}} defaultValue={content.NotebookName}></input>
+        <div className="edit-notebook-form-buttons">
+          <button className='btn form-submit-button go-back-button' onClick={submitUpdate} disabled={fetchingData}>Submit</button>
+          <button className='btn form-submit-button go-back-button danger-button' onClick={close}>Cancel</button>
+        </div >
       </div>
     );
 

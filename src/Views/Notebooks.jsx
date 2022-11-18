@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useNotebooksList from "../Hooks/useNotebooksList";
-import AddNewNotebook from '../Components/AddNewNotebook'
-import NotebooksList from '../Components/NotebooksList'
+import AddNewNotebook from "../Components/AddNewNotebook";
+import NotebooksList from "../Components/NotebooksList";
 import { isUserAuthenticated } from "../utils";
+import "./Notebooks.css";
+
 function Notebooks() {
   const [addNotebookForm, setAddnotebookForm] = useState(false);
   const [reloadList, setReloadList] = useState(false);
   const [userId, setUserId] = useState();
-  const [username, setUsername] = useState('')
-  const navigate = useNavigate()
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isUserAuthenticated()) navigate("/not-authorized");
     else {
       const userInfo = JSON.parse(localStorage.getItem("user"));
-      setUserId(userInfo.userId)
-      setUsername(userInfo.username)
+      setUserId(userInfo.userId);
+      setUsername(userInfo.username);
     }
   }, []);
 
@@ -28,13 +30,28 @@ function Notebooks() {
 
   const closeAddNewForm = () => {
     setAddnotebookForm(false);
-    setReloadList(!reloadList)
-
+    setReloadList(!reloadList);
   };
   return (
-    <div>
-      <button onClick={()=>navigate('/')}> Go back </button>
-      <h1>Notebooks</h1>
+    <div className="exercise-view-main">
+      <button className="btn go-back-button" onClick={() => navigate("/")}>
+        {" "}
+        Go back{" "}
+      </button>
+      <div className="section-title">
+        <h1>Notebooks</h1>
+        {!addNotebookForm && (
+          <button
+            className="btn section-title-button"
+            onClick={() => setAddnotebookForm(true)}
+          >
+            Add Notebook
+          </button>
+        )}
+      </div>
+      {addNotebookForm && (
+        <AddNewNotebook userId={userId} close={closeAddNewForm} />
+      )}
       <div className="view-main-content">
         {fetchingData ? (
           <p>Loading</p>
@@ -44,16 +61,14 @@ function Notebooks() {
               <h4>There was an error accessing your notebooks.</h4>
             ) : (
               <div className="items-list">
-                <div className="list-title">
+                <div className="section-title">
                   <h3>Your Notebooks</h3>
-                  {!addNotebookForm && (
-                    <button onClick={() => setAddnotebookForm(true)}>
-                      Add Notebook
-                    </button>
-                  )}
-                  {addNotebookForm && <AddNewNotebook userId={userId} close={closeAddNewForm} />}
                 </div>
-                <NotebooksList userId={userId} userNotebooks={userNotebooks} reload={()=> setReloadList(!reloadList)}/>
+                <NotebooksList
+                  userId={userId}
+                  userNotebooks={userNotebooks}
+                  reload={() => setReloadList(!reloadList)}
+                />
               </div>
             )}
           </div>
