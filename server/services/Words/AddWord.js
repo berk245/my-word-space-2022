@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    const wordTypes = ["adjective", "noun", "verb"]
+    const wordTypes = ["adjective", "noun", "verb", "other"]
     if(!wordTypes.includes(wordType)){
       res.status(500).json({ error: "Invalid word type" });
       return;
