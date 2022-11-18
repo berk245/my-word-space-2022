@@ -84,6 +84,9 @@ To run this project, you will need to add the following environment variables to
 | `email` | `string` | **Required** |
 
 
+##### * The following requests are required to pass a valid token in the request header.(request.headers.token)
+
+
 #### Get User Exercises
 
 Returns all the exercises of a user
