@@ -12,6 +12,8 @@ const logger = require('./config/logger')
 require("dotenv").config();
 const app = express();
 
+//AWS credentials test
+
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
