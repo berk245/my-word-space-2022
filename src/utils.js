@@ -55,10 +55,10 @@ const signupUser = async (userData) => {
   return response;
 };
 
-const createNotebook = async ({ userId, newNotebookName }) => {
+const createNotebook = async ({ newNotebookName }) => {
   let response = await fetch(
     baseUrl + "/notebook/add",
-    getRequestBody("POST", { userId: userId, notebookName: newNotebookName })
+    getRequestBody("POST", { notebookName: newNotebookName })
   );
   return response.ok || false;
 };
