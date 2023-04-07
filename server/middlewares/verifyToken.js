@@ -10,7 +10,8 @@ module.exports = function (req, res, next) {
       next();
       return;
     }
-    jwt.verify(req.headers.token, process.env.JWT_SECRET);
+    let {userId} = jwt.verify(req.headers.token, process.env.JWT_SECRET);
+    req.userId = userId
     next();
   } catch (err) {
     res.status(403).json({ error: "Not authorized" });

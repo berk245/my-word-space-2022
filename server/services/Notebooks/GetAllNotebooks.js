@@ -4,14 +4,14 @@ const CloudWatch = require("../../config/logger");
 
 module.exports = async (req, res) => {
   try {
-    const user = await getUser.byUserId(req.params.userId);
+    const user = await getUser.byUserId(req.userId);
     if (!user) {
       res.status(404).json({ error: "Could not find the user" });
       return;
     }
     const notebooks = await Notebook.findAll({
       where: {
-        CreatorID: req.params.userId,
+        CreatorID: req.userId,
       },
     });
     res.status(200).json({ notebooks: notebooks });
