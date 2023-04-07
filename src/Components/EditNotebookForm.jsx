@@ -12,7 +12,7 @@ function EditNotebookForm({ content, userId, reload,  close}) {
   const submitUpdate = async() => {
     try{
         setFetchingData(true)
-        let updateSuccess = await editNotebookName({userId: userId, notebookId: content.NotebookID, newNotebookName: newNotebookName})
+        let updateSuccess = await editNotebookName({notebookId: content.NotebookID, newNotebookName: newNotebookName})
         if(updateSuccess) reload()
         else{
             alert('Something went wrong with the update. Please try again.')
