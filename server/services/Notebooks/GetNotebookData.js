@@ -7,6 +7,7 @@ module.exports = async (req, res) => {
     const notebookInfo = await Notebook.findOne({
       where: {
         NotebookID: req.params.notebookId,
+        CreatorID: req.userId
       },
     });
 
@@ -18,6 +19,7 @@ module.exports = async (req, res) => {
     const notebookWords = await Word.findAll({
       where: {
         NotebookID: req.params.notebookId,
+        CreatorID: req.userId
       },
     });
 
