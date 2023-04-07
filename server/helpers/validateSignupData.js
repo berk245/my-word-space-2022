@@ -1,6 +1,6 @@
 const _ = require("lodash/core");
 const getUser = require("./getUser");
-const passwordSchema = require('../config/passwordValidator')
+const passwordValidator = require('../config/passwordValidator')
 
 module.exports = validateSignupData = async ({ username, password, email }) => {
   const errors = {};
@@ -9,11 +9,13 @@ module.exports = validateSignupData = async ({ username, password, email }) => {
     errors.missingFieldsError = true;
     return errors;
   }
-  if (await isUsernameTaken(username)) errors.existingUsernameError = true;
-  if(!isEmailAddressValid(email)) errors.inValidemailError = true;
-  else if (await isEmailInUse(email)) errors.existingEmailError = true;
-  else if (isPasswordWeak(password)) errors.weakPasswordError = true
-
+  else{
+    if (await isUsernameTaken(username)) errors.existingUsernameError = true;
+    if(!isEmailAddressValid(email)) errors.inValidemailError = true;
+    if (await isEmailInUse(email)) errors.existingEmailError = true;
+    if (isPasswordWeak(password)) errors.weakPasswordError = true
+  }
+  
   return _.isEmpty(errors) ? false : errors;
 };
 
@@ -37,5 +39,5 @@ function isEmailAddressValid(email) {
 }
 
 function isPasswordWeak(password){
-  return passwordSchema.validate(password)
+  return !(passwordValidator(password))
 }

@@ -23,6 +23,34 @@ let bodyData = [
   },
 ];
 
+const weakPasswordAttempts = [
+  {
+    username: "veryUniqueUsernameForTesting",
+    password: "short",
+    email: "123some@email.com",
+  },
+  {
+    username: "veryUniqueUsernameForTesting",
+    password: "longbutwithoutNumbers",
+    email: "123some@email.com",
+  },
+  {
+    username: "veryUniqueUsernameForTesting",
+    password: "longbutwithoutuppercase12345",
+    email: "123some@email.com",
+  },
+  {
+    username: "veryUniqueUsernameForTesting",
+    password: "LONGBUTWITHUTLOWERCASE1234",
+    email: "123some@email.com",
+  },
+  {
+    username: "veryUniqueUsernameForTesting",
+    password: "LONG BUT with whitespace 1234",
+    email: "123some@email.com",
+  },
+]
+
 describe("Signup route", () => {
   test("should return an error when required fields are missing", async () => {
     for (const body of bodyData) {
@@ -49,13 +77,21 @@ describe("Signup route", () => {
     expect(response.statusCode).toBe(400);
     expect(response.body.existingEmailError).toBeDefined();
   });
+  test("should return an error if password provided does not match security requirements", async () => {
+    
+    weakPasswordAttempts.forEach(async (signupData) => {
+      const response = await request(app).post("/signup").send(signupData);
+      expect(response.statusCode).toBe(400);
+      expect(response.body.weakPasswordError).toBeDefined();
+    })
+  });
     test("should return a success message after a succesful signup", async () => {
       jest.resetAllMocks()  
       saveUserToDatabase.mockResolvedValueOnce({statusCode: 200, body:{ signupSuccess: true}})
         
       const response = await request(app).post("/signup").send({
         username: "UniqueLongNameForTheTest",
-        password: "password",
+        password: "passworD12",
         email: "unique@email.co.uk",
       });
 
