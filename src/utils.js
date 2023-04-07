@@ -1,5 +1,5 @@
-const baseUrl = "https://api.berkozzambak.online";
-// const baseUrl = "http://localhost:5000";
+// const baseUrl = "https://api.berkozzambak.online";
+const baseUrl = "http://localhost:5000";
 
 const getRequestBody = (requestType, data) => {
   return {
@@ -85,8 +85,8 @@ const getNotebookData = async (notebookId) => {
   return response;
 };
 
-const getUserNotebooksList = async (userId) => {
-  const url = `${baseUrl}/notebook/get-all/${userId}`;
+const getUserNotebooksList = async () => {
+  const url = `${baseUrl}/notebook/get-all`;
 
   let response = await fetch(url, {
     method: "GET",

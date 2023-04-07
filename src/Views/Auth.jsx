@@ -45,7 +45,8 @@ function Auth() {
           errorText = "Username already exists.";
         if (signupRequest.existingEmailError)
           errorText += " Email is already taken.";
-
+        if (signupRequest.weakPasswordError)
+          errorText += "Password does not match the requirements. Please make sure the password is at least 8 characters long and contains at least 1 lowercase letter, 1 uppercase letter, and 1 digit. Whitespaces are not allowed.";
         setAuthError(errorText);
       }
       return;
