@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import {getUserNotebooksList} from '../utils'
-function useNotebooksList(userId, reloadList) {
+function useNotebooksList(reloadList) {
   const [fetchingData, setFetchingData] = useState(true);
   const [fetchError, setFetchError] = useState(false);
   const [userNotebooks, setUserNotebooks] = useState([]);
 
-  const getUserNotebooks = async (userId) => {
+  const getUserNotebooks = async () => {
     try {
 
-      let response = await getUserNotebooksList(userId)
+      let response = await getUserNotebooksList()
       if (response.ok) {
         response = await response.json();
         setUserNotebooks(response.notebooks);
@@ -26,10 +26,9 @@ function useNotebooksList(userId, reloadList) {
     setFetchingData(true)
   }
   useEffect(() => {
-    if(!userId) return
     resetData()
-    getUserNotebooks(userId);
-  }, [userId, reloadList]);
+    getUserNotebooks();
+  }, [reloadList]);
 
   return { fetchingData, fetchError, userNotebooks };
 }

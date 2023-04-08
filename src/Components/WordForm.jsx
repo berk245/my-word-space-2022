@@ -5,7 +5,6 @@ import useNotebooksList from "../Hooks/useNotebooksList";
 
 function WordForm({
   type,
-  userId,
   wordId = "",
   notebookId = "",
   reload,
@@ -18,14 +17,13 @@ function WordForm({
     wordOriginal: wordOriginal,
     wordTranslation: wordTranslation,
     wordType: wordType,
-    userId: userId,
     notebookId: notebookId,
     wordId: wordId,
   });
 
   const navigate = useNavigate()
 
-  const { userNotebooks, fetchingData, fetchError } = useNotebooksList(userId);
+  const { userNotebooks, fetchingData, fetchError } = useNotebooksList();
 
   const updateFields = (e) => {
     let updateObj = { ...newWord };
