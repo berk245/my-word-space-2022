@@ -35,7 +35,7 @@ function Notebook() {
         "This will delete the notebook and all the words within. Are you sure?"
       );
       if (!deleteConfirmed) return;
-      let deleteSuccess = await deleteNotebook({ userId, notebookId });
+      let deleteSuccess = await deleteNotebook({ notebookId });
       if (deleteSuccess) {
         setServerMessage(
           "Delete successful. Redirecting you back to notebooks page."
