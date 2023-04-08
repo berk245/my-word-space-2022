@@ -35,7 +35,6 @@ function Word() {
     if (!confirmed) return;
     let deleteSuccess = await deleteWord({
       wordId,
-      userId,
       notebookId: wordData.NotebookID,
     });
     if (!deleteSuccess) {
