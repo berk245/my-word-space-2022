@@ -5,17 +5,17 @@ const CloudWatch = require("../../config/logger");
 
 module.exports = async (req, res) => {
   try {
-    if (!req.body.userId || !req.body.exerciseId || !req.body.exerciseData) {
+    if (!req.userId || !req.body.exerciseId || !req.body.exerciseData) {
       res.status(400).json({ error: "Missing required fields" });
       return;
     }
-    if (await isExerciseComplete(req.body.exerciseId)) {
+    if (await isExerciseComplete(req.userId, req.body.exerciseId)) {
       res
         .status(404)
         .json({ error: "Exercise cannot be found or is already completed" });
       return;
     }
-    await updateExerciseAndWordStats(req.body);
+    await updateExerciseAndWordStats(req.userId, req.body);
     res.status(200).send({ exerciseCompletionSuccess: true });
   } catch (err) {
     CloudWatch.log(

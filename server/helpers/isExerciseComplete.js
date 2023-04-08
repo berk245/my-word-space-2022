@@ -1,10 +1,11 @@
 const Exercise = require("../models/Exercise.model");
-module.exports = async function (exerciseId) {
+module.exports = async function (userId, exerciseId) {
   try {
     let query = await Exercise.findOne({
       attributes: ["ExerciseCompleted"],
       where: {
         ExerciseID: exerciseId,
+        UserID: userId
       },
     });
 
