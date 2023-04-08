@@ -1,36 +1,42 @@
+module.exports = async function (
+  exerciseParameters,
+  userId,
+  createQuestionPool
+) {
+  try {
+    let wordPool = await createQuestionPool({
+      userId,
+      exerciseParameters,
+    });
 
-module.exports = async function ({ userId, exerciseParameters }, createQuestionPool) {
-  let wordPool = await createQuestionPool({
-    userId,
-    exerciseParameters,
-  });
+    if (wordPool.length < exerciseParameters.amount) {
+      return { error: "Not enough words" };
+    }
 
-  if (wordPool.length < exerciseParameters.amount) {
-    return { error: "Not enough words" };
+    let uniqueIndexes = getUniqueIndexes(wordPool, exerciseParameters.amount);
+
+    let result = [];
+
+    uniqueIndexes.map((idx) => {
+      result.push({ ...wordPool[idx].dataValues, userAnswer: "" });
+    });
+
+    return result;
+  } catch {
+    return { error: "An error occured" };
+  }
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
   }
 
-  let uniqueIndexes = getUniqueIndexes(wordPool, exerciseParameters.amount);
+  function getUniqueIndexes(wordPool, amount) {
+    let uniqueIndexes = new Set();
 
-  let result = [];
+    while (uniqueIndexes.size < amount) {
+      let randomIndex = getRandomInt(wordPool.length - 1);
+      uniqueIndexes.add(randomIndex);
+    }
 
-  uniqueIndexes.map((idx) => {
-    result.push({...wordPool[idx].dataValues, userAnswer: ''});
-  });
-
-  return result;
+    return Array.from(uniqueIndexes);
+  }
 };
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
-function getUniqueIndexes(wordPool, amount) {
-  let uniqueIndexes = new Set();
-
-  while (uniqueIndexes.size < amount) {
-    let randomIndex = getRandomInt(wordPool.length - 1);
-    uniqueIndexes.add(randomIndex);
-  }
-
-  return Array.from(uniqueIndexes);
-}

@@ -5,19 +5,22 @@ const getUser = require("../../helpers/getUser");
 const CloudWatch = require("../../config/logger");
 module.exports = async (req, res) => {
   try {
-    if (requestHasMissingFields(req)) {
+    let {exerciseParameters} = req.body
+
+    if (requestHasMissingFields(exerciseParameters)) {
       res.status(400).json({ error: "Missing or invalid required fields" });
       return;
     }
 
-    let user = await getUser.byUserId(req.body.userId);
+    let user = await getUser.byUserId(req.userId);
     if (!user) {
       res.status(404).json({ error: "Could not find the user" });
       return;
     }
 
     let exerciseQuestions = await getExerciseQuestions(
-      req.body,
+      exerciseParameters,
+      req.userId,
       createQuestionPool
     );
     if (exerciseQuestions.error) {
@@ -26,8 +29,8 @@ module.exports = async (req, res) => {
     }
 
     const exerciseId = await createNewExercise({
-      userId: req.body.userId,
-      amount: req.body.exerciseParameters.amount,
+      userId: req.userId,
+      amount: exerciseParameters.amount,
     });
 
     if (!exerciseId) {
@@ -51,14 +54,12 @@ module.exports = async (req, res) => {
   }
 };
 
-const requestHasMissingFields = (req) => {
+const requestHasMissingFields = (params) => {
   return (
-    !req.body.userId ||
-    +req.body.userId < 0 ||
-    !req.body.exerciseParameters?.amount ||
-    +req.body.exerciseParameters?.amount < 0 ||
-    !req.body.exerciseParameters?.wordTypes ||
-    !req.body.exerciseParameters?.notebooks
+    !params.amount ||
+    +params.amount < 0 ||
+    !params.wordTypes ||
+    !params.notebooks
   );
 };
 
