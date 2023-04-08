@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-function ListItemWord({ content, userId, reload }) {
+function ListItemWord({ content, reload }) {
   const navigate = useNavigate();
 
   return (

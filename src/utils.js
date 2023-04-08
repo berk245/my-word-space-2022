@@ -181,8 +181,8 @@ const getWordData = async (wordId) => {
   return response;
 };
 
-const getUserWords = async (userId) => {
-  let response = await fetch(baseUrl + `/word/get-all/${userId}`, {
+const getUserWords = async () => {
+  let response = await fetch(baseUrl + `/word/get-all`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
