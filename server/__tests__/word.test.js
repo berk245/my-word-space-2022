@@ -6,14 +6,12 @@ describe("Words route", () => {
     test("add-new request is missing a user identifier or word parameters", async () => {
       let bodyData = [
         {
-          userId: "",
           notebookId: "",
           wordType: 'noun',
           wordOriginal: "test-word",
           wordTranslation: "",
         },
         {
-          userId: "test-username",
           notebookId: '',
           wordType: "",
           wordOriginal: "",
@@ -30,7 +28,6 @@ describe("Words route", () => {
       const response = await request(app)
         .post("/word/add")
         .send({
-          userId: "1",  
           notebookId: '99991',
           wordType: "1",
           wordOriginal: "original",
@@ -42,14 +39,12 @@ describe("Words route", () => {
     test("edit-word request is missing a word id or update fields for words", async () => {
       let bodyData = [
         {
-          userId: "1",  
           notebookId: '99991',
           wordType: "1",
           wordOriginal: "original",
           wordTranslation: "translation",
         },
         {
-          userId: "1",  
           notebookId: '99991',
           wordType: "1",
           wordOriginal: "",
@@ -65,9 +60,8 @@ describe("Words route", () => {
     });
     test("edit-word request is made with a word id that does not exist", async () => {
       const response = await request(app).post("/word/edit").send({
-        userId: 1, 
-        wordId: 1,
-        notebookId: 151,
+        wordId: 1231,
+        notebookId: 15151,
         wordOriginal: 'test',
         wordTranslation: 'test',
         wordType: 'noun'
@@ -75,26 +69,14 @@ describe("Words route", () => {
       expect(response.statusCode).toBe(404);
       expect(response.body).toEqual({ error: "Could not find the word" });
     });
-    test("delete-word request is missing fields or user identifier", async () => {
+    test("delete-word request is missing fields", async () => {
       let bodyData = [
         {
-          userId: 1,
           wordId: "",
           notebookId: ''
         },
         {
-          userId: 1,
           wordId: "1",
-          notebookId: ''
-        },
-        {
-          userId: '',
-          wordId: 1,
-          notebookId: ''
-        },
-        {
-          userId: 1,
-          wordId: 2,
           notebookId: ''
         },
         {},
@@ -109,9 +91,8 @@ describe("Words route", () => {
     });
     test("delete-word request is made with a word id that does not exist", async () => {
       const response = await request(app).delete("/word/delete").send({
-        userId: 1,
           wordId: 309,
-          notebookId: 1555
+          notebookId: 1555145
       });
       expect(response.statusCode).toBe(404);
       expect(response.body).toEqual({ error: "Could not find the word" });
@@ -119,7 +100,7 @@ describe("Words route", () => {
   });
   test("should return all words of a specific user", async () => {
     const response = await request(app)
-      .get("/word/get-all/1")
+      .get("/word/get-all")
     expect(response.statusCode).toBe(200);
     expect(response.body.words).toBeDefined();
   });

@@ -5,7 +5,7 @@ const GetExerciseById = require("../services/Exercises/GetExerciseById");
 const BeginExercise = require("../services/Exercises/BeginExercise");
 const CompleteExercise = require("../services/Exercises/CompleteExercise");
 module.exports = function () {
-  router.get("/get-all/:userId", getUserExercises);
+  router.get("/get-all/", getUserExercises);
   router.get("/get/:exerciseId", GetExerciseById);
   router.post("/begin", BeginExercise);
   router.post("/complete", CompleteExercise);

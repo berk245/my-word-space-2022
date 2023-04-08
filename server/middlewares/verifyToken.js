@@ -7,6 +7,7 @@ module.exports = function (req, res, next) {
       req.path == "/login" ||
       req.path == "/signup"
     ) {
+      req.userId = 1
       next();
       return;
     }
