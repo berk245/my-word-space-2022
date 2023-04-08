@@ -73,7 +73,7 @@ function PreExercise({
       setRequestError("Please fill all the fields");
       return;
     }
-    let exerciseData = await getExerciseQuestions(userId, exerciseParameters);
+    let exerciseData = await getExerciseQuestions(exerciseParameters);
 
     if (exerciseData.error) {
       setRequestError(exerciseData.error);

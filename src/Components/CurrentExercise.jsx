@@ -12,7 +12,7 @@ function CurrentExercise({userId, exerciseData, setExerciseResults, setCurrentVi
     }
 
     const submitExercise = async() => {
-        let postObj = {userId: userId, exerciseId: exerciseId, exerciseData: exerciseQuestions}
+        let postObj = {exerciseId: exerciseId, exerciseData: exerciseQuestions}
         
         let completeRequest = await completeExercise(postObj)
 

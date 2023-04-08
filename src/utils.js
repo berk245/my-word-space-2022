@@ -211,15 +211,13 @@ const formatNotebooksArray = (userNotebooks) => {
   return result;
 };
 
-const getExerciseQuestions = async (userId, exerciseParameters) => {
-  const postObj = {
-    userId: userId,
-    exerciseParameters: exerciseParameters,
-  };
+const getExerciseQuestions = async (exerciseParameters) => {
+  
   const response = await fetch(
     baseUrl + "/exercise/begin",
-    getRequestBody("POST", postObj)
+    getRequestBody("POST", {exerciseParameters: exerciseParameters})
   );
+
   if(response.status === 403) return handle403Response()
 
   const exerciseQuestions = await response.json();
