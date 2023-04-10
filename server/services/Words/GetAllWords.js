@@ -3,13 +3,13 @@ const CloudWatch = require("../../config/logger");
 
 module.exports = async (req, res) => {
   try {
-    if(!req.params.userId){
+    if(!req.userId){
       res.status(400).json({ error: 'Missing required fields' });
       return
     } 
     let words = await Word.findAll({
       where: {
-        CreatorID: req.params.userId,
+        CreatorID: req.userId,
       },
     });
     res.status(200).json({ words: words });

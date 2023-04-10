@@ -11,6 +11,7 @@ module.exports = async (req, res) => {
     const exercise = await Exercise.findOne({
       where: {
         ExerciseID: exerciseId,
+        UserID: req.userId
       },
     });
 

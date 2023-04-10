@@ -8,10 +8,10 @@ module.exports = async (req, res) => {
       res.status(400).json({ error: "Missing required fields" });
       return;
     }
-    let { notebookId, wordOriginal, wordTranslation, wordType, userId } =
+    let { notebookId, wordOriginal, wordTranslation, wordType } =
       req.body;
 
-    let notebook = await findNotebook(userId, notebookId);
+    let notebook = await findNotebook(req.userId, notebookId);
     if (!notebook) {
       res.status(404).json({ error: "Could not find the notebook" });
       return;
@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
       WordOriginal: wordOriginal,
       WordTranslation: wordTranslation,
       WordType: wordType,
-      CreatorID: userId,
+      CreatorID: req.userId,
     });
     res.status(200).json({ addWordSuccess: true });
   } catch (err) {
@@ -44,7 +44,6 @@ module.exports = async (req, res) => {
 
 const hasMissingFields = (obj) => {
   const requiredKeys = [
-    "userId",
     "notebookId",
     "wordType",
     "wordOriginal",

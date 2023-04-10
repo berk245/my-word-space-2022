@@ -4,6 +4,7 @@ const CloudWatch = require("../config/logger");
 
 module.exports = async (req, res) => {
   const errors = await validateSignupData(req.body);
+  
   if (errors) {
     res.status(400).json(errors);
     return;

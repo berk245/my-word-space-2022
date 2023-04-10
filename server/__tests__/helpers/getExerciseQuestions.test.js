@@ -7,10 +7,8 @@ describe("Get exercise questions function", () => {
     createQuestionPool.mockReturnValueOnce([1, 2]);
 
     const exerciseWords = await getExerciseQuestions(
-      {
-        userId: 1,
-        exerciseParameters: { amount: 5 },
-      },
+      { amount: 115 },
+      1,
       createQuestionPool
     );
 
@@ -23,10 +21,8 @@ describe("Get exercise questions function", () => {
     createQuestionPool.mockReturnValueOnce(new Array(30).fill(1));
 
     const exerciseWords = await getExerciseQuestions(
-      {
-        userId: 1,
-        exerciseParameters: { amount: 5 },
-      },
+      { amount: 5 },
+      1,
       createQuestionPool
     );
 
