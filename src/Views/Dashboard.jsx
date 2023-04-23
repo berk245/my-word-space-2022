@@ -4,7 +4,6 @@ import { isUserAuthenticated, logoutUser } from "../utils";
 import "./Dashboard.css";
 function Dashboard() {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState();
   const [username, setUsername] = useState("");
 
   useEffect(() => {
