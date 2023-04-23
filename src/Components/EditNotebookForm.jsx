@@ -19,7 +19,6 @@ function EditNotebookForm({ content, reload,  close}) {
         }
     }catch(err){
         alert('Something went wrong with the update. Please try again.')
-        console.log(err)
     }finally{
         setFetchingData(false)
         setEditItem(false)

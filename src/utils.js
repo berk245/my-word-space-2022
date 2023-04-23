@@ -1,7 +1,7 @@
-const baseUrl = "https://api.berkozzambak.online";
-// const baseUrl = "http://localhost:5000";
+// const baseUrl = "https://api.berkozzambak.online";
+const baseUrl = "http://localhost:5000";
 
-const getRequestBody = (requestType, data) => {
+function getRequestBody(requestType, data) {
   return {
     method: requestType,
     headers: {
@@ -10,7 +10,7 @@ const getRequestBody = (requestType, data) => {
     },
     body: JSON.stringify(data),
   };
-};
+}
 
 const loginUser = async (userData) => {
   try {
@@ -100,7 +100,6 @@ const getUserNotebooksList = async () => {
 };
 
 const saveUserData = ({ token, username }) => {
-  try {
     document.cookie = `auth_token=${token}`;
 
     localStorage.setItem(
@@ -110,10 +109,6 @@ const saveUserData = ({ token, username }) => {
       })
     );
     return;
-  } catch (err) {
-    console.log(err);
-    return;
-  }
 };
 
 const parseIdFromURL = (url) => {
