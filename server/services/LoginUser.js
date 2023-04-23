@@ -27,7 +27,11 @@ module.exports = async (req, res) => {
     });
     return;
   } catch (err) {
-    CloudWatch.log("error", "error in /login", err);
+    CloudWatch.log(
+      "error",
+      `Error while logging user in`,
+      `Error details: ${err}`
+    );
     res.status(500).send("Server error");
   }
 };

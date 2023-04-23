@@ -22,7 +22,14 @@ module.exports = async function (
     });
 
     return result;
-  } catch {
+  } catch (err) {
+    CloudWatch.log(
+      "error",
+      `Error while getting exercise questions`,
+      `Error details: ${err}`,
+      `userId: ${userId}`,
+      `Exercise parameters: ${exerciseParameters}`
+    );
     return { error: "An error occured" };
   }
   function getRandomInt(max) {
