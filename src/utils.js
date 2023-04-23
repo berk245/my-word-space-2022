@@ -1,5 +1,5 @@
-// const baseUrl = "https://api.berkozzambak.online";
-const baseUrl = "http://localhost:5000";
+const baseUrl = "https://api.berkozzambak.online";
+// const baseUrl = "http://localhost:5000";
 
 const getRequestBody = (requestType, data) => {
   return {
@@ -99,14 +99,13 @@ const getUserNotebooksList = async () => {
   return response;
 };
 
-const saveUserData = ({ token, userId, username }) => {
+const saveUserData = ({ token, username }) => {
   try {
     document.cookie = `auth_token=${token}`;
 
     localStorage.setItem(
       "user",
       JSON.stringify({
-        userId: userId,
         username: username,
       })
     );
