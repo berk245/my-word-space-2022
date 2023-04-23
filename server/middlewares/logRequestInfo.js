@@ -7,7 +7,11 @@ module.exports = function (req, res, next) {
   // }
   logger.log("info", `Requesting ${req.method} ${req.originalUrl}`, {
     tags: "https",
-    additionalInfo: { body: req.body },
+    additionalInfo: { 
+      headers: req.headers,
+      user_id: req.userId || 'n/a',
+      ip: req.ip,
+    },
   });
   next();
 };

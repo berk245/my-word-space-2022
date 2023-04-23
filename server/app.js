@@ -5,6 +5,7 @@ const wordRoute = require("./routes/word");
 const notebookRoute = require("./routes/notebook");
 const exerciseRoute = require("./routes/exercise");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const verifyToken = require("./middlewares/verifyToken");
 const logRequestInfo = require("./middlewares/logRequestInfo");
 const cors = require("cors");
@@ -17,9 +18,11 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
+app.use(cookieParser());
 
-app.use(logRequestInfo);
 app.use(verifyToken);
+app.use(logRequestInfo);
+
 
 app.use("/login", loginRoute());
 
