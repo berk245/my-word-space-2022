@@ -69,8 +69,8 @@ Start the server
 This project uses a MySQL database to store and retrieve data. In order to run the project locally, make sure to setup a local database. 
 Files within the models folder display the required tables and fields.
 
-# Update the Link
-If you want to run frontend locally, please refer to the instructions [here](https://github.com/berk245/my-word-space-2022/blob/cyber-security/frontend/README.md)
+
+If you want to run frontend locally, please refer to the instructions [here.](https://github.com/berk245/my-word-space-2022/blob/master/frontend/README.md)
 
 
 ## Environment Variables
@@ -90,6 +90,10 @@ To run this project, you will need to add the following environment variables to
 
 ** These environment variables are related to CloudWatch logging service. They can be left blank in development environments.
 
+
+## Cyber Security
+
+The threat model and implemented securirty measures can be viewed in our [SECURITY.MD](https://github.com/berk245/my-word-space-2022/blob/master/SECURITY.md)
 
 ## API Reference
 
