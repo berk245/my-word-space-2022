@@ -3,7 +3,7 @@ module.exports = async function getUserTokens(user) {
   const accessToken = jwt.sign(
     { userId: user.UserID },
     process.env.JWT_SECRET,
-    { expiresIn: "3d" }
+    { expiresIn: "1h" }
   );
   return accessToken;
 };
