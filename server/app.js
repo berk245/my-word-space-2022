@@ -8,18 +8,18 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const verifyToken = require("./middlewares/verifyToken");
 const logRequestInfo = require("./middlewares/logRequestInfo");
+const apiLimiter = require('./middlewares/rateLimiter.js')
 const cors = require("cors");
 const logger = require('./config/logger')
 require("dotenv").config();
 const app = express();
-
-//AWS credentials test
 
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.use(apiLimiter)
 app.use(verifyToken);
 app.use(logRequestInfo);
 
