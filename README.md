@@ -1,6 +1,6 @@
 # My Word Space
 
-A Node.js/Express application for the SE_22 Web Backend Technologies module at CODE University of Applied Sciences, Berlin.
+A full stack web application developed with Node.js/Express & React at CODE University of Applied Sciences, Berlin.
 
 
 ## Project Description
@@ -67,7 +67,11 @@ Start the server
 
 
 This project uses a MySQL database to store and retrieve data. In order to run the project locally, make sure to setup a local database. 
-Files within the models folder display the required tables and fields. 
+Files within the models folder display the required tables and fields.
+
+# Update the Link
+If you want to run frontend locally, please refer to the instructions [here](https://github.com/berk245/my-word-space-2022/blob/cyber-security/frontend/README.md)
+
 
 ## Environment Variables
 
