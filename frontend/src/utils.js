@@ -1,5 +1,5 @@
-// const baseUrl = "https://api.berkozzambak.online";
-const baseUrl = "http://localhost:5000";
+const baseUrl = "https://api.berkozzambak.online";
+// const baseUrl = "http://localhost:5000";
 
 function getRequestBody(requestType, data) {
   return {
