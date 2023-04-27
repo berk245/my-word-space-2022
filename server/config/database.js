@@ -20,6 +20,12 @@ db.authenticate()
   .then(() => {
     console.log("Connected to db successfuly");
   })
-  .catch((err) => CloudWatch.log("error", "error in DB connection", err));
+  .catch((err) =>
+    CloudWatch.log(
+      "error",
+      "error in database connection",
+      `Error details: ${err}`
+    )
+  );
 
 module.exports = db;

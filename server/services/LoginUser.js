@@ -23,15 +23,14 @@ module.exports = async (req, res) => {
     res.status(200).json({
       loginSuccess: true,
       token: accessToken,
-      userId: validatedUser.dataValues.UserID,
       username: username,
     });
     return;
   } catch (err) {
     CloudWatch.log(
       "error",
-      "error in /login",
-      err
+      `Error while logging user in`,
+      `Error details: ${err}`
     );
     res.status(500).send("Server error");
   }

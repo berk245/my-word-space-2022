@@ -5,7 +5,7 @@ module.exports = async function (userId, exerciseId) {
       attributes: ["ExerciseCompleted"],
       where: {
         ExerciseID: exerciseId,
-        UserID: userId
+        UserID: userId,
       },
     });
 
@@ -14,6 +14,13 @@ module.exports = async function (userId, exerciseId) {
     if (exerciseCompleted == null) exerciseCompleted = true;
     return exerciseCompleted;
   } catch {
+    CloudWatch.log(
+      "error",
+      `Error while accessing exercise info`,
+      `Error details: ${err}`,
+      `userId: ${userId}`,
+      `Exercise ID: ${exerciseId}`
+    );
     //Return true to stop the process
     return true;
   }

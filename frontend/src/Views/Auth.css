@@ -1,0 +1,39 @@
+.view-main{
+    text-align: center
+}
+
+.auth-form{
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.text-input{
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    min-width: 16rem;
+}
+
+.btn{
+  padding: 0.75rem;
+  font-size: 1rem;
+  background: none;
+  border: 1px solid;
+  border-radius: 5px;
+  cursor: pointer;
+  border-color: silver;
+}
+
+.auth-link{
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.btn:hover{
+    background-color: rgb(226, 226, 226) !important;
+}
+
+
