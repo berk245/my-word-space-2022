@@ -1,0 +1,28 @@
+.go-back-button{
+    padding: 0.5rem !important;
+    font-size: 0.9rem !important;
+}
+
+.notebook-info-line{
+    padding: 1rem;
+    border-bottom: 1px solid silver;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    cursor: pointer;
+}
+
+.notebook-info-line:hover{
+   background: #ebebeb;
+   opacity: 0.9;
+}
+
+.helper-text{
+    font-size: 0.8rem;
+}
+
+.edit-notebook-form-buttons{
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+}
