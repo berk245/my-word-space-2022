@@ -88,12 +88,11 @@ When applicable, I analyzed each threat in the model in three angles; protection
 	- [x] Use JSX and state variables to render user input, which helps prevent XSS attacks by escaping potentially malicious characters. 
 	    - [More info here](https://legacy.reactjs.org/docs/introducing-jsx.html#jsx-prevents-injection-attacks)
 * Detection
-	- [x] Log every request with detailed information.
-	- [x] Regularly monitor the logs for suspicious activity.
+	- [ ] Use automated testing tools that can detect potential XSS vulnerabilities in your web application.
 * Reaction
-    * Review logs and any available information to analyze the attack and its impact.
-	* Inform users directly if personal data was exposed.
-    * Revert all modifications they did based on the logs.
+    * Disable the vulnerable functionality
+    * Inform users directly if personal data was exposed 
+    * Remove the malicious script and patch the vulnerability
 
 
 
